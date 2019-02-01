@@ -30,7 +30,10 @@ public class HelloWorld implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        font.draw(batch, "Hello World", 200, 200);
+        for (int i = 200; i > 0 ; i-=50) {
+            font.draw(batch, "Kristian", 200, i);
+        }
+        //font.draw(batch, "Hello World", 200, 200);
         batch.end();
     }
 
