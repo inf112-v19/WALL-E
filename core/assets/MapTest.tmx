@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" source="tiles.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMBKFr+P3brMdQcNVUVVXV1w8cTTwQ
+  </data>
+ </layer>
+ <layer id="2" name="Tile Layer 2" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt1ssOAUEQheFhsHfdY9iP2951j2HPDO//CP5XOKlugjrJt+3KSSqpTpLPp4Y6UjTQROuN89vooIse+hgY31Q6DTHCGBkmmBrnK51yzDDHAkusjPOVTmtssMUOexyM85VOR5xwRoELrsb5Sqcb7ihR4YGncX6MTkpidPJ4PN+RX7zpSmLcdCUxbroS9aaH3hf1/oXeF/X++b6E/wMq8f+S5x/zAqUIIc0=
+  </data>
+ </layer>
+ <layer id="3" name="Tile Layer 3" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztlTEKACAMA/v/p+kP9Af6A13s6iKUFIolBxlDpmtFyG8UTQ3cb5oeuD80M3B/aXbgPskL6jbaR91G+6jbaB91m7fhhr+Kv4rkweqzt/9Wn739t/rs7b/VZ/pPXhzfQSp5
+  </data>
+ </layer>
+ <layer id="4" name="Tile Layer 4" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt1dEJwCAQA1D3n6E6QesE1tlUUAj+FeFyhQSCfz5BOUM4y9Ube9PhPvLly5f/Bx9NLMPPUIZfoQyfEQ/+KuMc9yzLL7Me7kG+fLa//0dWGTPggTUb+2MGvLBWYx/j5S3Il/8lDf7NS3w=
+  </data>
+ </layer>
+</map>
