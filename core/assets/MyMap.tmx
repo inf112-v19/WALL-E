@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" source="../TestSet.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt1ksOABAMBNDe0HW5AbdiY+nT6GjILGbrRUnbICIBmNxSwAZ9+j/60SAnfjbKyf2T49vRp0/fz++9IymC8DXxrhX9d/2deT764xb+ao7f8Gdn0Mfsebs+as+zrCF9XSpPH4aU
+  </data>
+ </layer>
+ <layer id="2" name="AdditionalObjects" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzNlslNBEEMRYf1Pmx3YODOeme9D9udNQPIADJgSYBlAgByAEQAgAgAMoAL79Attawqu7q6aPjS06jG7XJN2+Vxo/G36oJu6IFe6IP+zPYAj4b/k1hbPtLehAEYhCEYhpHM9gKvRvw3sbZ8pH0UxmAcWjABk5ntAz6F/ymcwblnf5ePZp+CaZiBWZiD+cz2Bd/C/xKu4Nqzv8tHsy/AIizBMqzAquJ/C3dwrzxTRm1Yg3XYgE3YSrR3iLZhB3ZhD/bhoMb4dSvkTktdBDwj+4BPIXfapUM4Us4i+4BP1v306RhOIvykXPfT6imWqvrLnuJ6x/K7Yr6tnmQppqcU8+3zv4k8T2rJ/DzXHF/m513YY3pCGVn5je0JqRTbEyyF1l+xJ+Q+skZS17LVr2WNpI4R2q//QwxNWgxttq5D2mydK/R/O0babJ3rN3OkzdaaOoXPTmFdVmVna1f8Koqdrav+7rymYmdr1/v3ncdlq1pTvniu81TN0Q/FkHUE
+  </data>
+ </layer>
+</map>

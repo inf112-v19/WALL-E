@@ -26,7 +26,7 @@ public class TiledScene extends ApplicationAdapter implements InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
         camera.update();
-        tiledMap = new TmxMapLoader().load("images/newTestMap.tmx");
+        tiledMap = new TmxMapLoader().load("newTestMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         Gdx.input.setInputProcessor(this);
     }
