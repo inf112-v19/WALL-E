@@ -37,7 +37,7 @@ public class Card {
         return this.moves > 0;
     }
     
-    public boolean isRotate() {
+    public boolean isTurn() {
         return this.turn != Turn.NONE;
     }
     
