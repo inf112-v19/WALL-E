@@ -27,9 +27,15 @@
     </dependency>
 
     <dependency>
+    <groupId>com.badlogicgames.gdx</groupId>
+    <artifactId>gdx-backend-lwjgl</artifactId>
+    <version>1.9.9</version>
+  </dependency>
+
+    <dependency>
       <groupId>com.badlogicgames.gdx</groupId>
-      <artifactId>gdx-backend-lwjgl</artifactId>
-      <version>1.9.9</version>
+      <artifactId>gdx-box2d</artifactId>
+      <version>1.0.0</version>
     </dependency>
 
     <dependency>
@@ -44,6 +50,11 @@
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-box2d</artifactId>
+      <version>1.0.0</version>
     </dependency>
   </dependencies>
 
