@@ -13,5 +13,6 @@ public class Main {
 
        // new LwjglApplication(new Scene(), cfg);
         new LwjglApplication(new TiledTest(), cfg);
+       // new LwjglApplication(new Physics(), cfg);
     }
 }
