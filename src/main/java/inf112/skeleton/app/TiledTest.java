@@ -16,6 +16,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 
 public class TiledTest extends ApplicationAdapter implements InputProcessor {
+
+    //Creating new branch fur dis
     Texture img;
     TiledMap tiledMap;
     OrthographicCamera camera;
@@ -99,7 +101,8 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
 
         Card c = new Deck().handOut();
         if(c.getMoves() >= 0){
-            position.x += c.getMoves();
+            float movement = 32*c.getMoves();
+            position.x += movement;
             sprite.setPosition(position.x, position.y);
         }
         return true;

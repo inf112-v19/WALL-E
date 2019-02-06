@@ -12,7 +12,7 @@ public class Main {
         cfg.height = 320;
 
        // new LwjglApplication(new Scene(), cfg);
-        new LwjglApplication(new TiledTest(), cfg);
-       // new LwjglApplication(new Physics(), cfg);
+        //new LwjglApplication(new TiledTest(), cfg);
+        new LwjglApplication(new Physics(), cfg);
     }
 }
