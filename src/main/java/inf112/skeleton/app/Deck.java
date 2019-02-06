@@ -11,8 +11,8 @@ public class Deck {
     public Deck () {
         deck = new ArrayList<Card>();
         createDeck();
-    }
-
+    }s
+    <
 
     //
     private void createDeck() {
