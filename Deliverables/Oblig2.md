@@ -77,6 +77,12 @@ Deling og oppbevaring av felles dokumenter, diagram og kodebase:
 * Kodebase på GitHub
   * Jobber i branches for stories
 
+#### beskrivelse av hvordan teamet planlegger å organisere programmeringsprosjektet den første tiden
+* Fordele arbeidet
+* Møtes en gang i uken for å diskutere og jobbe sammen
+* Rask standup ved kvart møte
+  * Snakke om kva vi har jobba med/problem vi har
+  * Organisere vidare arbeid
 
 ## Møter
 
