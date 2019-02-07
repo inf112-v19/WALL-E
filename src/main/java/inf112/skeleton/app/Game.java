@@ -15,6 +15,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.ArrayList;
+
 public class Game extends ApplicationAdapter implements InputProcessor {
     Texture img;
     TiledMap tiledMap;
@@ -25,17 +27,51 @@ public class Game extends ApplicationAdapter implements InputProcessor {
     Texture texture;
     Sprite sprite;
 
-    int nPlayers;
-    Player[] = [nPlayers];
+    private int nPlayers;
+    private ArrayList<Player> players;
+    private Deck deck;
 
+    public Game (int nPlayers){
+        this.nPlayers = nPlayers;
+        players = new ArrayList<Player>();
+        deck = new Deck();
+    }
 
     public void run(){
         while (round()) {}
     }
 
+    // Returns true if game is to continue,
+    // returns false if someone has won
     public boolean round(){
-        Deck deck = new Deck();
+        // Each player draws their cards
+        for (Player p : players)
+            p.drawCards(deck);
+
+        // Each player selects their cards in order
+        for (Player p : players)
+            p.selectCards();
+
+        for (int turn=0; turn<5; turn++)
+            turn();
+
         return false;
+    }
+
+    // All players performs one turn
+    // (each plays one card)
+    public void turn(){
+        int[] priorities;
+        int CurPriority;
+        for (Player p : players)
+            CurPriority = p.turn();
+        // ...
+    }
+
+    // Selects which player plays first,
+    // based on the priority of their cards
+    public void selectOrder(){
+        // ... not yet implemented
     }
 
     @Override
