@@ -15,18 +15,64 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 
-public class TiledTest extends ApplicationAdapter implements InputProcessor {
+import java.util.ArrayList;
 
-    //Creating new branch fur dis
+public class Game extends ApplicationAdapter implements InputProcessor {
     Texture img;
     TiledMap tiledMap;
     OrthographicCamera camera;
-    TiledMapRenderer tiledMapRenderer;
+    TiledMapRenderer renderer;
 
-    //Character Update
     SpriteBatch sb;
     Texture texture;
     Sprite sprite;
+
+    private int nPlayers;
+    private ArrayList<Player> players;
+    private Deck deck;
+
+    public Game (int nPlayers){
+        this.nPlayers = nPlayers;
+        players = new ArrayList<Player>();
+        deck = new Deck();
+    }
+
+    public void run(){
+        while (round()) {}
+    }
+
+    // Returns true if game is to continue,
+    // returns false if someone has won
+    public boolean round(){
+        // Each player draws their cards
+        for (Player p : players)
+            p.drawCards(deck);
+
+        // Each player selects their cards in order
+        for (Player p : players)
+            p.selectCards();
+
+        for (int turn=0; turn<5; turn++)
+            turn();
+
+        return false;
+    }
+
+    // All players performs one turn
+    // (each plays one card)
+    public void turn(){
+        int[] priorities;
+        int CurPriority;
+        for (Player p : players)
+            CurPriority = p.turn();
+        // ...
+    }
+
+    // Selects which player plays first,
+    // based on the priority of their cards
+    public void selectOrder(){
+        // ... not yet implemented
+    }
 
     @Override
     public void create() {
@@ -36,9 +82,9 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
         camera.update();
-        //tiledMap = new TmxMapLoader().load("MapTest.tmx");
+
         tiledMap = new TmxMapLoader().load("RoboMap.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        renderer = new OrthogonalTiledMapRenderer(tiledMap);
         Gdx.input.setInputProcessor(this);
 
         sb = new SpriteBatch();
@@ -54,20 +100,24 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
         camera.viewportHeight = 750;
         camera.viewportWidth = 725;
         camera.update();
-        tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
+        renderer.setView(camera);
+        renderer.render();
 
-       // sb.setProjectionMatrix(camera.combined);
+        // sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sb.draw(texture,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, 32, 30);
-       // sprite.draw(sb);
+        // sprite.draw(sb);
         sb.end();
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        //Any key on the keyboard is pressed down, not held - and is directed into input
+
+        // trykke en tast, som gjør at en spiller trekker et kort, eller gjør en bevegelse
         return false;
     }
+
 
     @Override
     public boolean keyUp(int keycode) {
@@ -81,8 +131,8 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
             camera.translate(0, -32);
         if (keycode == Input.Keys.U)
             //move robot
-        if (keycode == Input.Keys.NUM_1)
-            tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
+            if (keycode == Input.Keys.NUM_1)
+                tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
         if (keycode == Input.Keys.NUM_2)
             tiledMap.getLayers().get(1).setVisible(!tiledMap.getLayers().get(1).isVisible());
         return false;
@@ -90,7 +140,6 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-
         return false;
     }
 
@@ -106,8 +155,6 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
             sprite.setPosition(position.x, position.y);
         }
         return true;
-
-
     }
 
     @Override
