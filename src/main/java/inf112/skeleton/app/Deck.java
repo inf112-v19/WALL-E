@@ -13,7 +13,6 @@ public class Deck {
         createDeck();
     }
 
-
     //
     private void createDeck() {
         // Adds U-TURNs to the deck
@@ -46,9 +45,12 @@ public class Deck {
         }
     }
 
+    // Retrieves random card from the deck,
+    // and removes it from the deck afterwards
     public Card handOut() {
-        // Retrieves random card from the deck,
-        // and removes it from the deck afterwards
+        if (deck.isEmpty())
+            createDeck();
+
         Random rand = new Random();
         int randIndex = rand.nextInt(deck.size()); 
         Card randCard = deck.get(randIndex);
