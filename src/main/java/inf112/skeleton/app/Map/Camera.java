@@ -10,8 +10,9 @@ public class Camera extends ApplicationAdapter implements InputProcessor {
 
     OrthographicCamera camera;
 
-    public Camera() {
-        this.camera =  new OrthographicCamera();
+    public static OrthographicCamera getCamera() {
+       //OrthographicCamera camera = this.camera;
+        //return camera;
     }
 
 
@@ -21,9 +22,8 @@ public class Camera extends ApplicationAdapter implements InputProcessor {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         camera.setToOrtho(false, w, h);
-
-
-
+        
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
