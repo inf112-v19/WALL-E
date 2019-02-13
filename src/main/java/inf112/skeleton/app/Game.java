@@ -41,6 +41,7 @@ public class Game extends ApplicationAdapter implements InputProcessor {
         while (round()) {}
     }
 
+
     // Returns true if game is to continue,
     // returns false if someone has won
     public boolean round(){

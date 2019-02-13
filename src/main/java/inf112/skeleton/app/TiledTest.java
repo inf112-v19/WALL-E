@@ -9,11 +9,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class TiledTest extends ApplicationAdapter implements InputProcessor {
 
@@ -28,22 +32,37 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
     Texture texture;
     Sprite sprite;
 
+    //Adding maplayer
+    MapLayer conveyorBlue;
+    TextureRegion textureRegion;
+
     @Override
     public void create() {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
+        //Camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
         camera.update();
         //tiledMap = new TmxMapLoader().load("MapTest.tmx");
-        tiledMap = new TmxMapLoader().load("RoboMap.tmx");
+        tiledMap = new TmxMapLoader().load("ROBORALLY_MAP.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         Gdx.input.setInputProcessor(this);
 
+        //Sprite
         sb = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("robbie.png"));
         sprite = new Sprite(texture);
+
+        //Adding objectlayer
+        conveyorBlue = tiledMap.getLayers().get("Conveyor_BLUE");
+        textureRegion = new TextureRegion(texture, 64,64);
+
+        TextureMapObject tmo = new TextureMapObject(textureRegion);
+        tmo.setX(0);
+        tmo.setY(0);
+        conveyorBlue.getObjects().add(tmo);
     }
 
     @Override
@@ -51,16 +70,17 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.viewportHeight = 750;
-        camera.viewportWidth = 725;
+        camera.viewportHeight = 2024;
+        camera.viewportWidth = 2024;
         camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
-       // sb.setProjectionMatrix(camera.combined);
+
+        sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(texture,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, 32, 30);
-       // sprite.draw(sb);
+       // sb.draw(texture,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, 100, 80);
+        sprite.draw(sb);
         sb.end();
     }
 
@@ -79,8 +99,8 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
             camera.translate(0, 32);
         if (keycode == Input.Keys.DOWN)
             camera.translate(0, -32);
-        if (keycode == Input.Keys.U)
-            //move robot
+        if (keycode == Input.Keys.NUM_1)
+            camera.zoom -= 40;
         if (keycode == Input.Keys.NUM_1)
             tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
         if (keycode == Input.Keys.NUM_2)
@@ -90,24 +110,18 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-
-        return false;
+        SpriteBatch a = sb;
+        Actor actor = new Actor();
+        actor.moveBy(10, 0);
+    return false;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
         Vector3 position = camera.unproject(clickCoordinates);
-
-        Card c = new Deck().handOut();
-        if(c.getMoves() >= 0){
-            float movement = 32*c.getMoves();
-            position.x += movement;
-            sprite.setPosition(position.x, position.y);
-        }
+        sprite.setPosition(position.x, position.y);
         return true;
-
-
     }
 
     @Override
