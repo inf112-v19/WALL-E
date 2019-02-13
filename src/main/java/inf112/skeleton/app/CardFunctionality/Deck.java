@@ -9,7 +9,7 @@ public class Deck {
     ArrayList<Card> deck;
     
     public Deck () {
-        deck = new ArrayList<Card>();
+        deck = new ArrayList<>();
         createDeck();
     }
 
