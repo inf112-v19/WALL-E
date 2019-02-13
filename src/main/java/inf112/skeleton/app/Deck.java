@@ -1,18 +1,17 @@
 package inf112.skeleton.app;
 
+import inf112.skeleton.app.Card.Turn;
+
 import java.util.ArrayList;
 import java.util.Random;
-
-import inf112.skeleton.app.Card.Turn;
 
 public class Deck {
     ArrayList<Card> deck;
     
     public Deck () {
-        deck = new ArrayList<Card>();
+        deck = new ArrayList<>();
         createDeck();
     }
-
 
     //
     private void createDeck() {

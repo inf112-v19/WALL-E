@@ -13,13 +13,10 @@ public class Player extends Actor {
     float moveY;
 
     public Player(){
-        //this = new Actor();
-        this.HP = HP;
+        // this = new Actor();
         initInventory(5);
 
     }
-
-
 
     public void setHP(int HP) {
         this.HP = HP;
@@ -38,7 +35,7 @@ public class Player extends Actor {
     }
 
     public Card[] initInventory(int size){
-         inventory = new Card[5];
+        inventory = new Card[size];
         for (int i = 0; i <inventory.length ; i++) {
             Card newHandOut = new Deck().handOut();
             inventory[i] = newHandOut;
@@ -47,11 +44,9 @@ public class Player extends Actor {
     }
 
     public Card getCardFromInventory(){
-        int topCard = inventory.length;
+        int topCard = inventory.length - 1;
         Card returnCard = inventory[topCard];
         inventory[topCard] = null;
         return returnCard;
     }
-
-    //
 }

@@ -9,11 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Game extends ApplicationAdapter implements InputProcessor {
     Actor player;
-
     SpriteBatch sb;
     Texture texture;
     Sprite sprite;
-
 
     @Override
     public void create(){
