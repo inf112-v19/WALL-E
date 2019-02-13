@@ -2,18 +2,22 @@ package inf112.skeleton.app;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Game extends ApplicationAdapter implements InputProcessor {
+    Actor player;
+
+    SpriteBatch sb;
+    Texture texture;
+    Sprite sprite;
 
 
-
-
-
-
-
-
-
-
+    @Override
+    public void create(){
+    }
 
     @Override
     public boolean keyDown(int keycode) {

@@ -17,6 +17,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class TiledTest extends ApplicationAdapter implements InputProcessor {
 
@@ -40,6 +41,7 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
+        //Camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
         camera.update();
@@ -48,6 +50,7 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         Gdx.input.setInputProcessor(this);
 
+        //Sprite
         sb = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("robbie.png"));
         sprite = new Sprite(texture);
@@ -72,6 +75,7 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
         camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
+
 
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
@@ -106,8 +110,10 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-
-        return false;
+        SpriteBatch a = sb;
+        Actor actor = new Actor();
+        actor.moveBy(10, 0);
+    return false;
     }
 
     @Override
