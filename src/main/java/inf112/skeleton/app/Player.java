@@ -24,7 +24,7 @@ public class Player extends Actor {
     public Player(){
         //this = new Actor();
         this.inventorySize = 5;
-        inventory = new ArrayList<Card>();
+        inventory = new ArrayList<>();
     }
 
     // Player plays current card,

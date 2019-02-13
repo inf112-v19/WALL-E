@@ -33,9 +33,9 @@ public class Game extends ApplicationAdapter implements InputProcessor {
     private ArrayList<Player> players;
     private Deck deck;
 
-    public Game (int nPlayers){
+    public Game(int nPlayers){
         this.nPlayers = nPlayers;
-        players = new ArrayList<Player>();
+        players = new ArrayList<>();
         deck = new Deck();
     }
 
@@ -65,9 +65,9 @@ public class Game extends ApplicationAdapter implements InputProcessor {
     // (each plays one card)
     public void turn(){
         int[] priorities;
-        int CurPriority;
+        int curPriority;
         for (Player p : players)
-            CurPriority = p.turn();
+            curPriority = p.turn();
         // ...
     }
 
