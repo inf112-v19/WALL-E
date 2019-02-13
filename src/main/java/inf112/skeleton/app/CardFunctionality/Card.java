@@ -1,4 +1,4 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.CardFunctionality;
 
 public class Card {
     private Turn turn;

@@ -14,6 +14,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
+import inf112.skeleton.app.CardFunctionality.Card;
+import inf112.skeleton.app.CardFunctionality.Deck;
 
 import java.util.ArrayList;
 

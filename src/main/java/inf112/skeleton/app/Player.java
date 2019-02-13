@@ -3,6 +3,8 @@ package inf112.skeleton.app;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
+import inf112.skeleton.app.CardFunctionality.Card;
+import inf112.skeleton.app.CardFunctionality.Deck;
 
 import java.util.ArrayList;
 

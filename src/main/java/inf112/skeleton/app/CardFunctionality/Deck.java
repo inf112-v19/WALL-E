@@ -1,9 +1,9 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.CardFunctionality;
+
+import inf112.skeleton.app.CardFunctionality.Card.Turn;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import inf112.skeleton.app.Card.Turn;
 
 public class Deck {
     ArrayList<Card> deck;
