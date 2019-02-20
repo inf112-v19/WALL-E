@@ -16,6 +16,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
+import inf112.skeleton.app.Map.MapRenderer;
+import inf112.skeleton.app.Map.Maps;
 
 import java.util.ArrayList;
 
@@ -82,6 +84,7 @@ public class Game extends ApplicationAdapter implements InputProcessor {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
         camera.update();
@@ -132,12 +135,13 @@ public class Game extends ApplicationAdapter implements InputProcessor {
             camera.translate(0, 32);
         if (keycode == Input.Keys.DOWN)
             camera.translate(0, -32);
-        if (keycode == Input.Keys.U)
-            //move robot
-            if (keycode == Input.Keys.NUM_1)
-                tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
-        if (keycode == Input.Keys.NUM_2)
-            tiledMap.getLayers().get(1).setVisible(!tiledMap.getLayers().get(1).isVisible());
+
+        //Chose map, but can only choose 1
+        if (keycode == Input.Keys.U){
+            //This can be used in menu
+            MapRenderer.setMap(Maps.getMap(1));
+            //Select map
+        }
         return false;
     }
 

@@ -56,6 +56,15 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
+        if(character == 'd'){
+            this.deck= new Deck();
+        }
+        if (character == 'c'){
+            handout.add(deck.handOut());
+        }
+        if (character == 'p'){
+            System.out.println(handout.toArray());
+        }
         return false;
     }
 
