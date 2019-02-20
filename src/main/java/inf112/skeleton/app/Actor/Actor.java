@@ -4,6 +4,10 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
 
@@ -16,6 +20,10 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     // Objectify and visualize all cards - then make it possible to choose
     private ArrayDeque<Card> chosen = new ArrayDeque<>(5);
+
+    private Batch batch;
+    private Texture aTexture;
+    private com.badlogic.gdx.scenes.scene2d.Actor actor;
 
     private void chooseCard(int i) {
         Card card = handout.get(i);
@@ -35,12 +43,35 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     public void create() {
         Gdx.input.setInputProcessor(this);
 
+        // Sprite
+        batch = new SpriteBatch();
+        aTexture = new Texture(Gdx.files.internal("robbie.png"));
+        actor = new com.badlogic.gdx.scenes.scene2d.Actor();
+
         // Get cards, place in handout (From Deck.handout)
         handOut();
     }
 
     @Override
+    public void render() {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);      //clears the buffer
+
+        int middleWidth = Gdx.graphics.getWidth()/2;
+        int middleHeight = Gdx.graphics.getHeight()/2;
+
+        batch.begin();
+        batch.draw(aTexture, middleWidth+actor.getX(), middleHeight+actor.getY(), 100, 80);
+        actor.draw(batch, 1);
+        batch.end();
+    }
+
+    @Override
     public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.LEFT) actor.moveBy(-32, 0);
+        if (keycode == Input.Keys.RIGHT) actor.moveBy(32, 0);
+        if (keycode == Input.Keys.UP) actor.moveBy(0, 32);
+        if (keycode == Input.Keys.DOWN) actor.moveBy(0, -32);
+
         return false;
     }
 
@@ -56,15 +87,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        if(character == 'd'){
-            this.deck= new Deck();
-        }
-        if (character == 'c'){
-            handout.add(deck.handOut());
-        }
-        if (character == 'p'){
-            System.out.println(handout.toArray());
-        }
         return false;
     }
 
