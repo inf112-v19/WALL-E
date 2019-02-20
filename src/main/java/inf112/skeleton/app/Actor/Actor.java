@@ -3,10 +3,12 @@ package inf112.skeleton.app.Actor;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.InputProcessor;
 import inf112.skeleton.app.CardFunctionality.Card;
+import inf112.skeleton.app.CardFunctionality.Deck;
 
 import java.util.ArrayList;
 
 public class Actor extends ApplicationAdapter implements InputProcessor {
+    Deck deck;
 
     //Get cards, place in handout (From deck.handout
     ArrayList<Card> handout = new ArrayList<>(9);
@@ -31,6 +33,15 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
+        if(character == 'd'){
+            this.deck= new Deck();
+        }
+        if (character == 'c'){
+            handout.add(deck.handOut());
+        }
+        if (character == 'p'){
+            System.out.println(handout.toArray());
+        }
         return false;
     }
 

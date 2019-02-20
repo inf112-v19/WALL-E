@@ -11,12 +11,23 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 public class MapRenderer extends ApplicationAdapter  {
 
     //Camera camera = getCamera();
-    TiledMap map;
-    TiledMapRenderer renderer;
+    public static TiledMap map;
+   public TiledMap map1;
+    public TiledMap map2;
+    public TiledMap map3;
+    public TiledMapRenderer renderer;
 
     @Override
     public void create() {
-        map = new TmxMapLoader().load("ROBORALLY_MAP.tmx");
+        map1 = new TmxMapLoader().load("ROBORALLY_MAP.tmx");
+        map2 = new TmxMapLoader().load("RoboMap.tmx");
+        map3 = new TmxMapLoader().load("MapTest.tmx");
+        Maps.addMap(map1);
+        Maps.addMap(map2);
+        Maps.addMap(map3);
+
+
+
         renderer = new OrthogonalTiledMapRenderer(map);
 
     }
@@ -29,5 +40,9 @@ public class MapRenderer extends ApplicationAdapter  {
 
         renderer.setView(Camera.getCamera());
         renderer.render();
+    }
+
+    public static void setMap(TiledMap selectedMap){
+        map = selectedMap;
     }
 }
