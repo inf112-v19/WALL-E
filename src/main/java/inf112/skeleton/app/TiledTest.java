@@ -33,6 +33,7 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
     Sprite sprite;
 
     //Adding maplayer
+    //nonp
     MapLayer conveyorBlue;
     TextureRegion textureRegion;
 
@@ -67,12 +68,16 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 1, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
         camera.viewportHeight = 2024;
         camera.viewportWidth = 2024;
         camera.update();
+
+
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
@@ -99,7 +104,7 @@ public class TiledTest extends ApplicationAdapter implements InputProcessor {
             camera.translate(0, 32);
         if (keycode == Input.Keys.DOWN)
             camera.translate(0, -32);
-        if (keycode == Input.Keys.NUM_1)
+        if (keycode == Input.Keys.NUM_3)
             camera.zoom -= 40;
         if (keycode == Input.Keys.NUM_1)
             tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
