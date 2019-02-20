@@ -2,7 +2,6 @@ package inf112.skeleton.app;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import inf112.skeleton.app.Actor.Actor;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,6 +11,6 @@ public class Main {
         cfg.height = 1080;
 
        // new LwjglApplication(new TiledTest(), cfg);
-        new LwjglApplication(new Actor(), cfg);
+        new LwjglApplication(new NewGame(1), cfg);
     }
 }

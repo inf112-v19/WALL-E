@@ -4,12 +4,12 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
+import inf112.skeleton.app.NewGame;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -24,6 +24,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     private Batch batch;
     private Texture aTexture;
     private com.badlogic.gdx.scenes.scene2d.Actor actor;
+
+    public Actor(){
+    }
 
     private void chooseCard(int i) {
         Card card = handout.get(i);
@@ -54,8 +57,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public void render() {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);      //clears the buffer
-
         int middleWidth = Gdx.graphics.getWidth()/2;
         int middleHeight = Gdx.graphics.getHeight()/2;
 
@@ -65,12 +66,29 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         batch.end();
     }
 
+
+
+
+    //Actor Input
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.LEFT) actor.moveBy(-32, 0);
         if (keycode == Input.Keys.RIGHT) actor.moveBy(32, 0);
         if (keycode == Input.Keys.UP) actor.moveBy(0, 32);
         if (keycode == Input.Keys.DOWN) actor.moveBy(0, -32);
+
+        if(keycode == Input.Keys.A) {
+            NewGame.camera.translate(-32, 0);
+        }
+        if(keycode == Input.Keys.D) {
+            NewGame.camera.translate(32, 0);
+        }
+        if(keycode == Input.Keys.W) {
+            NewGame.camera.translate(0, 32);
+        }
+        if(keycode == Input.Keys.S) {
+            NewGame.camera.translate(0, -32);
+        }
 
         return false;
     }
