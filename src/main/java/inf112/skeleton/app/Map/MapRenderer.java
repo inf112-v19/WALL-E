@@ -8,8 +8,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
-import static inf112.skeleton.app.Map.Camera.getCamera;
-
 public class MapRenderer extends ApplicationAdapter  {
 
     //Camera camera = getCamera();
@@ -29,7 +27,7 @@ public class MapRenderer extends ApplicationAdapter  {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        renderer.setView(getCamera());
+        renderer.setView(Camera.getCamera());
         renderer.render();
     }
 }

@@ -8,11 +8,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class Camera extends ApplicationAdapter implements InputProcessor {
 
-    OrthographicCamera camera;
+    static OrthographicCamera camera;
 
     public static OrthographicCamera getCamera() {
        //OrthographicCamera camera = this.camera;
-        //return camera;
+        return camera;
     }
 
 
