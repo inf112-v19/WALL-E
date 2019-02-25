@@ -13,7 +13,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 public class ActorTest {
-    NewGame game;
+    private NewGame game;
 
     @Before
     public void setUp() throws InterruptedException {
