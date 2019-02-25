@@ -32,7 +32,10 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         Card card = handout.get(i);
         handout.remove(i);
         chosen.addFirst(card);
-        while (chosen.size() > 5) chosen.removeLast();
+        while (chosen.size() > 5) {
+            Card deletedCard = chosen.removeLast();
+            handout.add(deletedCard);
+        }
     }
 
     private void handOut() {
