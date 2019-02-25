@@ -77,19 +77,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         if (keycode == Input.Keys.UP) actor.moveBy(0, 32);
         if (keycode == Input.Keys.DOWN) actor.moveBy(0, -32);
 
-        if(keycode == Input.Keys.A) {
-            NewGame.camera.translate(-32, 0);
-        }
-        if(keycode == Input.Keys.D) {
-            NewGame.camera.translate(32, 0);
-        }
-        if(keycode == Input.Keys.W) {
-            NewGame.camera.translate(0, 32);
-        }
-        if(keycode == Input.Keys.S) {
-            NewGame.camera.translate(0, -32);
-        }
-
         return false;
     }
 
