@@ -39,6 +39,8 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         //Camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
+        camera.position.x = 32*32;
+        camera.position.y = 32*32;
         camera.update();
 
         //Map
