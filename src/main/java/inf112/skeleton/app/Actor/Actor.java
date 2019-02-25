@@ -16,10 +16,10 @@ import java.util.ArrayList;
 
 public class Actor extends ApplicationAdapter implements InputProcessor {
     private Deck deck = new Deck();
-    private ArrayList<Card> handout = new ArrayList<>(9);
+    ArrayList<Card> handout = new ArrayList<>(9);
 
     // Objectify and visualize all cards - then make it possible to choose
-    private ArrayDeque<Card> chosen = new ArrayDeque<>(5);
+    ArrayDeque<Card> chosen = new ArrayDeque<>(5);
 
     private Batch batch;
     private Texture aTexture;

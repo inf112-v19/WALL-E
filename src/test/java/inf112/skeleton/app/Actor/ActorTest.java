@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.concurrent.TimeUnit;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 public class ActorTest {
     NewGame game;
@@ -31,10 +32,23 @@ public class ActorTest {
 
     @Test
     public void chooseCard() {
+        // Setup
+        game.actor.handOut();
+
+        int i = 0;
+        while (i++ < 9) game.actor.chooseCard(0);
+
+        assertEquals("Should choose no more or less than 5 cards", 5, game.actor.chosen.size());
+
+        // Teardown
+        game.actor.handout.clear();
     }
 
     @Test
     public void handOut() {
+        assertTrue("Actor should start out with 0 cards", game.actor.handout.isEmpty());
+        game.actor.handOut();
+        assertEquals("Actor should have 9 cards", 9, game.actor.handout.size());
     }
 
     @Test
