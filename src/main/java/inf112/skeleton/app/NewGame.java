@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class NewGame extends ApplicationAdapter implements InputProcessor {
     public static OrthographicCamera camera;
-    private Actor actor;
+    public Actor actor;
     private int nPlayers;
     private ArrayList<Actor> players;
     private Deck deck;
