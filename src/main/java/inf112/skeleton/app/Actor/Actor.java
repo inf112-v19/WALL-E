@@ -28,14 +28,22 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     public Actor(){
     }
 
-    private void chooseCard(int i) {
+    float getX() {
+        return actor.getX();
+    }
+
+    float getY() {
+        return actor.getY();
+    }
+
+    void chooseCard(int i) {
         Card card = handout.get(i);
         handout.remove(i);
         chosen.addFirst(card);
         while (chosen.size() > 5) chosen.removeLast();
     }
 
-    private void handOut() {
+    void handOut() {
         handout.clear();
         for (int i = 0; i < 9; i++) {
             handout.add(deck.handOut());
