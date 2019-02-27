@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
-import inf112.skeleton.app.NewGame;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -67,6 +66,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         batch.draw(aTexture, middleWidth+actor.getX(), middleHeight+actor.getY(), 100, 80);
         actor.draw(batch, 1);
         batch.end();
+        //chosen.getLast().render();
     }
 
 
