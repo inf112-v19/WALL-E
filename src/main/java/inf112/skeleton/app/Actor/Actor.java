@@ -15,19 +15,27 @@ import java.util.ArrayList;
 
 public class Actor extends ApplicationAdapter implements InputProcessor {
     private Deck deck = new Deck();
-    private ArrayList<Card> handout = new ArrayList<>(9);
+    ArrayList<Card> handout = new ArrayList<>(9);
 
     // Objectify and visualize all cards - then make it possible to choose
-    private ArrayDeque<Card> chosen = new ArrayDeque<>(5);
+    ArrayDeque<Card> chosen = new ArrayDeque<>(5);
 
     private Batch batch;
     private Texture aTexture;
-    private com.badlogic.gdx.scenes.scene2d.Actor actor;
+    private com.badlogic.gdx.scenes.scene2d.Actor actor = new com.badlogic.gdx.scenes.scene2d.Actor();
 
     public Actor(){
     }
 
-    private void chooseCard(int i) {
+    float getX() {
+        return actor.getX();
+    }
+
+    float getY() {
+        return actor.getY();
+    }
+
+    void chooseCard(int i) {
         Card card = handout.get(i);
         handout.remove(i);
         chosen.addFirst(card);
@@ -37,7 +45,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         }
     }
 
-    private void handOut() {
+    void handOut() {
         handout.clear();
         for (int i = 0; i < 9; i++) {
             handout.add(deck.handOut());
@@ -51,7 +59,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         // Sprite
         batch = new SpriteBatch();
         aTexture = new Texture(Gdx.files.internal("robbie.png"));
-        actor = new com.badlogic.gdx.scenes.scene2d.Actor();
 
         // Get cards, place in handout (From Deck.handout)
         handOut();

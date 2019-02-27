@@ -32,16 +32,16 @@ public class Deck {
             deck.add(createBackupCard(p));
         }
         // Adds MOVE 1s to the deck
-        for (int p=490; p<=650; p+=10) {
+        for (int p=490; p<=660; p+=10) {
             deck.add(createMoveCard(1, p));
         }
         // Adds MOVE 2s to the deck
         for (int p=670; p<=780; p+=10) {
-            deck.add(createMoveCard(1, p));
+            deck.add(createMoveCard(2, p));
         }
         // Adds MOVE 3s to the deck
         for (int p=790; p<=840; p+=10) {
-            deck.add(createMoveCard(1, p));
+            deck.add(createMoveCard(3, p));
         }
     }
 
@@ -57,7 +57,11 @@ public class Deck {
         deck.remove(randIndex);
         return randCard;
     }
-    
+
+    public boolean isEmpty(){ return deck.isEmpty(); }
+
+    public int size(){ return deck.size(); }
+
     public Card createMoveCard (int moves, int priority) {
         return new Card(Turn.NONE, moves, priority, false);
     }
