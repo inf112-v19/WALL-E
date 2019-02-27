@@ -24,8 +24,6 @@ public class Card extends ApplicationAdapter {
         LEFT, RIGHT, UTURN, NONE
     }
 
-
-    
     public Turn getTurn() {
         return this.turn;
     }
