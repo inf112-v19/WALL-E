@@ -71,6 +71,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
 
 
+    public ArrayDeque getChosen(){
+        return chosen;
+    }
 
     //Actor Input
     @Override

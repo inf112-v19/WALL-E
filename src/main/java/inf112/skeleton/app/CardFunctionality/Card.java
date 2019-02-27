@@ -10,6 +10,8 @@ public class Card extends ApplicationAdapter {
     private int moves;
     private int priority;
     private boolean isBackup;
+    private float x;
+    private float y;
     
     public Card (Turn turn, int moves, int priority, boolean isBackup) {
         this.turn = turn;
@@ -60,8 +62,15 @@ public class Card extends ApplicationAdapter {
 
     public Card getCard(){ return this;}
 
+    public void setX(float set){
+        this.x = set;
+    }
+    public void setY(float set){
+        this.y = set;
+    }
+
     /***
-     * Trying to somehow draw the card onto the screen, seperately from the board or actor
+     * The two methods under create and render cards
      *
      */
     private SpriteBatch card;
@@ -87,7 +96,7 @@ public class Card extends ApplicationAdapter {
     @Override
     public void render(){
         card.begin();
-        card.draw(cardTexture, Gdx.graphics.getWidth()/2, 0);
+        card.draw(cardTexture, x, y, 32, 32);
         card.end();
     }
 }

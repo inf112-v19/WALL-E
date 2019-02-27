@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import inf112.skeleton.app.Actor.Actor;
-import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
 import inf112.skeleton.app.Map.MapRenderer;
 
@@ -19,9 +18,10 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
     private ArrayList<Actor> players;
     private Deck deck;
     private MapRenderer mapRenderer;
-    private Card testCard;
+    private float x = 60;
+    private float y = 60;
 
-    public NewGame(int nPlayers){
+    public NewGame(int nPlayers) {
         this.nPlayers = nPlayers;
         actor = new Actor();
         camera = new OrthographicCamera();
@@ -35,14 +35,14 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         Gdx.input.setInputProcessor(this);
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        float midWidth =  w/2;
-        float midHeigth = h/2;
+        float midWidth = w / 2;
+        float midHeigth = h / 2;
 
         //Camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
-        camera.position.x = 32*32;
-        camera.position.y = 32*32;
+        camera.position.x = 32 * 32;
+        camera.position.y = 32 * 32;
         camera.update();
 
         //Map
@@ -51,13 +51,12 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         //Actor
         actor.create();
 
-        //testCard
-        testCard = deck.handOut();
-        testCard.create();
+        //Cards
 
     }
+
     @Override
-    public void render() {
+    public void render(){
         Gdx.gl.glClearColor(0, 1, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -68,8 +67,6 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
 
         mapRenderer.render();
         actor.render();
-        testCard.render();
-
     }
 
     @Override
