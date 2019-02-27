@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import inf112.skeleton.app.Actor.Actor;
+import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
 import inf112.skeleton.app.Map.MapRenderer;
 
@@ -18,6 +19,7 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
     private ArrayList<Actor> players;
     private Deck deck;
     private MapRenderer mapRenderer;
+    private Card testCard;
 
     public NewGame(int nPlayers){
         this.nPlayers = nPlayers;
@@ -49,6 +51,10 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         //Actor
         actor.create();
 
+        //testCard
+        testCard = deck.handOut();
+        testCard.create();
+
     }
     @Override
     public void render() {
@@ -62,6 +68,7 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
 
         mapRenderer.render();
         actor.render();
+        testCard.render();
 
     }
 
