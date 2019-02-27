@@ -1,13 +1,10 @@
 package inf112.skeleton.app.Actor;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import inf112.skeleton.app.NewGame;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -16,18 +13,9 @@ public class ActorTest {
     private NewGame game;
 
     @Before
-    public void setUp() throws InterruptedException {
-        // TODO: Use headless config
-        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "Robo-Rally Test";
-        cfg.width = 100;
-        cfg.height = 100;
-
+    public void setUp() {
         game = new NewGame(1);
-        new LwjglApplication(game, cfg);
-
-        // Required for create(), render() ???
-        TimeUnit.SECONDS.sleep(1);
+        new HeadlessApplication(game);
     }
 
     @Test

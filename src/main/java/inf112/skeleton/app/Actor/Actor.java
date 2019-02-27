@@ -23,7 +23,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     private Batch batch;
     private Texture aTexture;
-    private com.badlogic.gdx.scenes.scene2d.Actor actor;
+    private com.badlogic.gdx.scenes.scene2d.Actor actor = new com.badlogic.gdx.scenes.scene2d.Actor();
 
     public Actor(){
     }
@@ -57,7 +57,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         // Sprite
         batch = new SpriteBatch();
         aTexture = new Texture(Gdx.files.internal("robbie.png"));
-        actor = new com.badlogic.gdx.scenes.scene2d.Actor();
 
         // Get cards, place in handout (From Deck.handout)
         handOut();
