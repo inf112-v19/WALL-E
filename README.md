@@ -1,4 +1,4 @@
-# INF112 Maven template 
+# Wall-e RoboRally 
 Simple skeleton with libgdx. 
 
 

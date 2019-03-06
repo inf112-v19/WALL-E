@@ -50,8 +50,6 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         // Actor
         actor.create();
 
-        //Cards
-
         //Objects
         flag.create();
 
