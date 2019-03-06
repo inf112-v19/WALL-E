@@ -19,10 +19,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     public float actorRight;
     public float actorTop;
     public float actorBottom;
-
-
-
-    // Objectify and visualize all cards - then make it possible to choose
     ArrayDeque<Card> chosen = new ArrayDeque<>(5);
     private Deck deck = new Deck();
     private Batch batch;
