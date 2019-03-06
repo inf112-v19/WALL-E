@@ -15,6 +15,14 @@ import java.util.ArrayList;
 
 public class Actor extends ApplicationAdapter implements InputProcessor {
     ArrayList<Card> handout = new ArrayList<>(9);
+    public float actorLeft;
+    public float actorRight;
+    public float actorTop;
+    public float actorBottom;
+
+
+
+    // Objectify and visualize all cards - then make it possible to choose
     ArrayDeque<Card> chosen = new ArrayDeque<>(5);
     private Deck deck = new Deck();
     private Batch batch;
@@ -63,6 +71,11 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         int middleWidth = Gdx.graphics.getWidth() / 2;
         int middleHeight = Gdx.graphics.getHeight() / 2;
 
+        actorBottom = actor.getY();
+        actorLeft = actor.getX();
+        actorTop = actor.getY()+70;
+        actorRight = actor.getX()+100;
+
         batch.begin();
         batch.draw(aTexture, middleWidth + actor.getX(), middleHeight + actor.getY(), 100, 80);
         actor.draw(batch, 1);
@@ -77,10 +90,56 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     // Actor Input
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.LEFT) actor.moveBy(-32, 0);
-        if (keycode == Input.Keys.RIGHT) actor.moveBy(32, 0);
-        if (keycode == Input.Keys.UP) actor.moveBy(0, 32);
-        if (keycode == Input.Keys.DOWN) actor.moveBy(0, -32);
+
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+        int middleWidth = width / 2;
+        int middleHeight = height / 2;
+
+        int speedWidth = 142;
+        int speedHeight = 78;
+
+
+        if (keycode == Input.Keys.LEFT) {
+            middleWidth-=speedWidth;
+
+            if (middleWidth+actorLeft < 0) {
+                actor.moveBy(0, 0);
+                middleWidth+=speedWidth;
+            } else {
+                actor.moveBy(-speedWidth, 0);
+            }
+        }
+
+        if (keycode == Input.Keys.RIGHT) {
+            middleWidth+=speedWidth;
+            if (middleWidth+actorRight > width) {
+                actor.moveBy(0, 0);
+                middleWidth-=speedWidth;
+            } else {
+                actor.moveBy(speedWidth, 0);
+            }
+        }
+
+        if (keycode == Input.Keys.UP) {
+            middleHeight+=speedHeight;
+            if(middleHeight+actorTop > height) {
+                actor.moveBy(0,0);
+                middleHeight-=speedHeight;
+            } else {
+                actor.moveBy(0, speedHeight);
+            }
+        }
+
+        if (keycode == Input.Keys.DOWN) {
+            middleHeight-=speedHeight;
+            if (middleHeight + actorBottom < 0) {
+                actor.moveBy(0, 0);
+                middleHeight+=speedHeight;
+            } else {
+                actor.moveBy(0, -speedHeight);
+            }
+        }
 
         return false;
     }
