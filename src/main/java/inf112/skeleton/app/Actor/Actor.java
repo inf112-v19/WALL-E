@@ -14,18 +14,12 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class Actor extends ApplicationAdapter implements InputProcessor {
-    private Deck deck = new Deck();
     ArrayList<Card> handout = new ArrayList<>(9);
-
-    // Objectify and visualize all cards - then make it possible to choose
     ArrayDeque<Card> chosen = new ArrayDeque<>(5);
-
+    private Deck deck = new Deck();
     private Batch batch;
     private Texture aTexture;
     private com.badlogic.gdx.scenes.scene2d.Actor actor = new com.badlogic.gdx.scenes.scene2d.Actor();
-
-    public Actor(){
-    }
 
     float getX() {
         return actor.getX();
@@ -66,23 +60,21 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public void render() {
-        int middleWidth = Gdx.graphics.getWidth()/2;
-        int middleHeight = Gdx.graphics.getHeight()/2;
+        int middleWidth = Gdx.graphics.getWidth() / 2;
+        int middleHeight = Gdx.graphics.getHeight() / 2;
 
         batch.begin();
-        batch.draw(aTexture, middleWidth+actor.getX(), middleHeight+actor.getY(), 100, 80);
+        batch.draw(aTexture, middleWidth + actor.getX(), middleHeight + actor.getY(), 100, 80);
         actor.draw(batch, 1);
         batch.end();
-        //chosen.getLast().render();
+        // TODO: Render card
     }
 
-
-
-    public ArrayDeque getChosen(){
+    public ArrayDeque getChosen() {
         return chosen;
     }
 
-    //Actor Input
+    // Actor Input
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.LEFT) actor.moveBy(-32, 0);

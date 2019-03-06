@@ -9,24 +9,19 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.NewGame;
 
-public class MapRenderer extends ApplicationAdapter  {
-
-    public MapRenderer(){
-
-    }
-
-    //Camera camera = getCamera();
+public class MapRenderer extends ApplicationAdapter {
     public static TiledMap map;
-   public TiledMap map1;
-    public TiledMap map2;
-    public TiledMap map3;
-    public TiledMapRenderer renderer;
+    private TiledMapRenderer renderer;
+
+    public static void setMap(TiledMap selectedMap) {
+        map = selectedMap;
+    }
 
     @Override
     public void create() {
-        map1 = new TmxMapLoader().load("ROBORALLY_MAP.tmx");
-        map2 = new TmxMapLoader().load("RoboMap.tmx");
-        map3 = new TmxMapLoader().load("MapTest.tmx");
+        TiledMap map1 = new TmxMapLoader().load("ROBORALLY_MAP.tmx");
+        TiledMap map2 = new TmxMapLoader().load("RoboMap.tmx");
+        TiledMap map3 = new TmxMapLoader().load("MapTest.tmx");
         Maps.addMap(map1);
         Maps.addMap(map2);
         Maps.addMap(map3);
@@ -43,12 +38,9 @@ public class MapRenderer extends ApplicationAdapter  {
         renderer.render();
     }
 
-    public Vector2 getTileCord(int index){
+    public Vector2 getTileCord(int index) {
         TiledMapTile tile = map.getTileSets().getTile(index);
-        //Somehow return the coordinates of a specific tile
+        // TODO: return the coordinates of a specific tile
         return null;
-    }
-    public static void setMap(TiledMap selectedMap){
-        map = selectedMap;
     }
 }
