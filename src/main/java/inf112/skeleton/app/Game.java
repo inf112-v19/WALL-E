@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class Game extends ApplicationAdapter implements InputProcessor {
     Texture img;
     TiledMap tiledMap;
-    OrthographicCamera camera;
+    public OrthographicCamera camera;
     TiledMapRenderer renderer;
 
     SpriteBatch sb;

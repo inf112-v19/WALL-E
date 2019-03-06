@@ -101,8 +101,8 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         int middleWidth = width / 2;
         int middleHeight = height / 2;
 
-        int speedWidth = 100;
-        int speedHeight = 50;
+        int speedWidth = 142;
+        int speedHeight = 78;
 
 
         if (keycode == Input.Keys.LEFT) {
