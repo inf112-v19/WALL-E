@@ -18,8 +18,6 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
     private ArrayList<Actor> players;
     private Deck deck;
     private MapRenderer mapRenderer;
-    private float x = 60;
-    private float y = 60;
 
     public NewGame(int nPlayers) {
         this.nPlayers = nPlayers;
@@ -35,28 +33,26 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         Gdx.input.setInputProcessor(this);
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        float midWidth = w / 2;
-        float midHeigth = h / 2;
 
-        //Camera
+        // Camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
         camera.position.x = 32 * 32;
         camera.position.y = 32 * 32;
         camera.update();
 
-        //Map
+        // Map
         mapRenderer.create();
 
-        //Actor
+        // Actor
         actor.create();
 
-        //Cards
-
+        // Cards
+        // TODO: add cards
     }
 
     @Override
-    public void render(){
+    public void render() {
         Gdx.gl.glClearColor(0, 1, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
