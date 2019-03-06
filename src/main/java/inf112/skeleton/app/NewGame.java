@@ -8,12 +8,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import inf112.skeleton.app.Actor.Actor;
 import inf112.skeleton.app.CardFunctionality.Deck;
 import inf112.skeleton.app.Map.MapRenderer;
+import inf112.skeleton.app.Map.Objects;
 
 import java.util.ArrayList;
 
 public class NewGame extends ApplicationAdapter implements InputProcessor {
     public static OrthographicCamera camera;
     public Actor actor;
+    public Objects flag;
     private int nPlayers;
     private ArrayList<Actor> players;
     private Deck deck;
@@ -22,6 +24,7 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
     public NewGame(int nPlayers) {
         this.nPlayers = nPlayers;
         actor = new Actor();
+        flag = new Objects();
         camera = new OrthographicCamera();
         players = new ArrayList<>();
         mapRenderer = new MapRenderer();
@@ -47,8 +50,15 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         // Actor
         actor.create();
 
+        //Cards
+
+        //Objects
+        flag.create();
+
+
         // Cards
         // TODO: add cards
+
     }
 
     @Override
@@ -62,6 +72,7 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         camera.update();
 
         mapRenderer.render();
+        flag.render();
         actor.render();
     }
 
