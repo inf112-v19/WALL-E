@@ -24,6 +24,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     private Batch batch;
     private Texture aTexture;
     private com.badlogic.gdx.scenes.scene2d.Actor actor = new com.badlogic.gdx.scenes.scene2d.Actor();
+    private boolean rendered = false;
 
     float getX() {
         return actor.getX();
@@ -64,6 +65,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public void render() {
+        rendered = true;
         int middleWidth = Gdx.graphics.getWidth() / 2;
         int middleHeight = Gdx.graphics.getHeight() / 2;
 
@@ -86,9 +88,14 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     // Actor Input
     @Override
     public boolean keyDown(int keycode) {
-
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
+
+        if (!rendered && width == 0 && height == 0) {
+            width = 1000;
+            height = 1000;
+        }
+
         int middleWidth = width / 2;
         int middleHeight = height / 2;
 
