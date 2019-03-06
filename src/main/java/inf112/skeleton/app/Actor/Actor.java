@@ -13,6 +13,8 @@ import inf112.skeleton.app.CardFunctionality.Deck;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
+import static inf112.skeleton.app.CardFunctionality.Card.getType;
+
 public class Actor extends ApplicationAdapter implements InputProcessor {
     ArrayList<Card> handout = new ArrayList<>(9);
     public float actorLeft;
@@ -25,6 +27,8 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     private Texture aTexture;
     private com.badlogic.gdx.scenes.scene2d.Actor actor = new com.badlogic.gdx.scenes.scene2d.Actor();
     private boolean rendered = false;
+    public boolean viewRender = false;
+    public Card view;
 
     float getX() {
         return actor.getX();
@@ -71,8 +75,8 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
         actorBottom = actor.getY();
         actorLeft = actor.getX();
-        actorTop = actor.getY()+70;
-        actorRight = actor.getX()+100;
+        actorTop = actor.getY() + 70;
+        actorRight = actor.getX() + 100;
 
         batch.begin();
         batch.draw(aTexture, middleWidth + actor.getX(), middleHeight + actor.getY(), 100, 80);
@@ -104,41 +108,81 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
 
         if (keycode == Input.Keys.LEFT) {
-            middleWidth-=speedWidth;
+            middleWidth -= speedWidth;
 
-            if (middleWidth+actorLeft < 0) {
+            if (middleWidth + actorLeft < 0) {
                 actor.moveBy(0, 0);
-                middleWidth+=speedWidth;
+                middleWidth += speedWidth;
             } else {
                 actor.moveBy(-speedWidth, 0);
             }
         }
 
         if (keycode == Input.Keys.RIGHT) {
-            middleWidth+=speedWidth;
-            if (middleWidth+actorRight > width) {
+            middleWidth += speedWidth;
+            if (middleWidth + actorRight > width) {
                 actor.moveBy(0, 0);
-                middleWidth-=speedWidth;
+                middleWidth -= speedWidth;
             } else {
                 actor.moveBy(speedWidth, 0);
             }
         }
 
+        if (keycode == Input.Keys.ENTER) {
+            /*int i = 0;
+            view = handout.get(i);
+            viewRender = true;
+            if (keyDown(Input.Keys.DOWN)) {
+                chooseCard(i);
+                viewRender = false;
+            }*/
+            if (handout.size() > 0) {
+                Card action = handout.get(handout.size() - 1);
+                handout.remove(handout.size() - 1);
+                String type = getType(action);
+                if (type == "Move") {
+                    System.out.println("Actor should move by: " + action.getMoves());
+                    float move = speedWidth * action.getMoves();
+                    actor.moveBy(move, 0);
+                } else if (type == "Backup") {
+                    System.out.println("Actor should back up by: " + action.getMoves());
+                    float backup = speedWidth * action.getMoves();
+                    actor.moveBy(-backup, 0);
+                } else {
+                    System.out.println("It was a turn card");
+                }
+            } else {
+                System.out.println("No cards left in handout");
+            }
+
+        }
+
+        if (keycode==Input.Keys.BACKSPACE){
+            String s = "Cards in handout: ";
+            for (int i = 0; i <handout.size() ; i++) {
+                Card c = handout.get(i);
+                 s += getType(c) + "-" + c.getMoves() +", ";
+            }
+            System.out.println(s);
+        }
+
         if (keycode == Input.Keys.UP) {
-            middleHeight+=speedHeight;
-            if(middleHeight+actorTop > height) {
-                actor.moveBy(0,0);
-                middleHeight-=speedHeight;
+            middleHeight += speedHeight;
+            if (middleHeight + actorTop > height) {
+                actor.moveBy(0, 0);
+                middleHeight -= speedHeight;
             } else {
                 actor.moveBy(0, speedHeight);
             }
+
+            //Card action = chosen.pop();
         }
 
         if (keycode == Input.Keys.DOWN) {
-            middleHeight-=speedHeight;
+            middleHeight -= speedHeight;
             if (middleHeight + actorBottom < 0) {
                 actor.moveBy(0, 0);
-                middleHeight+=speedHeight;
+                middleHeight += speedHeight;
             } else {
                 actor.moveBy(0, -speedHeight);
             }
@@ -185,5 +229,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    public void renderCard() {
+        view.render();
     }
 }

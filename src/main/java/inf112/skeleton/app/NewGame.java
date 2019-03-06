@@ -56,6 +56,7 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
 
         // Cards
         // TODO: add cards
+       //if(actor.viewRender) actor.view.create();
 
     }
 
@@ -72,6 +73,8 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         mapRenderer.render();
         flag.render();
         actor.render();
+
+        //if(actor.viewRender) actor.renderCard();
     }
 
     @Override
