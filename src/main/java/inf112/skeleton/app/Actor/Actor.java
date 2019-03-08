@@ -21,8 +21,8 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     public float actorRight;
     public float actorTop;
     public float actorBottom;
-    private float actorBackupX = 250;
-    private float actorBackupY = 250;
+    private float actorBackupX;
+    private float actorBackupY;
     //TiledMapTile start = MapRenderer.map.getTileSets().getTile(0);
     //TiledMapTile position;
 
@@ -189,6 +189,11 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             } else {
                 System.out.println("No cards left in chosen");
             }
+        }
+
+        if(keycode== Input.Keys.ALT_LEFT){
+            actorBackupX = actorXpos;
+            actorBackupY = actorYpos;
         }
 
         if (keycode == Input.Keys.BACKSPACE) {

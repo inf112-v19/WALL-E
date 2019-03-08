@@ -66,8 +66,8 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.viewportHeight = 4000;
-        camera.viewportWidth = 5000;
+        camera.viewportHeight = 2000;
+        camera.viewportWidth = 2000;
         camera.update();
 
         mapRenderer.render();
