@@ -40,7 +40,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     void chooseCard(int i) {
         Card card = handout.get(i);
-        handout.remove(i);
+        //handout.remove(i);
         chosen.addFirst(card);
         while (chosen.size() > 5) {
             Card deletedCard = chosen.removeLast();
@@ -128,12 +128,16 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             }
         }
 
+        if (keycode == Input.Keys.TAB) {
+           //initiate card choosing
+        }
+
         if (keycode == Input.Keys.ENTER) {
             if (handout.size() > 0) {
                 Card action = handout.get(handout.size() - 1);
                 handout.remove(handout.size() - 1);
                 String type = getType(action);
-                if (type == "Move") {
+                if (type.equals("Move")) {
                     System.out.println("Actor should move by: " + action.getMoves());
                     float moveX = deltaX * action.getMoves();
                     float moveY = deltaY * action.getMoves();
@@ -143,7 +147,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
                     //NORTh/SOUTH
                     //actor.moveBy(0, moveY);
 
-                } else if (type == "Backup") {
+                } else if (type.equals("Backup")) {
                     System.out.println("Actor should back up by: " + action.getMoves());
                     float backup = deltaX * action.getMoves();
                     actor.moveBy(-backup, 0);
@@ -160,11 +164,10 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
         }
 
-        if (keycode==Input.Keys.BACKSPACE){
-            String s = "Cards in handout: ";
-            for (int i = 0; i <handout.size() ; i++) {
-                Card c = handout.get(i);
-                 s += getType(c) + "-" + c.getMoves() +", ";
+        if (keycode == Input.Keys.BACKSPACE) {
+            StringBuilder s = new StringBuilder("Cards in handout: ");
+            for (Card c : handout) {
+                s.append(getType(c)).append("-").append(c.getMoves()).append(", ");
             }
             System.out.println(s);
         }
@@ -197,10 +200,14 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         // choose cards with keypad 1-9 / vector and add iteratively to chosen arraylist
-        if (keycode >= Input.Keys.NUM_1 && keycode <= Input.Keys.NUM_9) {
-            chooseCard(keycode);
-        }
+        if(chosen.size()>= 5) System.out.println("You can't choose more cards");
 
+        else if (keycode >= Input.Keys.NUM_1 && keycode <= Input.Keys.NUM_9) {
+            chooseCard(keycode-8);
+            System.out.println("You chose: " + getType(handout.get(keycode-8)) + " | Num :" + (keycode-8));
+        }
+        //System.out.println("Remaining cards in Hand-Out: ");
+        //keyDown(Input.Keys.BACKSPACE);
         return false;
     }
 
