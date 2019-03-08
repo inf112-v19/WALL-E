@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import inf112.skeleton.app.Actor.Actor;
 import inf112.skeleton.app.CardFunctionality.Deck;
 import inf112.skeleton.app.Map.MapRenderer;
@@ -20,6 +21,8 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
     private ArrayList<Actor> players;
     private Deck deck;
     private MapRenderer mapRenderer;
+    private BitmapFont font;
+    private String playerMessage;
 
     public NewGame(int nPlayers) {
         this.nPlayers = nPlayers;
@@ -54,9 +57,7 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         flag.create();
 
 
-        // Cards
-        // TODO: add cards
-       //if(actor.viewRender) actor.view.create();
+
 
     }
 
@@ -70,11 +71,11 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         camera.viewportWidth = 2024;
         camera.update();
 
+
         mapRenderer.render();
         flag.render();
         actor.render();
 
-        //if(actor.viewRender) actor.renderCard();
     }
 
     @Override
