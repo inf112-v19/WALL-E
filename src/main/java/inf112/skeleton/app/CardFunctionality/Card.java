@@ -46,6 +46,11 @@ public class Card extends ApplicationAdapter {
         return this.turn != Turn.NONE;
     }
 
+    @Override
+    public String toString() {
+        return "turn: " + turn + ", moves: " + moves + ", priority: " + priority + ", backup: " + isBackup;
+    }
+
     public static String getType(Card card) {
         if (card.isMove())
             return "Move";
