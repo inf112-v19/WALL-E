@@ -83,7 +83,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     @Override
     public void render() {
         rendered = true;
-        int middleWidth = Gdx.graphics.getWidth() / 2;
+        int middleWidth = (Gdx.graphics.getWidth() / 2) + 25;
         int middleHeight = Gdx.graphics.getHeight() / 2;
 
         actorBottom = actor.getY();
