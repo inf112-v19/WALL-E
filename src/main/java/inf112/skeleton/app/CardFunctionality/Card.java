@@ -22,7 +22,7 @@ public class Card extends ApplicationAdapter {
         this.isBackup = isBackup;
     }
 
-    Turn getTurn() {
+    public Turn getTurn() {
         return this.turn;
     }
 

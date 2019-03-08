@@ -25,6 +25,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     private Deck deck = new Deck();
     private Batch batch;
     private Texture aTexture;
+    private Directions dir;
     private com.badlogic.gdx.scenes.scene2d.Actor actor = new com.badlogic.gdx.scenes.scene2d.Actor();
     private boolean rendered = false;
     public boolean viewRender = false;
@@ -55,9 +56,19 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         }
     }
 
+    public enum Directions{
+        NORTH,
+        EAST,
+        WEST,
+        SOUTH
+    }
+
+
     @Override
     public void create() {
         Gdx.input.setInputProcessor(this);
+
+        dir = Directions.NORTH;
 
         // Sprite
         batch = new SpriteBatch();
@@ -134,12 +145,23 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
                 handout.remove(handout.size() - 1);
                 String type = getType(action);
                 if (type == "Move") {
-                    System.out.println("Actor should move by: " + action.getMoves());
+                    System.out.println("Actor should move " + dir +  " by: " + action.getMoves());
+
                     float moveX = deltaX * action.getMoves();
                     float moveY = deltaY * action.getMoves();
+
+                    if(dir == Directions.NORTH){
+                        actor.moveBy(0, moveY);
+                    }else if (dir == Directions.EAST){
+                        actor.moveBy(moveX, 0);
+                    }else if (dir == Directions.WEST){
+                        actor.moveBy(-moveX, 0);
+                    }else if (dir == Directions.SOUTH){
+                        actor.moveBy(0, -moveY);
+                    }
+
                     //switch case : hvilken retning går vi?
                     //EAST/WEST
-                    actor.moveBy(moveX, 0);
                     //NORTh/SOUTH
                     //actor.moveBy(0, moveY);
 
@@ -147,8 +169,17 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
                     System.out.println("Actor should back up by: " + action.getMoves());
                     float backup = deltaX * action.getMoves();
                     actor.moveBy(-backup, 0);
-                } else {
-                    System.out.println("It was a turn card");
+                } else if(type == "Turn"){
+                    if(action.getTurn() == Card.Turn.LEFT){
+                        turnLeft();
+                    } else if(action.getTurn() == Card.Turn.RIGHT){
+                        turnRight();
+                    }
+                    else if(action.getTurn() == Card.Turn.UTURN){
+                        turnRight();
+                        turnRight();
+                    }
+                    System.out.println("It was a turn card. Actor turned " + action.getTurn());
                     //if turn 180 && direction = EAST : deltaX*-1
                     //if turn 90Right && direction == NORTH : direction = WEST
 
@@ -192,6 +223,28 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         }
 
         return false;
+    }
+    public void turnLeft(){
+        if(dir==Directions.NORTH){
+            dir = Directions.WEST;
+        } else if(dir==Directions.WEST){
+            dir = Directions.SOUTH;
+        }else if(dir==Directions.SOUTH){
+            dir = Directions.EAST;
+        }else if(dir==Directions.EAST){
+            dir = Directions.NORTH;
+        }
+    }
+    public void turnRight(){
+        if(dir==Directions.NORTH){
+            dir = Directions.EAST;
+        } else if(dir==Directions.EAST){
+            dir = Directions.SOUTH;
+        }else if(dir==Directions.SOUTH){
+            dir = Directions.WEST;
+        }else if(dir==Directions.WEST){
+            dir = Directions.NORTH;
+        }
     }
 
     @Override
