@@ -77,3 +77,7 @@
 
 * Hvordan vil dere verifisere at kravene er oppfylt? (Hva er akseptansekriteriene?)
   * 
+
+## Klassediagram
+
+![Klassediagram](https://raw.githubusercontent.com/inf112-v19/WALL-E/master/Deliverables/Klassediagram.png)
