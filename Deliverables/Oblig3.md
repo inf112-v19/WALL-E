@@ -67,16 +67,44 @@
 ## Deloppgave 2
 
 * Presisering av krav som har kommet fra kunden. Hva blir de faktiske oppgavene?
-  * 
+  * Krav fra kunden:
+    * Kunne få alle typene bevegelseskort
+    * Dele ut 9 kort
+    * Velge 5 kort (godkjenne valg/si “nå er jeg klar”)
+    * Eksekvere program utfra valgte kort
+    * Besøke flagg
+    * Hvis robot går av brettet blir den ødelagt og går tilbake til siste backup
+    * Oppdatere backup hvis robot blir stående på skiftenøkkelrute i slutten av en fase
+    * Flytte backup ved besøk på flagg
+    * Kunne spille en fullverdig runde med alle faser
+    * Få nye kort til ny runde
+  * Faktiske krav:
+    * Kunne få alle typene bevegelseskort
+    * Dele ut 9 kort
+    * Velge 5 kort (godkjenne valg/si “nå er jeg klar”)
+    * Eksekvere program utfra valgte kort
+    * Sette backup
+    * Hvis robot går av brettet blir den ødelagt og går tilbake til siste backup
+
 
 * Teamets prioritering av oppgavene
-  * 
+  * Denne perioden har det vært fokus på funksjonaliteten spillkortene.
 
 * Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
-  * 
+  * Det er ikke gjort noen endringer i rekkefølge, men vi så at noen av kravene ikke var realistiske. Derfor er vår liste med krav noe kortere enn kundens.
 
 * Hvordan vil dere verifisere at kravene er oppfylt? (Hva er akseptansekriteriene?)
-  * 
+  * I denne fasen av utviklingen har vi mest fokus på funksjonalitet. Design og finpuss kommer senere. For å verifisere om kravene er oppfylt vil vi holde en god dialog med kunden(gruppeledere) gjennom hele prosessen, og kontinuerlig teste koden vår.
+  
+* Oppdatere hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang
+  * Krav som ble prioritet:
+    * Kunne få alle typene bevegelseskort
+    * Dele ut 9 kort
+    * Velge 5 kort (godkjenne valg/si “nå er jeg klar”)
+    * Eksekvere program utfra valgte kort
+    
+  *Vi har fått til å dele ut kort, velge 5 kort og utføre programmet fra kortene. Det kan også deles ut nye kort, og lages nytt program. Backup kan også lages med er ikke fullstendig implementert i spillet. Vi har også finjustert litt på bevegelsene til roboten.
+
 
 ## Klassediagram
 
