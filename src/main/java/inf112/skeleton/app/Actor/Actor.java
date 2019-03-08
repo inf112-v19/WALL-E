@@ -22,6 +22,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     public float actorBottom;
     private float actorBackupX = 250;
     private float actorBackupY = 250;
+
     ArrayList<Card> chosen = new ArrayList<>(5);
     private Deck deck = new Deck();
     private Batch batch;
@@ -121,12 +122,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
         if (keycode == Input.Keys.LEFT) {
             actorXpos -= deltaX;
-
             if (actorXpos + actorLeft < 0) {
                 actor.setPosition(actorBackupX, actorBackupY);
                 System.out.println("Returned to backup");
-                //actor.moveBy(0, 0);
-                //actorXpos += deltaX;
             } else {
                 actor.moveBy(-deltaX, 0);
             }
@@ -137,8 +135,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             if (actorXpos + actorRight > width) {
                 actor.setPosition(actorBackupX, actorBackupY);
                 System.out.println("Returned to backup");
-                //actor.moveBy(0, 0);
-                //actorXpos -= deltaX;
             } else {
                 actor.moveBy(deltaX, 0);
             }
@@ -169,9 +165,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
                         }
 
                     } else if (type.equals("Backup")) {
-                        /*System.out.println("Actor should back up by: " + action.getMoves());
-                        float backup = deltaX * action.getMoves();
-                        actor.moveBy(-backup, 0);*/
                         actorBackupX = actorXpos;
                         actorBackupY = actorYpos;
                         System.out.println("New Backup position set as: [" + actorXpos +", " + actorYpos +"]");
@@ -190,11 +183,10 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
                 System.out.println("No cards left in handout");
         }
 
-
-        if (keycode == Input.Keys.TAB) {
-           /* if (handout.size() > 0) {
-                Card action = handout.get(handout.size() - 1);
-                handout.remove(handout.size() - 1);
+        if (keycode == Input.Keys.ENTER) {
+            if (chosen.size() > 0) {
+                Card action = chosen.get(chosen.size() - 1);
+                chosen.remove(chosen.size() - 1);
                 String type = getType(action);
 
                 if (type == "Move") {
@@ -230,9 +222,8 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
                     System.out.println("It was a turn card. Actor turned " + action.getTurn());
                 }
             } else {
-                System.out.println("No cards left in handout");
-            }*/
-            return false;
+                System.out.println("No cards left in chosen");
+            }
         }
 
         if (keycode == Input.Keys.BACKSPACE) {
