@@ -4,14 +4,17 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
+
+import static inf112.skeleton.app.CardFunctionality.Card.getType;
 
 public class Actor extends ApplicationAdapter implements InputProcessor {
     ArrayList<Card> handout = new ArrayList<>(9);
@@ -19,12 +22,25 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     public float actorRight;
     public float actorTop;
     public float actorBottom;
-    ArrayDeque<Card> chosen = new ArrayDeque<>(5);
+    private float actorBackupX;
+    private float actorBackupY;
+    private boolean hasBackup;
+    private float textPositionX;
+    private float textPositionY;
+
+    ArrayList<Card> chosen = new ArrayList<>(5);
     private Deck deck = new Deck();
     private Batch batch;
     private Texture aTexture;
+    private BitmapFont font;
+    private String output;
+    private String output2;
+    private String playerMessage;
+    private Directions dir;
     private com.badlogic.gdx.scenes.scene2d.Actor actor = new com.badlogic.gdx.scenes.scene2d.Actor();
     private boolean rendered = false;
+    public boolean viewRender = false;
+    public Card view;
 
     float getX() {
         return actor.getX();
@@ -36,10 +52,10 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     void chooseCard(int i) {
         Card card = handout.get(i);
-        handout.remove(i);
-        chosen.addFirst(card);
+        //handout.remove(i);
+        chosen.add(0,card);
         while (chosen.size() > 5) {
-            Card deletedCard = chosen.removeLast();
+            Card deletedCard = chosen.remove(chosen.size()-1);
             handout.add(deletedCard);
         }
     }
@@ -51,9 +67,23 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         }
     }
 
+    public enum Directions {
+        NORTH,
+        EAST,
+        WEST,
+        SOUTH
+    }
+
+
     @Override
     public void create() {
         Gdx.input.setInputProcessor(this);
+
+        dir = Directions.NORTH;
+        hasBackup = false;
+        font = new BitmapFont();
+        output = "";
+        output2 = "";
 
         // Sprite
         batch = new SpriteBatch();
@@ -66,22 +96,27 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     @Override
     public void render() {
         rendered = true;
-        int middleWidth = Gdx.graphics.getWidth() / 2;
+        int middleWidth = (Gdx.graphics.getWidth() / 2) + 25;
         int middleHeight = Gdx.graphics.getHeight() / 2;
 
         actorBottom = actor.getY();
         actorLeft = actor.getX();
-        actorTop = actor.getY()+70;
-        actorRight = actor.getX()+100;
+        actorTop = actor.getY() + 70;
+        actorRight = actor.getX() + 100;
+        textPositionX = (Gdx.graphics.getWidth()/2) - 300;
+        textPositionY = Gdx.graphics.getHeight()-30;
+        playerMessage = "Press backspace to deal cards";
 
         batch.begin();
+        font.draw(batch,playerMessage,textPositionX-400,textPositionY);
+        font.draw(batch, output,textPositionX, textPositionY);
+        font.draw(batch, output2, textPositionX, textPositionY+15);
         batch.draw(aTexture, middleWidth + actor.getX(), middleHeight + actor.getY(), 100, 80);
         actor.draw(batch, 1);
         batch.end();
-        // TODO: Render card
     }
 
-    public ArrayDeque getChosen() {
+    public ArrayList<Card> getChosen() {
         return chosen;
     }
 
@@ -96,64 +131,169 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             height = 1000;
         }
 
-        int middleWidth = width / 2;
-        int middleHeight = height / 2;
+        int actorXpos = width / 2;
+        int actorYpos = height / 2;
 
-        int speedWidth = 142;
-        int speedHeight = 78;
+        int deltaX = 142;
+        int deltaY = 78;
 
 
         if (keycode == Input.Keys.LEFT) {
-            middleWidth-=speedWidth;
-
-            if (middleWidth+actorLeft < 0) {
-                actor.moveBy(0, 0);
-                middleWidth+=speedWidth;
+            actorXpos -= deltaX;
+            if (actorXpos + actorLeft < 0) {
+                if(hasBackup) {
+                    actor.setPosition(actorBackupX, actorBackupY);
+                    System.out.println("Returned to backup");
+                }
             } else {
-                actor.moveBy(-speedWidth, 0);
+                actor.moveBy(-deltaX, 0);
             }
+        }
+
+        if(keycode == Input.Keys.B){
+            actorBackupX = actor.getX();
+            actorBackupY = actor.getY();
+            hasBackup = true;
+            System.out.println("Backup set to: " + actorBackupX + ", " + actorBackupY);
         }
 
         if (keycode == Input.Keys.RIGHT) {
-            middleWidth+=speedWidth;
-            if (middleWidth+actorRight > width) {
-                actor.moveBy(0, 0);
-                middleWidth-=speedWidth;
+            actorXpos += deltaX;
+            if (actorXpos + actorRight > width) {
+                if(hasBackup) {
+                    actor.setPosition(actorBackupX, actorBackupY);
+                    System.out.println("Returned to backup");
+                }
             } else {
-                actor.moveBy(speedWidth, 0);
+                actor.moveBy(deltaX, 0);
             }
+        }
+
+        if (keycode == Input.Keys.ENTER) {
+            if (chosen.size() > 0) {
+                Card action = chosen.get(chosen.size() - 1);
+                chosen.remove(chosen.size() - 1);
+                String type = getType(action);
+
+                if (type == "Move") {
+                    System.out.println("Actor should move " + dir + " by: " + action.getMoves());
+
+
+                    float moveX = deltaX * action.getMoves();
+                    float moveY = deltaY * action.getMoves();
+
+                    if (dir == Directions.NORTH) {
+                        actor.moveBy(0, moveY);
+                    } else if (dir == Directions.EAST) {
+                        actor.moveBy(moveX, 0);
+                    } else if (dir == Directions.WEST) {
+                        actor.moveBy(-moveX, 0);
+                    } else if (dir == Directions.SOUTH) {
+                        actor.moveBy(0, -moveY);
+                    }
+
+                } else if (type.equals("Backup")) {
+                    actorBackupX = actor.getX();
+                    actorBackupY = actor.getY();
+                    hasBackup = true;
+                    System.out.println("New Backup position set as: [" + actorBackupX +", " + actorBackupY +"]");
+
+                } else if (type == "Turn") {
+                    if (action.getTurn() == Card.Turn.LEFT) {
+                        turnLeft();
+                    } else if (action.getTurn() == Card.Turn.RIGHT) {
+                        turnRight();
+                    } else if (action.getTurn() == Card.Turn.UTURN) {
+                        turnRight();
+                        turnRight();
+                    }
+                    System.out.println("It was a turn card. Actor turned " + action.getTurn());
+                }
+            } else {
+                System.out.println("No cards left in chosen");
+            }
+        }
+
+        if (keycode == Input.Keys.BACKSPACE) {
+            StringBuilder s = new StringBuilder("Cards in handout: ");
+            int num = 1;
+            for (Card c : handout) {
+                s.append(num +": ");
+                String type = getType(c);
+                if(type.equals("Move")) s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
+                else if (type.equals("Turn")) s.append(type).append(" ").append(c.getTurn()).append(", ");
+                else s.append(type).append(", ");
+                num++;
+            }
+            System.out.println(s);
+            output = s.toString();
+            output2 = "Press the number of the card in the required order to select!";
         }
 
         if (keycode == Input.Keys.UP) {
-            middleHeight+=speedHeight;
-            if(middleHeight+actorTop > height) {
-                actor.moveBy(0,0);
-                middleHeight-=speedHeight;
+            actorYpos += deltaY;
+            if (actorYpos + actorTop > height) {
+                if(hasBackup) {
+                    actor.setPosition(actorBackupX, actorBackupY);
+                    System.out.println("Returned to backup");
+                }
+                //actor.moveBy(0, 0);
+                //actorYpos -= deltaY;
             } else {
-                actor.moveBy(0, speedHeight);
+                actor.moveBy(0, deltaY);
             }
+
+            //Card action = chosen.pop();
         }
 
         if (keycode == Input.Keys.DOWN) {
-            middleHeight-=speedHeight;
-            if (middleHeight + actorBottom < 0) {
-                actor.moveBy(0, 0);
-                middleHeight+=speedHeight;
+            actorYpos -= deltaY;
+            if (actorYpos + actorBottom < 0) {
+                if(hasBackup) {
+                    actor.setPosition(actorBackupX, actorBackupY);
+                    System.out.println("Returned to backup");
+                }
             } else {
-                actor.moveBy(0, -speedHeight);
+                actor.moveBy(0, -deltaY);
             }
         }
 
         return false;
     }
 
+    public void turnLeft() {
+        if (dir == Directions.NORTH) {
+            dir = Directions.WEST;
+        } else if (dir == Directions.WEST) {
+            dir = Directions.SOUTH;
+        } else if (dir == Directions.SOUTH) {
+            dir = Directions.EAST;
+        } else if (dir == Directions.EAST) {
+            dir = Directions.NORTH;
+        }
+    }
+
+    public void turnRight() {
+        if (dir == Directions.NORTH) {
+            dir = Directions.EAST;
+        } else if (dir == Directions.EAST) {
+            dir = Directions.SOUTH;
+        } else if (dir == Directions.SOUTH) {
+            dir = Directions.WEST;
+        } else if (dir == Directions.WEST) {
+            dir = Directions.NORTH;
+        }
+    }
+
     @Override
     public boolean keyUp(int keycode) {
         // choose cards with keypad 1-9 / vector and add iteratively to chosen arraylist
-        if (keycode >= Input.Keys.NUM_1 && keycode <= Input.Keys.NUM_9) {
-            chooseCard(keycode);
-        }
+        if (chosen.size() >= 5) System.out.println("You can't choose more cards");
 
+        else if (keycode >= Input.Keys.NUM_1 && keycode <= Input.Keys.NUM_9) {
+            chooseCard(keycode - 8);
+            System.out.println("You chose: " + getType(handout.get(keycode - 8)) + " | Num :" + (keycode - 8));
+        }
         return false;
     }
 
@@ -185,5 +325,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    public void renderCard() {
+        view.render();
     }
 }
