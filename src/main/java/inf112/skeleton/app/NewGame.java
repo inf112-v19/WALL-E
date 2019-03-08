@@ -40,20 +40,16 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
-        // Camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
         camera.position.x = 32 * 32;
         camera.position.y = 32 * 32;
         camera.update();
 
-        // Map
         mapRenderer.create();
 
-        // Actor
         actor.create();
 
-        //Objects
         flag.create();
 
 

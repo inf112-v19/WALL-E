@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -35,7 +34,8 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     private BitmapFont font;
     private String output;
     private String output2;
-    private String playerMessage;
+    private String messageHandout;
+    private String messageNewHandout;
     private Directions dir;
     private com.badlogic.gdx.scenes.scene2d.Actor actor = new com.badlogic.gdx.scenes.scene2d.Actor();
     private boolean rendered = false;
@@ -52,7 +52,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     void chooseCard(int i) {
         Card card = handout.get(i);
-        //handout.remove(i);
         chosen.add(0,card);
         while (chosen.size() > 5) {
             Card deletedCard = chosen.remove(chosen.size()-1);
@@ -85,11 +84,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         output = "";
         output2 = "";
 
-        // Sprite
         batch = new SpriteBatch();
         aTexture = new Texture(Gdx.files.internal("robbie.png"));
 
-        // Get cards, place in handout (From Deck.handout)
         handOut();
     }
 
@@ -105,10 +102,12 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         actorRight = actor.getX() + 100;
         textPositionX = (Gdx.graphics.getWidth()/2) - 300;
         textPositionY = Gdx.graphics.getHeight()-30;
-        playerMessage = "Press backspace to deal cards";
+        messageHandout = "Press backspace to deal cards";
+        messageNewHandout = "Press Left ALT followed by backspace for new handout";
 
         batch.begin();
-        font.draw(batch,playerMessage,textPositionX-400,textPositionY);
+        font.draw(batch,messageHandout,textPositionX-400,textPositionY+15);
+        font.draw(batch,messageNewHandout,textPositionX-400,textPositionY);
         font.draw(batch, output,textPositionX, textPositionY);
         font.draw(batch, output2, textPositionX, textPositionY+15);
         batch.draw(aTexture, middleWidth + actor.getX(), middleHeight + actor.getY(), 100, 80);
@@ -120,7 +119,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         return chosen;
     }
 
-    // Actor Input
     @Override
     public boolean keyDown(int keycode) {
         int width = Gdx.graphics.getWidth();
@@ -169,18 +167,22 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             }
         }
 
+        if (keycode == Input.Keys.ALT_LEFT){
+            handOut();
+
+        }
+
         if (keycode == Input.Keys.ENTER) {
             if (chosen.size() > 0) {
                 Card action = chosen.get(chosen.size() - 1);
                 chosen.remove(chosen.size() - 1);
                 String type = getType(action);
 
+                float moveX = deltaX * action.getMoves();
+                float moveY = deltaY * action.getMoves();
+
                 if (type == "Move") {
                     System.out.println("Actor should move " + dir + " by: " + action.getMoves());
-
-
-                    float moveX = deltaX * action.getMoves();
-                    float moveY = deltaY * action.getMoves();
 
                     if (dir == Directions.NORTH) {
                         actor.moveBy(0, moveY);
@@ -227,7 +229,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             }
             System.out.println(s);
             output = s.toString();
-            output2 = "Press the number of the card in the required order to select!";
+            output2 = "Press the number of the card in the required order to select, and then ENTER to perform moves!";
         }
 
         if (keycode == Input.Keys.UP) {
@@ -237,13 +239,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
                     actor.setPosition(actorBackupX, actorBackupY);
                     System.out.println("Returned to backup");
                 }
-                //actor.moveBy(0, 0);
-                //actorYpos -= deltaY;
             } else {
                 actor.moveBy(0, deltaY);
             }
-
-            //Card action = chosen.pop();
         }
 
         if (keycode == Input.Keys.DOWN) {
@@ -287,7 +285,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        // choose cards with keypad 1-9 / vector and add iteratively to chosen arraylist
         if (chosen.size() >= 5) System.out.println("You can't choose more cards");
 
         else if (keycode >= Input.Keys.NUM_1 && keycode <= Input.Keys.NUM_9) {
