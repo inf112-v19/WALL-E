@@ -17,9 +17,10 @@ public class MapRenderer extends ApplicationAdapter {
         map = selectedMap;
     }
 
+
     @Override
     public void create() {
-        TiledMap map1 = new TmxMapLoader().load("ROBORALLY_MAP.tmx");
+        TiledMap map1 = new TmxMapLoader().load("map_v1.tmx");
         TiledMap map2 = new TmxMapLoader().load("RoboMap.tmx");
         TiledMap map3 = new TmxMapLoader().load("MapTest.tmx");
         Maps.addMap(map1);

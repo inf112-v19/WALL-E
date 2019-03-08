@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
 
@@ -22,6 +23,8 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     public float actorBottom;
     private float actorBackupX = 250;
     private float actorBackupY = 250;
+    //TiledMapTile start = MapRenderer.map.getTileSets().getTile(0);
+    //TiledMapTile position;
 
     ArrayList<Card> chosen = new ArrayList<>(5);
     private Deck deck = new Deck();
@@ -92,8 +95,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         actorRight = actor.getX() + 100;
 
         batch.begin();
-        batch.draw(aTexture, middleWidth + actor.getX(), middleHeight + actor.getY(), 100, 80);
+        batch.draw(aTexture, middleWidth + actor.getX(), middleHeight + actor.getY(), 40, 40);
         actor.draw(batch, 1);
+        //actor.localToStageCoordinates((Vector2) start);
         batch.end();
         // TODO: Render card
     }
@@ -102,6 +106,10 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         return chosen;
     }
 
+    public TiledMapTile locate(){
+        //return (TiledMapTile) actor.localToStageCoordinates((Vector2) position);
+        return null;
+    }
     // Actor Input
     @Override
     public boolean keyDown(int keycode) {
@@ -116,8 +124,8 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         int actorXpos = width / 2;
         int actorYpos = height / 2;
 
-        int deltaX = 142;
-        int deltaY = 78;
+        int deltaX = 50;
+        int deltaY = 40;
 
 
         if (keycode == Input.Keys.LEFT) {
@@ -166,7 +174,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
                 } else if (type.equals("Backup")) {
                     actorBackupX = actorXpos;
                     actorBackupY = actorYpos;
-                    System.out.println("New Backup position set as: [" + actorXpos +", " + actorYpos +"]");
+                    System.out.println("New Backup position set as: [" + actorBackupX +", " + actorBackupY +"]");
                 } else if (type == "Turn") {
                     if (action.getTurn() == Card.Turn.LEFT) {
                         turnLeft();

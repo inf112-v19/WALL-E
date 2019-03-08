@@ -14,4 +14,5 @@ public class Maps {
     public static TiledMap getMap(int index) {
         return maps.get(index);
     }
+
 }

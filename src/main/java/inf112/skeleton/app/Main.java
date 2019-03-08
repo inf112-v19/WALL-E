@@ -9,7 +9,7 @@ public class Main {
         cfg.title = "Robo-Rally";
         cfg.width = 1920;
         cfg.height = 1080;
-        cfg.resizable = false;
+        cfg.resizable = true;
 
         new LwjglApplication(new NewGame(1), cfg);
     }

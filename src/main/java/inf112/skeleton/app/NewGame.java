@@ -19,7 +19,7 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
     private int nPlayers;
     private ArrayList<Actor> players;
     private Deck deck;
-    private MapRenderer mapRenderer;
+    public MapRenderer mapRenderer;
 
     public NewGame(int nPlayers) {
         this.nPlayers = nPlayers;
@@ -40,8 +40,8 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         // Camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
-        camera.position.x = 32 * 32;
-        camera.position.y = 32 * 32;
+        camera.position.x = 1800/2;
+        camera.position.y = 1800/2;
         camera.update();
 
         // Map
@@ -62,12 +62,12 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0, 1, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.viewportHeight = 2024;
-        camera.viewportWidth = 2024;
+        camera.viewportHeight = 4000;
+        camera.viewportWidth = 5000;
         camera.update();
 
         mapRenderer.render();
