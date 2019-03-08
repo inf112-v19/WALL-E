@@ -100,56 +100,59 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             height = 1000;
         }
 
-        int middleWidth = width / 2;
-        int middleHeight = height / 2;
+        int actorXpos = width / 2;
+        int actorYpos = height / 2;
 
-        int speedWidth = 142;
-        int speedHeight = 78;
+        int deltaX = 142;
+        int deltaY = 78;
 
 
         if (keycode == Input.Keys.LEFT) {
-            middleWidth -= speedWidth;
+            actorXpos -= deltaX;
 
-            if (middleWidth + actorLeft < 0) {
+            if (actorXpos + actorLeft < 0) {
                 actor.moveBy(0, 0);
-                middleWidth += speedWidth;
+                actorXpos += deltaX;
             } else {
-                actor.moveBy(-speedWidth, 0);
+                actor.moveBy(-deltaX, 0);
             }
         }
 
         if (keycode == Input.Keys.RIGHT) {
-            middleWidth += speedWidth;
-            if (middleWidth + actorRight > width) {
+            actorXpos += deltaX;
+            if (actorXpos + actorRight > width) {
                 actor.moveBy(0, 0);
-                middleWidth -= speedWidth;
+                actorXpos -= deltaX;
             } else {
-                actor.moveBy(speedWidth, 0);
+                actor.moveBy(deltaX, 0);
             }
         }
 
         if (keycode == Input.Keys.ENTER) {
-            /*int i = 0;
-            view = handout.get(i);
-            viewRender = true;
-            if (keyDown(Input.Keys.DOWN)) {
-                chooseCard(i);
-                viewRender = false;
-            }*/
             if (handout.size() > 0) {
                 Card action = handout.get(handout.size() - 1);
                 handout.remove(handout.size() - 1);
                 String type = getType(action);
                 if (type == "Move") {
                     System.out.println("Actor should move by: " + action.getMoves());
-                    float move = speedWidth * action.getMoves();
-                    actor.moveBy(move, 0);
+                    float moveX = deltaX * action.getMoves();
+                    float moveY = deltaY * action.getMoves();
+                    //switch case : hvilken retning går vi?
+                    //EAST/WEST
+                    actor.moveBy(moveX, 0);
+                    //NORTh/SOUTH
+                    //actor.moveBy(0, moveY);
+
                 } else if (type == "Backup") {
                     System.out.println("Actor should back up by: " + action.getMoves());
-                    float backup = speedWidth * action.getMoves();
+                    float backup = deltaX * action.getMoves();
                     actor.moveBy(-backup, 0);
                 } else {
                     System.out.println("It was a turn card");
+                    //if turn 180 && direction = EAST : deltaX*-1
+                    //if turn 90Right && direction == NORTH : direction = WEST
+
+
                 }
             } else {
                 System.out.println("No cards left in handout");
@@ -167,24 +170,24 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         }
 
         if (keycode == Input.Keys.UP) {
-            middleHeight += speedHeight;
-            if (middleHeight + actorTop > height) {
+            actorYpos += deltaY;
+            if (actorYpos + actorTop > height) {
                 actor.moveBy(0, 0);
-                middleHeight -= speedHeight;
+                actorYpos -= deltaY;
             } else {
-                actor.moveBy(0, speedHeight);
+                actor.moveBy(0, deltaY);
             }
 
             //Card action = chosen.pop();
         }
 
         if (keycode == Input.Keys.DOWN) {
-            middleHeight -= speedHeight;
-            if (middleHeight + actorBottom < 0) {
+            actorYpos -= deltaY;
+            if (actorYpos + actorBottom < 0) {
                 actor.moveBy(0, 0);
-                middleHeight += speedHeight;
+                actorYpos += deltaY;
             } else {
-                actor.moveBy(0, -speedHeight);
+                actor.moveBy(0, -deltaY);
             }
         }
 
