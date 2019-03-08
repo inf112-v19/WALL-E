@@ -141,49 +141,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         }
 
         if (keycode == Input.Keys.ENTER) {
-            //initiate card game
-            if (chosen.size() < 0) {
-                    Card action = chosen.get(chosen.size()-1);
-                    chosen.remove(chosen.size()-1);
-                    String type = getType(action);
-
-                    if (type == "Move") {
-                        System.out.println("Actor should move " + dir + " by: " + action.getMoves());
-
-
-                        float moveX = deltaX * action.getMoves();
-                        float moveY = deltaY * action.getMoves();
-
-                        if (dir == Directions.NORTH) {
-                            actor.moveBy(0, moveY);
-                        } else if (dir == Directions.EAST) {
-                            actor.moveBy(moveX, 0);
-                        } else if (dir == Directions.WEST) {
-                            actor.moveBy(-moveX, 0);
-                        } else if (dir == Directions.SOUTH) {
-                            actor.moveBy(0, -moveY);
-                        }
-
-                    } else if (type.equals("Backup")) {
-                        actorBackupX = actorXpos;
-                        actorBackupY = actorYpos;
-                        System.out.println("New Backup position set as: [" + actorXpos +", " + actorYpos +"]");
-                    } else if (type == "Turn") {
-                        if (action.getTurn() == Card.Turn.LEFT) {
-                            turnLeft();
-                        } else if (action.getTurn() == Card.Turn.RIGHT) {
-                            turnRight();
-                        } else if (action.getTurn() == Card.Turn.UTURN) {
-                            turnRight();
-                            turnRight();
-                        }
-                        System.out.println("It was a turn card. Actor turned " + action.getTurn());
-                    }
-                }
-                System.out.println("No cards left in handout");
-        }
-
-        if (keycode == Input.Keys.ENTER) {
             if (chosen.size() > 0) {
                 Card action = chosen.get(chosen.size() - 1);
                 chosen.remove(chosen.size() - 1);
@@ -207,9 +164,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
                     }
 
                 } else if (type.equals("Backup")) {
-                    System.out.println("Actor should back up by: " + action.getMoves());
-                    float backup = deltaX * action.getMoves();
-                    actor.moveBy(-backup, 0);
+                    actorBackupX = actorXpos;
+                    actorBackupY = actorYpos;
+                    System.out.println("New Backup position set as: [" + actorXpos +", " + actorYpos +"]");
                 } else if (type == "Turn") {
                     if (action.getTurn() == Card.Turn.LEFT) {
                         turnLeft();
