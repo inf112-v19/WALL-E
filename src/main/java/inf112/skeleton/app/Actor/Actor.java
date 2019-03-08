@@ -21,7 +21,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     public float actorRight;
     public float actorTop;
     public float actorBottom;
-    ArrayDeque<Card> chosen = new ArrayDeque<>(5);
+    ArrayList<Card> chosen = new ArrayList<>(5);
     private Deck deck = new Deck();
     private Batch batch;
     private Texture aTexture;
@@ -42,9 +42,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     void chooseCard(int i) {
         Card card = handout.get(i);
         //handout.remove(i);
-        chosen.addFirst(card);
+        chosen.add(card);
         while (chosen.size() > 5) {
-            Card deletedCard = chosen.removeLast();
+            Card deletedCard = chosen.remove(chosen.size()-1);
             handout.add(deletedCard);
         }
     }
@@ -96,7 +96,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         // TODO: Render card
     }
 
-    public ArrayDeque getChosen() {
+    public ArrayList getChosen() {
         return chosen;
     }
 
@@ -144,9 +144,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         }
 
         if (keycode == Input.Keys.ENTER) {
-            if (handout.size() > 0) {
-                Card action = handout.get(handout.size() - 1);
-                handout.remove(handout.size() - 1);
+            if (chosen.size() > 0) {
+                Card action = chosen.get(chosen.size() - 1);
+                chosen.remove(chosen.size() - 1);
                 String type = getType(action);
 
                 if (type == "Move") {
@@ -191,7 +191,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
                 }
             } else {
-                System.out.println("No cards left in handout");
+                System.out.println("No cards left in chosen");
             }
 
         }
