@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 import static inf112.skeleton.app.CardFunctionality.Card.getType;
@@ -21,7 +20,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     public float actorRight;
     public float actorTop;
     public float actorBottom;
-    ArrayDeque<Card> chosen = new ArrayDeque<>(5);
+    private float actorBackupX = 250;
+    private float actorBackupY = 250;
+    ArrayList<Card> chosen = new ArrayList<>(5);
     private Deck deck = new Deck();
     private Batch batch;
     private Texture aTexture;
@@ -42,9 +43,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     void chooseCard(int i) {
         Card card = handout.get(i);
         //handout.remove(i);
-        chosen.addFirst(card);
+        chosen.add(card);
         while (chosen.size() > 5) {
-            Card deletedCard = chosen.removeLast();
+            Card deletedCard = chosen.remove(chosen.size()-1);
             handout.add(deletedCard);
         }
     }
@@ -56,7 +57,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         }
     }
 
-    public enum Directions{
+    public enum Directions {
         NORTH,
         EAST,
         WEST,
@@ -96,7 +97,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         // TODO: Render card
     }
 
-    public ArrayDeque getChosen() {
+    public ArrayList<Card> getChosen() {
         return chosen;
     }
 
@@ -122,8 +123,10 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             actorXpos -= deltaX;
 
             if (actorXpos + actorLeft < 0) {
-                actor.moveBy(0, 0);
-                actorXpos += deltaX;
+                actor.setPosition(actorBackupX, actorBackupY);
+                System.out.println("Returned to backup");
+                //actor.moveBy(0, 0);
+                //actorXpos += deltaX;
             } else {
                 actor.moveBy(-deltaX, 0);
             }
@@ -132,74 +135,113 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         if (keycode == Input.Keys.RIGHT) {
             actorXpos += deltaX;
             if (actorXpos + actorRight > width) {
-                actor.moveBy(0, 0);
-                actorXpos -= deltaX;
+                actor.setPosition(actorBackupX, actorBackupY);
+                System.out.println("Returned to backup");
+                //actor.moveBy(0, 0);
+                //actorXpos -= deltaX;
             } else {
                 actor.moveBy(deltaX, 0);
             }
         }
 
-        if (keycode == Input.Keys.TAB) {
-           //initiate card choosing
+        if (keycode == Input.Keys.ENTER) {
+            //initiate card game
+            if (chosen.size() < 0) {
+                    Card action = chosen.get(chosen.size()-1);
+                    chosen.remove(chosen.size()-1);
+                    String type = getType(action);
+
+                    if (type == "Move") {
+                        System.out.println("Actor should move " + dir + " by: " + action.getMoves());
+
+
+                        float moveX = deltaX * action.getMoves();
+                        float moveY = deltaY * action.getMoves();
+
+                        if (dir == Directions.NORTH) {
+                            actor.moveBy(0, moveY);
+                        } else if (dir == Directions.EAST) {
+                            actor.moveBy(moveX, 0);
+                        } else if (dir == Directions.WEST) {
+                            actor.moveBy(-moveX, 0);
+                        } else if (dir == Directions.SOUTH) {
+                            actor.moveBy(0, -moveY);
+                        }
+
+                    } else if (type.equals("Backup")) {
+                        /*System.out.println("Actor should back up by: " + action.getMoves());
+                        float backup = deltaX * action.getMoves();
+                        actor.moveBy(-backup, 0);*/
+                        actorBackupX = actorXpos;
+                        actorBackupY = actorYpos;
+                        System.out.println("New Backup position set as: [" + actorXpos +", " + actorYpos +"]");
+                    } else if (type == "Turn") {
+                        if (action.getTurn() == Card.Turn.LEFT) {
+                            turnLeft();
+                        } else if (action.getTurn() == Card.Turn.RIGHT) {
+                            turnRight();
+                        } else if (action.getTurn() == Card.Turn.UTURN) {
+                            turnRight();
+                            turnRight();
+                        }
+                        System.out.println("It was a turn card. Actor turned " + action.getTurn());
+                    }
+                }
+                System.out.println("No cards left in handout");
         }
 
-        if (keycode == Input.Keys.ENTER) {
-            if (handout.size() > 0) {
+
+        if (keycode == Input.Keys.TAB) {
+           /* if (handout.size() > 0) {
                 Card action = handout.get(handout.size() - 1);
                 handout.remove(handout.size() - 1);
                 String type = getType(action);
 
                 if (type == "Move") {
-                    System.out.println("Actor should move " + dir +  " by: " + action.getMoves());
+                    System.out.println("Actor should move " + dir + " by: " + action.getMoves());
+
 
                     float moveX = deltaX * action.getMoves();
                     float moveY = deltaY * action.getMoves();
 
-                    if(dir == Directions.NORTH){
+                    if (dir == Directions.NORTH) {
                         actor.moveBy(0, moveY);
-                    }else if (dir == Directions.EAST){
+                    } else if (dir == Directions.EAST) {
                         actor.moveBy(moveX, 0);
-                    }else if (dir == Directions.WEST){
+                    } else if (dir == Directions.WEST) {
                         actor.moveBy(-moveX, 0);
-                    }else if (dir == Directions.SOUTH){
+                    } else if (dir == Directions.SOUTH) {
                         actor.moveBy(0, -moveY);
                     }
-
-                    //switch case : hvilken retning går vi?
-                    //EAST/WEST
-                    //NORTh/SOUTH
-                    //actor.moveBy(0, moveY);
 
                 } else if (type.equals("Backup")) {
                     System.out.println("Actor should back up by: " + action.getMoves());
                     float backup = deltaX * action.getMoves();
                     actor.moveBy(-backup, 0);
-                } else if(type == "Turn"){
-                    if(action.getTurn() == Card.Turn.LEFT){
+                } else if (type == "Turn") {
+                    if (action.getTurn() == Card.Turn.LEFT) {
                         turnLeft();
-                    } else if(action.getTurn() == Card.Turn.RIGHT){
+                    } else if (action.getTurn() == Card.Turn.RIGHT) {
                         turnRight();
-                    }
-                    else if(action.getTurn() == Card.Turn.UTURN){
+                    } else if (action.getTurn() == Card.Turn.UTURN) {
                         turnRight();
                         turnRight();
                     }
                     System.out.println("It was a turn card. Actor turned " + action.getTurn());
-                    //if turn 180 && direction = EAST : deltaX*-1
-                    //if turn 90Right && direction == NORTH : direction = WEST
-
-
                 }
             } else {
                 System.out.println("No cards left in handout");
-            }
-
+            }*/
+            return false;
         }
 
         if (keycode == Input.Keys.BACKSPACE) {
             StringBuilder s = new StringBuilder("Cards in handout: ");
             for (Card c : handout) {
-                s.append(getType(c)).append("-").append(c.getMoves()).append(", ");
+                String type = getType(c);
+                if(type.equals("Move")) s.append(type).append("-").append(c.getMoves()).append(", ");
+                else if (type.equals("Turn")) s.append(type).append("-").append(c.getTurn()).append(", ");
+                else s.append(type).append(", ");
             }
             System.out.println(s);
         }
@@ -207,8 +249,10 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         if (keycode == Input.Keys.UP) {
             actorYpos += deltaY;
             if (actorYpos + actorTop > height) {
-                actor.moveBy(0, 0);
-                actorYpos -= deltaY;
+                actor.setPosition(actorBackupX, actorBackupY);
+                System.out.println("Returned to backup");
+                //actor.moveBy(0, 0);
+                //actorYpos -= deltaY;
             } else {
                 actor.moveBy(0, deltaY);
             }
@@ -219,8 +263,10 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         if (keycode == Input.Keys.DOWN) {
             actorYpos -= deltaY;
             if (actorYpos + actorBottom < 0) {
-                actor.moveBy(0, 0);
-                actorYpos += deltaY;
+                actor.setPosition(actorBackupX, actorBackupY);
+                System.out.println("Returned to backup");
+                //actor.moveBy(0, 0);
+                //actorYpos += deltaY;
             } else {
                 actor.moveBy(0, -deltaY);
             }
@@ -228,25 +274,27 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
         return false;
     }
-    public void turnLeft(){
-        if(dir==Directions.NORTH){
+
+    public void turnLeft() {
+        if (dir == Directions.NORTH) {
             dir = Directions.WEST;
-        } else if(dir==Directions.WEST){
+        } else if (dir == Directions.WEST) {
             dir = Directions.SOUTH;
-        }else if(dir==Directions.SOUTH){
+        } else if (dir == Directions.SOUTH) {
             dir = Directions.EAST;
-        }else if(dir==Directions.EAST){
+        } else if (dir == Directions.EAST) {
             dir = Directions.NORTH;
         }
     }
-    public void turnRight(){
-        if(dir==Directions.NORTH){
+
+    public void turnRight() {
+        if (dir == Directions.NORTH) {
             dir = Directions.EAST;
-        } else if(dir==Directions.EAST){
+        } else if (dir == Directions.EAST) {
             dir = Directions.SOUTH;
-        }else if(dir==Directions.SOUTH){
+        } else if (dir == Directions.SOUTH) {
             dir = Directions.WEST;
-        }else if(dir==Directions.WEST){
+        } else if (dir == Directions.WEST) {
             dir = Directions.NORTH;
         }
     }
@@ -254,14 +302,12 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         // choose cards with keypad 1-9 / vector and add iteratively to chosen arraylist
-        if(chosen.size()>= 5) System.out.println("You can't choose more cards");
+        if (chosen.size() >= 5) System.out.println("You can't choose more cards");
 
         else if (keycode >= Input.Keys.NUM_1 && keycode <= Input.Keys.NUM_9) {
-            chooseCard(keycode-8);
-            System.out.println("You chose: " + getType(handout.get(keycode-8)) + " | Num :" + (keycode-8));
+            chooseCard(keycode - 8);
+            System.out.println("You chose: " + getType(handout.get(keycode - 8)) + " | Num :" + (keycode - 8));
         }
-        //System.out.println("Remaining cards in Hand-Out: ");
-        //keyDown(Input.Keys.BACKSPACE);
         return false;
     }
 
