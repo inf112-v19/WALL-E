@@ -14,6 +14,8 @@ public class MyActor implements IObject, IActor {
     Sprite actorSprite;
     float x;
     float y;
+    public String messageHandout;
+    public String messageNewHandout;
 
     public MyActor(Texture texture, MyGame.Dir startDir){
         this.currentDir = startDir;

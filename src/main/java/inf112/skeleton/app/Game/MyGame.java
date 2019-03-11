@@ -4,9 +4,12 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -44,9 +47,17 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
     private int cardX;
     private Sprite BackBoard;
     private Sprite Health;
+    private Batch batch;
     private Texture texture;
     ArrayList<Card> handout = new ArrayList<>(9);
     ArrayList<Card> chosen = new ArrayList<>(5);
+    private BitmapFont font;
+    private String playerInstructionBackspace;
+    private String playerInstructionALT;
+    private String playerInstructionSelect;
+    private String cardString;
+    private float textPositionX;
+    private float textPositionY;
 
     @Override
     public void create(){
@@ -57,7 +68,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         tiledMap = new TmxMapLoader().load("map_v1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         camera = new MyCam(tiledMap);
-        camera.translate(-470, -700);
+        camera.translate(-900, -1300);
 
         this.grid = initGrid();
         Gdx.input.setInputProcessor(this);
@@ -68,6 +79,23 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         BackBoard = new Sprite(texture);
         BackBoard.setSize(300, 150);
         BackBoard.setPosition(-140, 700);
+
+        //Text
+
+        batch = new SpriteBatch();
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        double x = Gdx.graphics.getWidth()-(Gdx.graphics.getWidth()*0.97);
+        double y = Gdx.graphics.getHeight()-(Gdx.graphics.getHeight()*0.035);
+        System.out.println(x);
+        System.out.println(y);
+        textPositionX = (float)x;
+        textPositionY = (float)y;
+        System.out.println(textPositionX);
+        System.out.println(textPositionY);
+        playerInstructionSelect = "";
+        cardString = "";
+
 
         /*
          * Add hp
@@ -103,6 +131,18 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
         sb.setProjectionMatrix(camera.combined);
+
+        //Text
+        playerInstructionBackspace = "Press backspace to deal cards";
+        playerInstructionALT = "Press Left ALT followed by backspace for new handout";
+
+        batch.begin();
+        font.draw(batch,playerInstructionBackspace,textPositionX,textPositionY);
+        font.draw(batch,playerInstructionALT,textPositionX,textPositionY-35);
+        font.draw(batch,playerInstructionSelect,textPositionX,130);
+        font.draw(batch,cardString,textPositionX,100);
+        batch.end();
+
 
         Sprites();
         //drawHUD();
@@ -221,8 +261,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
                 num++;
             }
             System.out.println(s);
-            //output = s.toString();
-            //output2 = "Press the number of the card in the required order to select, and then ENTER to perform moves!";
+            cardString = s.toString();
+            playerInstructionSelect = "Press the number of the card in the required order to select, and then ENTER to perform moves!";
         }
 
 
