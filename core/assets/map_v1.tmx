@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="7" nextobjectid="30">
+ <tileset firstgid="1" source="RoboTiles.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYIRiVSQchsaH4RwoZoPy09HUa+FQLwTExiSYL4fFPaZAbIakBhmzYVHviKYGJK4OxUI47AdhcTT3qGNxDzJWRmKD1KZgCQcQNoLS+mjiID0BaGqQsTUQ9yOpjQbiGCR5UBy4ALErELsBsTsQeyCpN0LyNzb3Z6O5hZAeZPUAyDAcug==
+  </data>
+ </layer>
+ <objectgroup id="6" name="Flags">
+  <object id="29" x="1050" y="300" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="3" name="Holes">
+  <object id="2" gid="53" x="1049.24" y="602.273" width="150" height="150"/>
+  <object id="4" gid="65" x="1049.24" y="750.758" width="150" height="150"/>
+  <object id="5" gid="54" x="1200.76" y="602.273" width="150" height="150"/>
+  <object id="6" gid="80" x="297.727" y="1347.73" width="150" height="150"/>
+  <object id="7" gid="92" x="300.758" y="1496.21" width="150" height="150"/>
+  <object id="8" gid="91" x="143.182" y="1496.21" width="150" height="150"/>
+  <object id="9" gid="91" x="143.182" y="1496.21" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="4" name="Wrench">
+  <object id="10" gid="100" x="149.242" y="1199.24" width="150" height="150"/>
+  <object id="11" gid="100" x="1503.79" y="1350.76" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="5" name="TeleportBlue">
+  <object id="12" gid="64" x="600.758" y="302.273" width="150" height="150"/>
+  <object id="13" gid="64" x="752.273" y="1502.27" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="2" name="Tile"/>
+</map>
