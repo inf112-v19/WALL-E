@@ -1,8 +1,8 @@
-package inf112.skeleton.app.Actor;
+package inf112.skeleton.app.Objects.Actor;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import inf112.skeleton.app.NewGame;
+import inf112.skeleton.app.Game.NewGame;
 import org.junit.Before;
 import org.junit.Test;
 
