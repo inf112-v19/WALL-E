@@ -18,6 +18,7 @@ public class MyActor implements IObject, IActor {
     public MyActor(Texture texture, MyGame.Dir startDir){
         this.currentDir = startDir;
         this.actorSprite = new Sprite(texture);
+        this.actorSprite.setSize(150, 150);
         this.backupTile = null;
     }
 
