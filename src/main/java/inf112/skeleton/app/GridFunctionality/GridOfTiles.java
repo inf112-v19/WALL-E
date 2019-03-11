@@ -35,19 +35,19 @@ public class GridOfTiles {
         return grid;
     }
 
-    public Tile getTileWfloats(float xCo, float yCo){
+    public Tile getTileWfloats(float yCo, float xCo){
         int xTileCoordinate = ((int) xCo/pxSize);
         int yTileCoordinate = ((int) yCo/pxSize);
 
-        if((xCo % pxSize ==0) && (yCo%pxSize == 0)){
+        if((xCo % pxSize == 0) && (yCo%pxSize == 0)){
             int x = ((int) xCo / pxSize);
             int y = ((int) yCo / pxSize);
-            return getTile(x,y);
+            return getTile(y,x);
         }
-        return getTile(xTileCoordinate, yTileCoordinate);
+        return getTile(yTileCoordinate, xTileCoordinate);
     }
 
-    private Tile getTile(int x, int y) {
+    private Tile getTile(int y, int x) {
         if (x>=Ncol || y>=Nrow){
             throw new IllegalArgumentException("Out of bounds");
         }

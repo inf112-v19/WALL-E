@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="7" nextobjectid="30">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="7" nextobjectid="32">
  <tileset firstgid="1" source="RoboTiles.tsx"/>
  <layer id="1" name="Tile Layer 1" width="12" height="12">
   <data encoding="base64" compression="zlib">
@@ -8,6 +8,8 @@
  </layer>
  <objectgroup id="6" name="Flags">
   <object id="29" x="1050" y="300" width="150" height="150"/>
+  <object id="30" x="597.727" y="0.757576" width="150" height="150"/>
+  <object id="31" x="600.758" y="600.758" width="150" height="150"/>
  </objectgroup>
  <objectgroup id="3" name="Holes">
   <object id="2" gid="53" x="1049.24" y="602.273" width="150" height="150"/>

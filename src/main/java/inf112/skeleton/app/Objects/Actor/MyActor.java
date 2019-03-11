@@ -12,7 +12,8 @@ public class MyActor implements IObject, IActor {
     MyGame.Dir currentDir;
     Tile backupTile;
     Sprite actorSprite;
-    float x, y;
+    float x;
+    float y;
 
     public MyActor(Texture texture, MyGame.Dir startDir){
         this.currentDir = startDir;
@@ -181,7 +182,9 @@ public class MyActor implements IObject, IActor {
 
     @Override
     public Sprite getSprite() {
-        return null;
+        actorSprite.setX(this.x);
+        actorSprite.setY(this.y);
+        return this.actorSprite;
     }
 
     @Override
