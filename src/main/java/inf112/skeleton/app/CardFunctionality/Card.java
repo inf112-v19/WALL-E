@@ -102,6 +102,10 @@ public class Card extends ApplicationAdapter {
         card.end();
     }
 
+    public void draw(SpriteBatch sb) {
+
+    }
+
     public enum Turn {
         LEFT, RIGHT, UTURN, NONE
     }

@@ -190,4 +190,7 @@ public class MyActor implements IObject, IActor {
     }
 
 
+    public MyGame.Dir getDir() {
+        return currentDir;
+    }
 }

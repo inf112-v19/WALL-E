@@ -48,7 +48,7 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
 
         mapRenderer.create();
 
-        actor.create();
+        //actor.create();
 
         flag.create();
 
@@ -70,7 +70,7 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
 
         mapRenderer.render();
         flag.render();
-        actor.render();
+        //actor.render();
 
     }
 

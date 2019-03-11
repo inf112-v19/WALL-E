@@ -11,6 +11,6 @@ public class Main {
         cfg.height = 1080;
         cfg.resizable = false;
 
-        new LwjglApplication(new NewGame(1), cfg);
+        new LwjglApplication(new MyGame(), cfg);
     }
 }
