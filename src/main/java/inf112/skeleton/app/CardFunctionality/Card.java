@@ -22,11 +22,11 @@ public class Card extends ApplicationAdapter {
         this.isBackup = isBackup;
     }
 
-    Turn getTurn() {
+    public Turn getTurn() {
         return this.turn;
     }
 
-    int getMoves() {
+    public int getMoves() {
         return this.moves;
     }
 
@@ -46,13 +46,18 @@ public class Card extends ApplicationAdapter {
         return this.turn != Turn.NONE;
     }
 
-    private String getType(Card card) {
+    @Override
+    public String toString() {
+        return "turn: " + turn + ", moves: " + moves + ", priority: " + priority + ", backup: " + isBackup;
+    }
+
+    public static String getType(Card card) {
         if (card.isMove())
-            return "move";
+            return "Move";
         else if (card.isBackup())
-            return "backup";
+            return "Backup";
         else if (card.isTurn())
-            return "turn";
+            return "Turn";
         return null;
     }
 
@@ -74,15 +79,15 @@ public class Card extends ApplicationAdapter {
         String type = getType(this);
         assert type != null;
         switch (type) {
-            case "move":
+            case "Move":
                 if (this.moves == 1) cardTexture = new Texture((Gdx.files.internal("arrow1step.png")));
                 if (this.moves == 2) cardTexture = new Texture((Gdx.files.internal("arrow2step.png")));
                 if (this.moves == 3) cardTexture = new Texture((Gdx.files.internal("arrow3step.png")));
                 break;
-            case "backup":
+            case "Backup":
                 cardTexture = new Texture((Gdx.files.internal("arrow1stepback.png")));
                 break;
-            case "turn":
+            case "Turn":
                 if (this.turn == Turn.LEFT) cardTexture = new Texture((Gdx.files.internal("rotate90Left.png")));
                 if (this.turn == Turn.RIGHT) cardTexture = new Texture((Gdx.files.internal("rotate90Right.png")));
                 if (this.turn == Turn.UTURN) cardTexture = new Texture((Gdx.files.internal("rotate180.png")));
@@ -95,6 +100,10 @@ public class Card extends ApplicationAdapter {
         card.begin();
         card.draw(cardTexture, x, y, 32, 32);
         card.end();
+    }
+
+    public void draw(SpriteBatch sb) {
+
     }
 
     public enum Turn {

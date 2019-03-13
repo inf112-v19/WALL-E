@@ -1,6 +1,7 @@
 package inf112.skeleton.app;
 
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
+import inf112.skeleton.app.Game.NewGame;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
