@@ -1,4 +1,4 @@
-package inf112.skeleton.app.Actor;
+package inf112.skeleton.app.Objects.Actor;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

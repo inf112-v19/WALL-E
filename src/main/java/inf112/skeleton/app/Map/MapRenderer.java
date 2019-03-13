@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import inf112.skeleton.app.NewGame;
+import inf112.skeleton.app.Game.NewGame;
 
 public class MapRenderer extends ApplicationAdapter {
     public static TiledMap map;
@@ -19,14 +19,11 @@ public class MapRenderer extends ApplicationAdapter {
 
     @Override
     public void create() {
-        TiledMap map1 = new TmxMapLoader().load("ROBORALLY_MAP.tmx");
-        TiledMap map2 = new TmxMapLoader().load("RoboMap.tmx");
-        TiledMap map3 = new TmxMapLoader().load("MapTest.tmx");
-        Maps.addMap(map1);
-        Maps.addMap(map2);
-        Maps.addMap(map3);
+        TiledMap map = new TmxMapLoader().load("map_v1.tmx");
 
-        map = map1;
+        Maps.addMap(map);
+
+        //map = map1;
 
         renderer = new OrthogonalTiledMapRenderer(map);
 
