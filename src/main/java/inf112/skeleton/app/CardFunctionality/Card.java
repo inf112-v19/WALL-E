@@ -10,10 +10,12 @@ public class Card extends ApplicationAdapter {
     private int moves;
     private int priority;
     private boolean isBackup;
-    private float x;
-    private float y;
+    public float x;
+    public float y;
     private SpriteBatch card;
     private Texture cardTexture;
+    public float cardWidth = Gdx.graphics.getWidth()/12;
+    private float cardHeight = Gdx.graphics.getHeight()/6;
 
     Card(Turn turn, int moves, int priority, boolean isBackup) {
         this.turn = turn;
@@ -98,7 +100,7 @@ public class Card extends ApplicationAdapter {
     @Override
     public void render() {
         card.begin();
-        card.draw(cardTexture, x, y, 32, 32);
+        card.draw(cardTexture, x, y, cardWidth, cardHeight);
         card.end();
     }
 

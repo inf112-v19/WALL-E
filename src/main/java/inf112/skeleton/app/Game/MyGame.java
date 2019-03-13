@@ -58,6 +58,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
     private String cardString;
     private float textPositionX;
     private float textPositionY;
+    Card testCard;
 
     @Override
     public void create(){
@@ -101,6 +102,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
         deck = new Deck();
         handOut();
+        testCard = handout.get(2);
+        testCard.create();
         chosen = new ArrayList<>(5);
         //To be used later for drawing and rendering cards
         CardArr = new Card[5];
@@ -139,9 +142,16 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         font.draw(batch,cardString,textPositionX,100);
         batch.end();
 
+        //testCard.setX(300);
+        //testCard.setY(100);
+        //testCard.render();
 
         Sprites();
         //drawHUD();
+
+        createCards();
+
+
     }
 
     private void drawHUD() {
@@ -183,6 +193,20 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
             handout.add(deletedCard);
         }
     }
+
+    void createCards(){
+        int foo = 100;
+        int boo = 0;
+        for (int i = 0; i < handout.size(); i++) {
+            Card c = handout.get(i);
+            c.x = foo + boo;
+            c.y = 100;
+            boo+=c.cardWidth+20;
+            c.create();
+            c.render();
+        }
+    }
+
 
     @Override
     public boolean keyDown(int keycode) {
