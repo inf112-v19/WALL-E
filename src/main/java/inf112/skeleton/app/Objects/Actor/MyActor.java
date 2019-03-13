@@ -19,6 +19,7 @@ public class MyActor implements IObject, IActor {
         this.currentDir = startDir;
         this.actorSprite = new Sprite(texture);
         this.actorSprite.setSize(150, 150);
+        this.actorSprite.setOrigin((float) 150 / 2, (float) 150 / 2);
         this.backupTile = null;
     }
 
@@ -157,9 +158,8 @@ public class MyActor implements IObject, IActor {
         if (y<0||x<0) return true;
         int TileY = y/grid.pxSize;
         int TileX = x/grid.pxSize;
-        if(TileY >= grid.Nrow || TileX >= grid.Ncol) return true;
+        return TileY >= grid.Nrow || TileX >= grid.Ncol;
 
-        return false;
     }
 
 
