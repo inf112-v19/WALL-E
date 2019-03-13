@@ -15,7 +15,7 @@ public class Card extends ApplicationAdapter {
     private SpriteBatch card;
     private Texture cardTexture;
     public float cardWidth = Gdx.graphics.getWidth()/12;
-    private float cardHeight = Gdx.graphics.getHeight()/6;
+    public float cardHeight = Gdx.graphics.getHeight()/6;
 
     Card(Turn turn, int moves, int priority, boolean isBackup) {
         this.turn = turn;
@@ -110,5 +110,13 @@ public class Card extends ApplicationAdapter {
 
     public enum Turn {
         LEFT, RIGHT, UTURN, NONE
+    }
+
+    public float getHeight(){
+        return cardHeight;
+    }
+
+    public float getWidth(){
+        return cardWidth;
     }
 }
