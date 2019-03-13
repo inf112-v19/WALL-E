@@ -38,6 +38,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
     TiledMapRenderer tiledMapRenderer;
     SpriteBatch sb;
     public MyActor actor;
+    public MyActor actor2;
     public GridOfTiles grid;
     public Map map;
     public Deck deck;
@@ -108,9 +109,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
         ObjectMaker objectMaker = new ObjectMaker(map, grid);
         actor = objectMaker.actor;
+        actor2 = objectMaker.actor2;
         grid.getTileWfloats(0,0).addObjOnTile(actor);
+        grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
     }
+
 
     private int getTileSize() {
         TiledMapTileLayer layer = (TiledMapTileLayer)map.getMapLayer(0);

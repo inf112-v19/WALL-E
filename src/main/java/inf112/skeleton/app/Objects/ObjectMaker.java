@@ -16,6 +16,7 @@ public class ObjectMaker {
     public Map map;
     public GridOfTiles grid;
     public MyActor actor;
+    public MyActor actor2;
     public List<IObject> flags;
 
     public ObjectMaker(Map map, GridOfTiles grid){
@@ -23,6 +24,7 @@ public class ObjectMaker {
         this.grid = grid;
 
         createActor();
+        createActor2();
         createFlags();
     }
 
@@ -38,5 +40,10 @@ public class ObjectMaker {
     private void createActor() {
         MyGame.Dir startDir = MyGame.Dir.NORTH;
         actor = new MyActor(new Texture("robbie.png"), startDir);
+    }
+
+    private void createActor2() {
+        MyGame.Dir startDir = MyGame.Dir.EAST;
+        actor2 = new MyActor((new Texture("robbie.png")), startDir);
     }
 }
