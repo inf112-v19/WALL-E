@@ -87,12 +87,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         font.setColor(Color.WHITE);
         double x = Gdx.graphics.getWidth()-(Gdx.graphics.getWidth()*0.97);
         double y = Gdx.graphics.getHeight()-(Gdx.graphics.getHeight()*0.035);
-        System.out.println(x);
-        System.out.println(y);
         textPositionX = (float)x;
         textPositionY = (float)y;
-        System.out.println(textPositionX);
-        System.out.println(textPositionY);
         playerInstructionSelect = "";
         cardString = "";
 
@@ -211,7 +207,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
         //__________________________________________________________
         if (keycode == Input.Keys.ENTER) {
-            if (chosen.size() > 0) {
+            while (chosen.size() > 0) {
                 Card action = chosen.get(chosen.size() - 1);
                 chosen.remove(chosen.size() - 1);
                 String type = getType(action);
@@ -234,9 +230,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
                     }
                     System.out.println("It was a turn card. Actor turned " + action.getTurn());
                 }
-            } else {
+            } //else {
                 System.out.println("No cards left in chosen");
-            }
+            //}
         }
 
         if (keycode == Input.Keys.ALT_LEFT){
