@@ -264,6 +264,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
         }
 
+        if(keycode == Input.Keys.ESCAPE){
+            Gdx.app.exit();
+        }
+
         if(keycode == Input.Keys.B){
             actor.setBackupTile(current);
             System.out.println("Backup set to: " + current);
