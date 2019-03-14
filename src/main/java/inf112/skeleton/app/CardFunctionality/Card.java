@@ -14,7 +14,7 @@ public class Card extends ApplicationAdapter {
     public float y;
     private SpriteBatch card;
     private Texture cardTexture;
-    public float cardWidth = Gdx.graphics.getWidth()/12;
+    public float cardWidth = Gdx.graphics.getWidth()/15;
     public float cardHeight = Gdx.graphics.getHeight()/6;
 
     Card(Turn turn, int moves, int priority, boolean isBackup) {
@@ -82,17 +82,17 @@ public class Card extends ApplicationAdapter {
         assert type != null;
         switch (type) {
             case "Move":
-                if (this.moves == 1) cardTexture = new Texture((Gdx.files.internal("arrow1step.png")));
-                if (this.moves == 2) cardTexture = new Texture((Gdx.files.internal("arrow2step.png")));
-                if (this.moves == 3) cardTexture = new Texture((Gdx.files.internal("arrow3step.png")));
+                if (this.moves == 1) cardTexture = new Texture((Gdx.files.internal("Move1.png")));
+                if (this.moves == 2) cardTexture = new Texture((Gdx.files.internal("Move2.png")));
+                if (this.moves == 3) cardTexture = new Texture((Gdx.files.internal("Move3.png")));
                 break;
             case "Backup":
                 cardTexture = new Texture((Gdx.files.internal("arrow1stepback.png")));
                 break;
             case "Turn":
-                if (this.turn == Turn.LEFT) cardTexture = new Texture((Gdx.files.internal("rotate90Left.png")));
-                if (this.turn == Turn.RIGHT) cardTexture = new Texture((Gdx.files.internal("rotate90Right.png")));
-                if (this.turn == Turn.UTURN) cardTexture = new Texture((Gdx.files.internal("rotate180.png")));
+                if (this.turn == Turn.LEFT) cardTexture = new Texture((Gdx.files.internal("TurnLeft.png")));
+                if (this.turn == Turn.RIGHT) cardTexture = new Texture((Gdx.files.internal("TurnRight.png")));
+                if (this.turn == Turn.UTURN) cardTexture = new Texture((Gdx.files.internal("UTurn.png")));
                 break;
         }
     }
