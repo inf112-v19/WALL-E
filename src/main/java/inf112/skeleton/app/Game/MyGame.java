@@ -60,8 +60,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
     private float textPositionX;
     private float textPositionY;
 
+    /**
+     * Variabel bool playerSwitch for enkel variasjon i bevegelse av player 1 / 2
+     * styres etter alle valg av kort er ferdig for spiler, og så bruk av kort for spiller
+     */
+    private boolean playerSwitch = false;
+
     @Override
-    public void create(){
+    public void create() {
         map = new Map("map_v1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         this.PXSIZE = getTileSize();
@@ -86,10 +92,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        double x = Gdx.graphics.getWidth()-(Gdx.graphics.getWidth()*0.97);
-        double y = Gdx.graphics.getHeight()-(Gdx.graphics.getHeight()*0.035);
-        textPositionX = (float)x;
-        textPositionY = (float)y;
+        double x = Gdx.graphics.getWidth() - (Gdx.graphics.getWidth() * 0.97);
+        double y = Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() * 0.035);
+        textPositionX = (float) x;
+        textPositionY = (float) y;
         playerInstructionSelect = "";
         cardString = "";
 
@@ -110,20 +116,20 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         ObjectMaker objectMaker = new ObjectMaker(map, grid);
         actor = objectMaker.actor;
         actor2 = objectMaker.actor2;
-        grid.getTileWfloats(0,0).addObjOnTile(actor);
+        grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
     }
 
 
     private int getTileSize() {
-        TiledMapTileLayer layer = (TiledMapTileLayer)map.getMapLayer(0);
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
         return (int) layer.getTileWidth();
     }
 
     @Override
-    public void render(){
-        Gdx.gl.glClearColor(0,0,0,1);
+    public void render() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -137,10 +143,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         playerInstructionALT = "Press Left ALT followed by backspace for new handout";
 
         batch.begin();
-        font.draw(batch,playerInstructionBackspace,textPositionX,textPositionY);
-        font.draw(batch,playerInstructionALT,textPositionX,textPositionY-35);
-        font.draw(batch,playerInstructionSelect,textPositionX,130);
-        font.draw(batch,cardString,textPositionX,100);
+        font.draw(batch, playerInstructionBackspace, textPositionX, textPositionY);
+        font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
+        font.draw(batch, playerInstructionSelect, textPositionX, 130);
+        font.draw(batch, cardString, textPositionX, 100);
         batch.end();
 
 
@@ -151,7 +157,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
     private void drawHUD() {
         sb.begin();
         BackBoard.draw(sb);
-        for (int i = 0; i <5; i++) {
+        for (int i = 0; i < 5; i++) {
             if (booleans[i] != true) CardArr[i].draw(sb);
         }
         sb.end();
@@ -159,14 +165,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
     private void Sprites() {
         sb.begin();
-        for (IObject obj : grid.getAll()){
+        for (IObject obj : grid.getAll()) {
             if (obj.getSprite() != null) obj.getSprite().draw(sb);
         }
         sb.end();
     }
 
     private GridOfTiles initGrid() {
-        TiledMapTileLayer layer = (TiledMapTileLayer)map.getMapLayer(0);
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
         int HeightNTiles = layer.getHeight();
         int WidthNTiles = layer.getWidth();
         return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
@@ -181,32 +187,33 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
     void chooseCard(int i) {
         Card card = handout.get(i);
-        chosen.add(0,card);
+        chosen.add(0, card);
         while (chosen.size() > 5) {
-            Card deletedCard = chosen.remove(chosen.size()-1);
+            Card deletedCard = chosen.remove(chosen.size() - 1);
             handout.add(deletedCard);
         }
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        if (playerSwitch) actor = actor2;
         float x = actor.getX();
         float y = actor.getY();
         Tile current = grid.getTileWfloats(x, y);
 
         int moveDist = PXSIZE;
 
-        if(keycode== Input.Keys.RIGHT){
+        if (keycode == Input.Keys.RIGHT) {
             actor.turnRight();
         }
-        if(keycode== Input.Keys.LEFT){
+        if (keycode == Input.Keys.LEFT) {
             actor.turnLeft();
         }
-        if (keycode==Input.Keys.UP){
+        if (keycode == Input.Keys.UP) {
             actor.Forward(1, moveDist, grid);
         }
-        if(keycode== Input.Keys.DOWN){
-            actor.Forward(1, moveDist*(-1), grid);
+        if (keycode == Input.Keys.DOWN) {
+            actor.Forward(1, moveDist * (-1), grid);
         }
 
         //__________________________________________________________
@@ -218,11 +225,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
                 if (type == "Move") {
                     System.out.println("Actor should move " + actor.getDir() + " by: " + action.getMoves());
-                    actor.Forward(1*action.getMoves(), moveDist, grid);
+                    actor.Forward(1 * action.getMoves(), moveDist, grid);
 
                 } else if (type.equals("Backup")) {
                     actor.setBackupTile(current);
-                    System.out.println("New Backup position set as: [" + current +"]");
+                    System.out.println("New Backup position set as: [" + current + "]");
 
                 } else if (type == "Turn") {
                     if (action.getTurn() == Card.Turn.LEFT) {
@@ -235,16 +242,21 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
                     System.out.println("It was a turn card. Actor turned " + action.getTurn());
                 }
             } //else {
-                System.out.println("No cards left in chosen");
+
+            System.out.println(actor + " has no cards left in chosen");
+            if (!playerSwitch) playerSwitch = true;
+            else if (playerSwitch) playerSwitch = false;
+            System.out.println(actor + " to choose cards.");
+            keyDown(Input.Keys.ALT_LEFT);
             //}
         }
 
-        if (keycode == Input.Keys.ALT_LEFT){
+        if (keycode == Input.Keys.ALT_LEFT) {
             handOut();
 
         }
 
-        if(keycode == Input.Keys.B){
+        if (keycode == Input.Keys.B) {
             actor.setBackupTile(current);
             System.out.println("Backup set to: " + current);
         }
@@ -253,9 +265,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
             StringBuilder s = new StringBuilder("Cards in handout: ");
             int num = 1;
             for (Card c : handout) {
-                s.append(num +": ");
+                s.append(num + ": ");
                 String type = getType(c);
-                if(type.equals("Move")) s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
+                if (type.equals("Move"))
+                    s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
                 else if (type.equals("Turn")) s.append(type).append(" ").append(c.getTurn()).append(", ");
                 else s.append(type).append(", ");
                 num++;
@@ -264,7 +277,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
             cardString = s.toString();
             playerInstructionSelect = "Press the number of the card in the required order to select, and then ENTER to perform moves!";
         }
-
 
 
         return false;
