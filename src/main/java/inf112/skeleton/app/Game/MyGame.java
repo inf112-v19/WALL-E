@@ -142,7 +142,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
         font.draw(batch, playerInstructionSelect, textPositionX, 130);
         font.draw(batch, cardString, textPositionX, 100);
-        font.draw(batch, "" + (Gdx.graphics.getHeight() - Gdx.input.getY()) + " , " + Gdx.input.getX(), Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        //font.draw(batch, "" + (Gdx.graphics.getHeight() - Gdx.input.getY()) + " , " + Gdx.input.getX(), Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         batch.end();
 
         //testCard.setX(300);

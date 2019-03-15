@@ -87,7 +87,7 @@ public class Card extends ApplicationAdapter {
                 if (this.moves == 3) cardTexture = new Texture((Gdx.files.internal("Move3.png")));
                 break;
             case "Backup":
-                cardTexture = new Texture((Gdx.files.internal("arrow1stepback.png")));
+                cardTexture = new Texture((Gdx.files.internal("MoveBack.png")));
                 break;
             case "Turn":
                 if (this.turn == Turn.LEFT) cardTexture = new Texture((Gdx.files.internal("TurnLeft.png")));
