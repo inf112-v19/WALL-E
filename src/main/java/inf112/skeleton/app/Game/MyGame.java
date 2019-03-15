@@ -303,8 +303,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
                     actor.Forward(1 * action.getMoves(), moveDist, grid);
 
                 } else if (type.equals("Backup")) {
-                    actor.setBackupTile(current);
-                    System.out.println("New Backup position set as: [" + current + "]");
+                    System.out.println("Actor should move backwards by: " + action.getMoves());
+                    actor.backward(1,moveDist, grid);
+                    //actor.setBackupTile(current);
+                    //System.out.println("New Backup position set as: [" + current + "]");
 
                 } else if (type == "Turn") {
                     if (action.getTurn() == Card.Turn.LEFT) {

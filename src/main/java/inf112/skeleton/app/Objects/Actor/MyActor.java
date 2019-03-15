@@ -52,6 +52,30 @@ public class MyActor implements IObject, IActor {
         }
     }
 
+    public void backward(int steps, int moveDist, GridOfTiles grid){
+        for (int i = 0; i < steps; i++) {
+            moveBackward(moveDist, grid);
+        }
+        CollisionCheck(grid);
+    }
+
+    private void moveBackward(int moveDist, GridOfTiles grid) {
+        switch (currentDir){
+            case NORTH:
+                this.setPosition((int) getY()-moveDist, (int) getX(), grid);
+                break;
+            case EAST:
+                this.setPosition((int) getY(), (int) getX() - moveDist, grid);
+                break;
+            case SOUTH:
+                this.setPosition((int) getY()+ moveDist, (int) getX(), grid);
+                break;
+            case WEST:
+                this.setPosition((int) getY(), (int) getX() + moveDist, grid);
+                break;
+        }
+    }
+
     public void turnRight(){
         actorSprite.rotate(-90);
 
