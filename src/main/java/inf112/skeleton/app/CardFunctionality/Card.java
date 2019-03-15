@@ -119,4 +119,8 @@ public class Card extends ApplicationAdapter {
     public float getWidth(){
         return cardWidth;
     }
+
+    public float getX(){ return x;}
+
+    public float getY(){ return y;}
 }
