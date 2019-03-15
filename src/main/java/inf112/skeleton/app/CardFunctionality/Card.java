@@ -16,12 +16,14 @@ public class Card extends ApplicationAdapter {
     private Texture cardTexture;
     public float cardWidth = Gdx.graphics.getWidth()/15;
     public float cardHeight = Gdx.graphics.getHeight()/6;
+    public boolean isShowing;
 
     Card(Turn turn, int moves, int priority, boolean isBackup) {
         this.turn = turn;
         this.moves = moves;
         this.priority = priority;
         this.isBackup = isBackup;
+        isShowing = true;
     }
 
     public Turn getTurn() {
@@ -99,9 +101,11 @@ public class Card extends ApplicationAdapter {
 
     @Override
     public void render() {
-        card.begin();
-        card.draw(cardTexture, x, y, cardWidth, cardHeight);
-        card.end();
+        if(isShowing) {
+            card.begin();
+            card.draw(cardTexture, x, y, cardWidth, cardHeight);
+            card.end();
+        }
     }
 
     public void draw(SpriteBatch sb) {

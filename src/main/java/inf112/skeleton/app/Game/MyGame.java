@@ -133,15 +133,15 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         sb.setProjectionMatrix(camera.combined);
 
         //Text
-        playerInstructionBackspace = "Press backspace to deal cards";
-        playerInstructionALT = "Press Left ALT followed by backspace for new handout";
+        playerInstructionBackspace = "Click to choose cards and press ENTER to run program!";
+        playerInstructionALT = "Press Left ALT for new handout";
 
 
         batch.begin();
         font.draw(batch, playerInstructionBackspace, textPositionX, textPositionY);
         font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
-        font.draw(batch, playerInstructionSelect, textPositionX, 130);
-        font.draw(batch, cardString, textPositionX, 100);
+        //font.draw(batch, playerInstructionSelect, textPositionX, 130);
+        //font.draw(batch, cardString, textPositionX, 100);
         //font.draw(batch, "" + (Gdx.graphics.getHeight() - Gdx.input.getY()) + " , " + Gdx.input.getX(), Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         batch.end();
 
@@ -154,53 +154,82 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
         createCards();
 
-    if(Gdx.input.isTouched()){
+    if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
     //kort 1
         if (chosen.size() >= 5) System.out.println("You can't choose more cards");
         else {
             if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(0).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(0).getY() + handout.get(0).getHeight() && Gdx.input.getX() > handout.get(0).getX() && Gdx.input.getX() < handout.get(0).getX() + handout.get(0).getWidth()) {
-                chooseCard(0);
-                System.out.println("You chose: " + getType(handout.get(0)) + " | Num :" + (1));
+                if(handout.get(0).isShowing){
+                    chooseCard(0);
+                    handout.get(0).isShowing = false;
+                    System.out.println("You chose: " + getType(handout.get(0)) + " | Num :" + (1));
+                }
+                //handout.get(0).isShowing = false;
+                //System.out.println("You chose: " + getType(handout.get(0)) + " | Num :" + (1));
             }
             //kort 2
             else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(1).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(1).getY() + handout.get(1).getHeight() && Gdx.input.getX() > handout.get(1).getX() && Gdx.input.getX() < handout.get(1).getX() + handout.get(1).getWidth()) {
+                if(handout.get(1).isShowing) {
                     chooseCard(1);
+                    handout.get(1).isShowing = false;
                     System.out.println("You chose: " + getType(handout.get(1)) + " | Num :" + (2));
+                }
             }
             //kort 3
             else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(2).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(2).getY() + handout.get(2).getHeight() && Gdx.input.getX() > handout.get(2).getX() && Gdx.input.getX() < handout.get(2).getX() + handout.get(2).getWidth()) {
-                chooseCard(2);
+                if(handout.get(2).isShowing) {
+                    chooseCard(2);
+                    handout.get(2).isShowing = false;
                     System.out.println("You chose: " + getType(handout.get(2)) + " | Num :" + (3));
+                }
             }
             //kort 4
             else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(3).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(3).getY() + handout.get(3).getHeight() && Gdx.input.getX() > handout.get(3).getX() && Gdx.input.getX() < handout.get(3).getX() + handout.get(3).getWidth()) {
+                if(handout.get(3).isShowing) {
                     chooseCard(3);
+                    handout.get(3).isShowing = false;
                     System.out.println("You chose: " + getType(handout.get(3)) + " | Num :" + (4));
+                }
             }
             //kort 5
             else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(4).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(4).getY() + handout.get(4).getHeight() && Gdx.input.getX() > handout.get(4).getX() && Gdx.input.getX() < handout.get(4).getX() + handout.get(4).getWidth()) {
+                if(handout.get(4).isShowing) {
                     chooseCard(4);
+                    handout.get(4).isShowing = false;
                     System.out.println("You chose: " + getType(handout.get(4)) + " | Num :" + (5));
+                }
             }
             //kort 6
             else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(5).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(5).getY() + handout.get(5).getHeight() && Gdx.input.getX() > handout.get(5).getX() && Gdx.input.getX() < handout.get(5).getX() + handout.get(5).getWidth()) {
+                if(handout.get(5).isShowing) {
                     chooseCard(5);
+                    handout.get(5).isShowing = false;
                     System.out.println("You chose: " + getType(handout.get(5)) + " | Num :" + (6));
+                }
             }
             //kort 7
             else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(6).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(6).getY() + handout.get(6).getHeight() && Gdx.input.getX() > handout.get(6).getX() && Gdx.input.getX() < handout.get(6).getX() + handout.get(6).getWidth()) {
+                if(handout.get(6).isShowing) {
                     chooseCard(6);
+                    handout.get(6).isShowing = false;
                     System.out.println("You chose: " + getType(handout.get(6)) + " | Num :" + (7));
+                }
             }
             //kort 8
             else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(7).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(7).getY() + handout.get(7).getHeight() && Gdx.input.getX() > handout.get(7).getX() && Gdx.input.getX() < handout.get(7).getX() + handout.get(7).getWidth()) {
+                if(handout.get(7).isShowing) {
                     chooseCard(7);
+                    handout.get(7).isShowing = false;
                     System.out.println("You chose: " + getType(handout.get(7)) + " | Num :" + (8));
+                }
             }
             //kort 9
             else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(8).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(8).getY() + handout.get(8).getHeight() && Gdx.input.getX() > handout.get(8).getX() && Gdx.input.getX() < handout.get(8).getX() + handout.get(8).getWidth()) {
+                if(handout.get(8).isShowing) {
                     chooseCard(8);
+                    handout.get(8).isShowing = false;
                     System.out.println("You chose: " + getType(handout.get(8)) + " | Num :" + (9));
+                }
             }
         }
 
@@ -256,6 +285,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         }
     }
 
+
     void createCards() {
         int cardX = 0;
         int cardY = 100;
@@ -290,6 +320,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         if (keycode == Input.Keys.DOWN) {
             actor.Forward(1, moveDist * (-1), grid);
         }
+
 
         //__________________________________________________________
         if (keycode == Input.Keys.ENTER) {
