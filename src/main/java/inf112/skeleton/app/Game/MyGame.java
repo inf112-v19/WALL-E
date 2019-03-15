@@ -58,9 +58,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
     private String cardString;
     private float textPositionX;
     private float textPositionY;
+    Card testCard;
+    private int cardStartX;
+
 
     @Override
-    public void create(){
+    public void create() {
         map = new Map("map_v1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         this.PXSIZE = getTileSize();
@@ -85,10 +88,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        double x = Gdx.graphics.getWidth()-(Gdx.graphics.getWidth()*0.97);
-        double y = Gdx.graphics.getHeight()-(Gdx.graphics.getHeight()*0.035);
-        textPositionX = (float)x;
-        textPositionY = (float)y;
+        double x = Gdx.graphics.getWidth() - (Gdx.graphics.getWidth() * 0.97);
+        double y = Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() * 0.035);
+        textPositionX = (float) x;
+        textPositionY = (float) y;
         playerInstructionSelect = "";
         cardString = "";
 
@@ -101,25 +104,26 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
         deck = new Deck();
         handOut();
+        testCard = handout.get(2);
+        testCard.create();
         chosen = new ArrayList<>(5);
         //To be used later for drawing and rendering cards
         CardArr = new Card[5];
         booleans = new Boolean[5];
 
+        cardStartX = Gdx.graphics.getWidth()/12;
+
         ObjectMaker objectMaker = new ObjectMaker(map, grid);
         actor = objectMaker.actor;
-        grid.getTileWfloats(0,0).addObjOnTile(actor);
+        grid.getTileWfloats(0, 0).addObjOnTile(actor);
+
 
     }
 
-    private int getTileSize() {
-        TiledMapTileLayer layer = (TiledMapTileLayer)map.getMapLayer(0);
-        return (int) layer.getTileWidth();
-    }
 
     @Override
-    public void render(){
-        Gdx.gl.glClearColor(0,0,0,1);
+    public void render() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -132,22 +136,90 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         playerInstructionBackspace = "Press backspace to deal cards";
         playerInstructionALT = "Press Left ALT followed by backspace for new handout";
 
+
         batch.begin();
-        font.draw(batch,playerInstructionBackspace,textPositionX,textPositionY);
-        font.draw(batch,playerInstructionALT,textPositionX,textPositionY-35);
-        font.draw(batch,playerInstructionSelect,textPositionX,130);
-        font.draw(batch,cardString,textPositionX,100);
+        font.draw(batch, playerInstructionBackspace, textPositionX, textPositionY);
+        font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
+        font.draw(batch, playerInstructionSelect, textPositionX, 130);
+        font.draw(batch, cardString, textPositionX, 100);
+        font.draw(batch, "" + (Gdx.graphics.getHeight() - Gdx.input.getY()) + " , " + Gdx.input.getX(), Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         batch.end();
 
+        //testCard.setX(300);
+        //testCard.setY(100);
+        //testCard.render();
 
         Sprites();
         //drawHUD();
+
+        createCards();
+
+    if(Gdx.input.isTouched()){
+    //kort 1
+        if (chosen.size() >= 5) System.out.println("You can't choose more cards");
+        else {
+            if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(0).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(0).getY() + handout.get(0).getHeight() && Gdx.input.getX() > handout.get(0).getX() && Gdx.input.getX() < handout.get(0).getX() + handout.get(0).getWidth()) {
+                chooseCard(0);
+                System.out.println("You chose: " + getType(handout.get(0)) + " | Num :" + (1));
+            }
+            //kort 2
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(1).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(1).getY() + handout.get(1).getHeight() && Gdx.input.getX() > handout.get(1).getX() && Gdx.input.getX() < handout.get(1).getX() + handout.get(1).getWidth()) {
+                    chooseCard(1);
+                    System.out.println("You chose: " + getType(handout.get(1)) + " | Num :" + (2));
+            }
+            //kort 3
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(2).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(2).getY() + handout.get(2).getHeight() && Gdx.input.getX() > handout.get(2).getX() && Gdx.input.getX() < handout.get(2).getX() + handout.get(2).getWidth()) {
+                chooseCard(2);
+                    System.out.println("You chose: " + getType(handout.get(2)) + " | Num :" + (3));
+            }
+            //kort 4
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(3).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(3).getY() + handout.get(3).getHeight() && Gdx.input.getX() > handout.get(3).getX() && Gdx.input.getX() < handout.get(3).getX() + handout.get(3).getWidth()) {
+                    chooseCard(3);
+                    System.out.println("You chose: " + getType(handout.get(3)) + " | Num :" + (4));
+            }
+            //kort 5
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(4).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(4).getY() + handout.get(4).getHeight() && Gdx.input.getX() > handout.get(4).getX() && Gdx.input.getX() < handout.get(4).getX() + handout.get(4).getWidth()) {
+                    chooseCard(4);
+                    System.out.println("You chose: " + getType(handout.get(4)) + " | Num :" + (5));
+            }
+            //kort 6
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(5).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(5).getY() + handout.get(5).getHeight() && Gdx.input.getX() > handout.get(5).getX() && Gdx.input.getX() < handout.get(5).getX() + handout.get(5).getWidth()) {
+                    chooseCard(5);
+                    System.out.println("You chose: " + getType(handout.get(5)) + " | Num :" + (6));
+            }
+            //kort 7
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(6).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(6).getY() + handout.get(6).getHeight() && Gdx.input.getX() > handout.get(6).getX() && Gdx.input.getX() < handout.get(6).getX() + handout.get(6).getWidth()) {
+                    chooseCard(6);
+                    System.out.println("You chose: " + getType(handout.get(6)) + " | Num :" + (7));
+            }
+            //kort 8
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(7).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(7).getY() + handout.get(7).getHeight() && Gdx.input.getX() > handout.get(7).getX() && Gdx.input.getX() < handout.get(7).getX() + handout.get(7).getWidth()) {
+                    chooseCard(7);
+                    System.out.println("You chose: " + getType(handout.get(7)) + " | Num :" + (8));
+            }
+            //kort 9
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(8).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(8).getY() + handout.get(8).getHeight() && Gdx.input.getX() > handout.get(8).getX() && Gdx.input.getX() < handout.get(8).getX() + handout.get(8).getWidth()) {
+                    chooseCard(8);
+                    System.out.println("You chose: " + getType(handout.get(8)) + " | Num :" + (9));
+            }
+        }
+
+    }
+
+        //System.out.println(100+handout.get(1).getHeight());
+
+
+    }
+
+    private int getTileSize() {
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
+        return (int) layer.getTileWidth();
     }
 
     private void drawHUD() {
         sb.begin();
         BackBoard.draw(sb);
-        for (int i = 0; i <5; i++) {
+        for (int i = 0; i < 5; i++) {
             if (booleans[i] != true) CardArr[i].draw(sb);
         }
         sb.end();
@@ -155,14 +227,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
     private void Sprites() {
         sb.begin();
-        for (IObject obj : grid.getAll()){
+        for (IObject obj : grid.getAll()) {
             if (obj.getSprite() != null) obj.getSprite().draw(sb);
         }
         sb.end();
     }
 
     private GridOfTiles initGrid() {
-        TiledMapTileLayer layer = (TiledMapTileLayer)map.getMapLayer(0);
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
         int HeightNTiles = layer.getHeight();
         int WidthNTiles = layer.getWidth();
         return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
@@ -177,12 +249,26 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
     void chooseCard(int i) {
         Card card = handout.get(i);
-        chosen.add(0,card);
+        chosen.add(0, card);
         while (chosen.size() > 5) {
-            Card deletedCard = chosen.remove(chosen.size()-1);
+            Card deletedCard = chosen.remove(chosen.size() - 1);
             handout.add(deletedCard);
         }
     }
+
+    void createCards() {
+        int cardX = 0;
+        int cardY = 100;
+        for (int i = 0; i < handout.size(); i++) {
+            Card c = handout.get(i);
+            c.x = cardStartX + cardX;
+            c.y = cardY;
+            cardX += c.cardWidth + 30;
+            c.create();
+            c.render();
+        }
+    }
+
 
     @Override
     public boolean keyDown(int keycode) {
@@ -192,17 +278,17 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
         int moveDist = PXSIZE;
 
-        if(keycode== Input.Keys.RIGHT){
+        if (keycode == Input.Keys.RIGHT) {
             actor.turnRight();
         }
-        if(keycode== Input.Keys.LEFT){
+        if (keycode == Input.Keys.LEFT) {
             actor.turnLeft();
         }
-        if (keycode==Input.Keys.UP){
+        if (keycode == Input.Keys.UP) {
             actor.Forward(1, moveDist, grid);
         }
-        if(keycode== Input.Keys.DOWN){
-            actor.Forward(1, moveDist*(-1), grid);
+        if (keycode == Input.Keys.DOWN) {
+            actor.Forward(1, moveDist * (-1), grid);
         }
 
         //__________________________________________________________
@@ -214,11 +300,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
                 if (type == "Move") {
                     System.out.println("Actor should move " + actor.getDir() + " by: " + action.getMoves());
-                    actor.Forward(1*action.getMoves(), moveDist, grid);
+                    actor.Forward(1 * action.getMoves(), moveDist, grid);
 
                 } else if (type.equals("Backup")) {
                     actor.setBackupTile(current);
-                    System.out.println("New Backup position set as: [" + current +"]");
+                    System.out.println("New Backup position set as: [" + current + "]");
 
                 } else if (type == "Turn") {
                     if (action.getTurn() == Card.Turn.LEFT) {
@@ -231,16 +317,24 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
                     System.out.println("It was a turn card. Actor turned " + action.getTurn());
                 }
             } //else {
-                System.out.println("No cards left in chosen");
+            System.out.println("No cards left in chosen");
             //}
         }
 
-        if (keycode == Input.Keys.ALT_LEFT){
+        if (keycode == Input.Keys.ALT_LEFT) {
             handOut();
 
         }
 
-        if(keycode == Input.Keys.B){
+        if (Gdx.input.isTouched()) {
+            Gdx.app.exit();
+        }
+
+        if (keycode == Input.Keys.ESCAPE) {
+            Gdx.app.exit();
+        }
+
+        if (keycode == Input.Keys.B) {
             actor.setBackupTile(current);
             System.out.println("Backup set to: " + current);
         }
@@ -249,9 +343,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
             StringBuilder s = new StringBuilder("Cards in handout: ");
             int num = 1;
             for (Card c : handout) {
-                s.append(num +": ");
+                s.append(num + ": ");
                 String type = getType(c);
-                if(type.equals("Move")) s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
+                if (type.equals("Move"))
+                    s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
                 else if (type.equals("Turn")) s.append(type).append(" ").append(c.getTurn()).append(", ");
                 else s.append(type).append(", ");
                 num++;
@@ -260,8 +355,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
             cardString = s.toString();
             playerInstructionSelect = "Press the number of the card in the required order to select, and then ENTER to perform moves!";
         }
-
-
 
         return false;
     }
@@ -275,6 +368,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
             System.out.println("You chose: " + getType(handout.get(keycode - 8)) + " | Num :" + (keycode - 8));
         }
         return false;
+    }
+
+    public void isPressed(){
+        //if(Gdx.input.getY()<)
     }
 
     @Override
