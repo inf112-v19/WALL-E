@@ -1,9 +1,6 @@
 package inf112.skeleton.app.Game;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,7 +19,6 @@ import inf112.skeleton.app.CardFunctionality.Deck;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Map.Map;
-import inf112.skeleton.app.Objects.Actor.Actor;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Objects.IObject;
 import inf112.skeleton.app.Objects.ObjectMaker;
@@ -31,7 +27,7 @@ import java.util.ArrayList;
 
 import static inf112.skeleton.app.CardFunctionality.Card.getType;
 
-public class MyGame extends ApplicationAdapter implements InputProcessor {
+public class MyGame extends ApplicationAdapter implements InputProcessor, Screen {
     public int PXSIZE;
     public TiledMap tiledMap;
     OrthographicCamera camera;
@@ -60,10 +56,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
     private float textPositionY;
     Card testCard;
     private int cardStartX;
+    RoboRally game;
 
 
-    @Override
-    public void create() {
+    public MyGame(RoboRally game) {
+        this.game = game;
         map = new Map("map_v1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         this.PXSIZE = getTileSize();
@@ -122,7 +119,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
 
     @Override
-    public void render() {
+    public void render(float v) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -435,6 +432,21 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     public enum Dir {
