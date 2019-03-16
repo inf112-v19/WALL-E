@@ -11,6 +11,6 @@ public class Main {
         cfg.height = 720;
         cfg.resizable = false;
 
-        new LwjglApplication(new MyGame(), cfg);
+        new LwjglApplication(new RoboRally(), cfg);
     }
 }
