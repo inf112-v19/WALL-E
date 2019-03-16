@@ -17,6 +17,7 @@ public class Card extends ApplicationAdapter {
     public float cardWidth = Gdx.graphics.getWidth()/15;
     public float cardHeight = Gdx.graphics.getHeight()/6;
     public boolean isShowing;
+    public boolean isChosen;
 
     Card(Turn turn, int moves, int priority, boolean isBackup) {
         this.turn = turn;
@@ -24,6 +25,8 @@ public class Card extends ApplicationAdapter {
         this.priority = priority;
         this.isBackup = isBackup;
         this.isShowing = true;
+        y = Gdx.graphics.getHeight()/10;
+        this.isChosen = false;
     }
 
     public Turn getTurn() {
