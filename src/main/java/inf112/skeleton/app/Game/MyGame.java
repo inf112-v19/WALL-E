@@ -108,7 +108,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         CardArr = new Card[5];
         booleans = new Boolean[5];
 
-        cardStartX = Gdx.graphics.getWidth()/12;
+        cardStartX = Gdx.graphics.getWidth()/6;
 
         ObjectMaker objectMaker = new ObjectMaker(map, grid);
         actor = objectMaker.actor;
@@ -287,7 +287,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             Card c = handout.get(i);
             c.x = cardStartX + cardX;
             c.y = cardY;
-            cardX += c.cardWidth + 30;
+            cardX += c.cardWidth + Gdx.graphics.getWidth()/128;
             c.create();
             c.render();
         }

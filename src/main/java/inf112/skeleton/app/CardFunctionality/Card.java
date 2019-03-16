@@ -23,7 +23,7 @@ public class Card extends ApplicationAdapter {
         this.moves = moves;
         this.priority = priority;
         this.isBackup = isBackup;
-        isShowing = true;
+        this.isShowing = true;
     }
 
     public Turn getTurn() {
