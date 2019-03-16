@@ -42,12 +42,12 @@ public class MenuScreen implements Screen {
         batch = new SpriteBatch();
 
         PLAY_BUTTON_X = (WIDTH/2)-(playInAct.getWidth()/2);
-        PLAY_BUTTON_y = HEIGHT-150;
+        PLAY_BUTTON_y = HEIGHT-(HEIGHT/4);
         PLAY_BUTTON_HEIGHT = playAct.getHeight();
         PLAY_BUTTON_WIDTH = playAct.getWidth();
 
         EXIT_BUTTON_X = (WIDTH/2)-(exitInAct.getWidth()/2);
-        EXIT_BUTTON_y = HEIGHT-280;
+        EXIT_BUTTON_y = HEIGHT-(HEIGHT/4)*2;
         EXIT_BUTTON_HEIGHT = exitAct.getHeight();
         EXIT_BUTTON_WIDTH = exitAct.getWidth();
     }
@@ -72,7 +72,6 @@ public class MenuScreen implements Screen {
             batch.draw(exitInAct, EXIT_BUTTON_X, EXIT_BUTTON_y);
             if(Gdx.input.isTouched()){
                 setGameScreen();
-                System.out.println("Button pressed");
             }
 
             //Exit button

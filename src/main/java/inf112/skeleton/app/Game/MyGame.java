@@ -161,8 +161,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                     handout.get(0).isShowing = false;
                     System.out.println("You chose: " + getType(handout.get(0)) + " | Num :" + (1));
                 }
-                //handout.get(0).isShowing = false;
-                //System.out.println("You chose: " + getType(handout.get(0)) + " | Num :" + (1));
             }
             //kort 2
             else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(1).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(1).getY() + handout.get(1).getHeight() && Gdx.input.getX() > handout.get(1).getX() && Gdx.input.getX() < handout.get(1).getX() + handout.get(1).getWidth()) {
@@ -232,7 +230,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
     }
 
-        //System.out.println(100+handout.get(1).getHeight());
 
 
     }
@@ -400,9 +397,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         return false;
     }
 
-    public void isPressed(){
-        //if(Gdx.input.getY()<)
-    }
 
     @Override
     public boolean keyTyped(char character) {

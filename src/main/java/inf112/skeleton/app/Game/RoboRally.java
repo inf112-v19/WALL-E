@@ -5,7 +5,6 @@ import com.badlogic.gdx.Game;
 public class RoboRally extends Game {
     @Override
     public void create() {
-        //MyGame gameScreen = new MyGame(this);
         MenuScreen menuScreen = new MenuScreen(this);
         setScreen(menuScreen);
     }
