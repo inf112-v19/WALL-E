@@ -34,6 +34,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     TiledMapRenderer tiledMapRenderer;
     SpriteBatch sb;
     public MyActor actor;
+    public MyActor actor2;
     public GridOfTiles grid;
     public Map map;
     public Deck deck;
@@ -58,6 +59,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private int cardStartX;
     RoboRally game;
 
+    /**
+     * Variabel bool playerSwitch for enkel variasjon i bevegelse av player 1 / 2
+     * styres etter alle valg av kort er ferdig for spiler, og så bruk av kort for spiller
+     */
+    private boolean playerSwitch = false;
 
     public MyGame(RoboRally game) {
         this.game = game;
@@ -112,9 +118,13 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         ObjectMaker objectMaker = new ObjectMaker(map, grid);
         actor = objectMaker.actor;
+        actor2 = objectMaker.actor2;
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
+        grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
-
+    private int getTileSize() {
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
+        return (int) layer.getTileWidth();
     }
 
 
@@ -137,14 +147,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         batch.begin();
         font.draw(batch, playerInstructionBackspace, textPositionX, textPositionY);
         font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
-        //font.draw(batch, playerInstructionSelect, textPositionX, 130);
-        //font.draw(batch, cardString, textPositionX, 100);
-        //font.draw(batch, "" + (Gdx.graphics.getHeight() - Gdx.input.getY()) + " , " + Gdx.input.getX(), Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         batch.end();
-
-        //testCard.setX(300);
-        //testCard.setY(100);
-        //testCard.render();
 
         Sprites();
         //drawHUD();
@@ -314,6 +317,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
     @Override
     public boolean keyDown(int keycode) {
+        if (playerSwitch) actor = actor2;
         float x = actor.getX();
         float y = actor.getY();
         Tile current = grid.getTileWfloats(x, y);
@@ -348,9 +352,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 } else if (type.equals("Backup")) {
                     System.out.println("Actor should move backwards by: " + action.getMoves());
                     actor.backward(1,moveDist, grid);
-                    //actor.setBackupTile(current);
-                    //System.out.println("New Backup position set as: [" + current + "]");
-
+         
                 } else if (type == "Turn") {
                     if (action.getTurn() == Card.Turn.LEFT) {
                         actor.turnLeft();
@@ -362,7 +364,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                     System.out.println("It was a turn card. Actor turned " + action.getTurn());
                 }
             } //else {
-            System.out.println("No cards left in chosen");
+
+            System.out.println(actor + " has no cards left in chosen");
+            if (!playerSwitch) playerSwitch = true;
+            else if (playerSwitch) playerSwitch = false;
+            System.out.println(actor + " to choose cards.");
+            keyDown(Input.Keys.ALT_LEFT);
             //}
         }
 
@@ -370,6 +377,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             handOut();
 
         }
+
 
         if (Gdx.input.isTouched()) {
             Gdx.app.exit();
@@ -400,7 +408,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             cardString = s.toString();
             playerInstructionSelect = "Press the number of the card in the required order to select, and then ENTER to perform moves!";
         }
-
         return false;
     }
 

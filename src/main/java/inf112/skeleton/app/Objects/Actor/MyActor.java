@@ -2,11 +2,14 @@ package inf112.skeleton.app.Objects.Actor;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Collision;
 import inf112.skeleton.app.Objects.IObject;
+
+import java.util.ArrayList;
 
 public class MyActor implements IObject, IActor {
     MyGame.Dir currentDir;
@@ -14,6 +17,7 @@ public class MyActor implements IObject, IActor {
     Sprite actorSprite;
     float x;
     float y;
+    ArrayList<Card> chosen = new ArrayList<>(5);
 
     public MyActor(Texture texture, MyGame.Dir startDir){
         this.currentDir = startDir;
