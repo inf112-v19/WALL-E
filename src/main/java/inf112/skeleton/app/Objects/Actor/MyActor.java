@@ -146,7 +146,7 @@ public class MyActor implements IObject, IActor {
         int pxSize = grid.pxSize;
         if (this.backupTile != null){
             setPosition(backupTile.y*pxSize, backupTile.x*pxSize, grid);
-            System.out.println(grid.getTileWfloats(this.getX(), this.getY()));
+            System.out.println("Actor to backup: " + grid.getTileWfloats(this.getY(), this.getX()));
         }
     }
 
@@ -155,12 +155,12 @@ public class MyActor implements IObject, IActor {
             death(grid);
             return;
         }
-        Tile current = grid.getTileWfloats(getX(), getY());
+        Tile current = grid.getTileWfloats(getY(), getX());
         setX(x);
         setY(y);
 
         current.getObjOnTile().remove(this);
-        grid.getTileWfloats(x, y).addObjOnTile(this);
+        grid.getTileWfloats(y, x).addObjOnTile(this);
 
     }
 
@@ -168,6 +168,10 @@ public class MyActor implements IObject, IActor {
         if(backupTile != null){
             backToBackup(grid);
             deleteBackup();
+        } else{
+            System.out.println("Actor died! Out of bounds.");
+            this.setBackupTile(grid.getTileWfloats(0, 0));
+            this.backToBackup(grid);
         }
     }
 

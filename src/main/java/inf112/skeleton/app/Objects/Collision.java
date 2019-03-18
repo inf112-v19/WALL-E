@@ -20,9 +20,12 @@ public class Collision {
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
         List onTile = actorTile.getObjOnTile();
 
+        System.out.println(actorTile);
         for (int i = 0; i <onTile.size() ; i++) {
+            if (onTile.get(i).equals(actor)) continue;
             if (onTile.get(i) instanceof  Flag){
                 ((Flag) onTile.get(i)).handle(actor, grid);
+                //System.out.println("Collision with flag and actor");
             }
 
         }

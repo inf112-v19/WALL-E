@@ -316,7 +316,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     public boolean keyDown(int keycode) {
         float x = actor.getX();
         float y = actor.getY();
-        Tile current = grid.getTileWfloats(x, y);
+        Tile current = grid.getTileWfloats(y, x);
 
         int moveDist = PXSIZE;
 

@@ -29,9 +29,13 @@ public class ObjectMaker {
     private void createFlags() {
         flags = new ArrayList<>();
         MapLayer layer = map.getMapLayer("Flags");
+        int i = 0;
         for (MapObject flag : layer.getObjects()){
             RectangleMapObject flagRect = (RectangleMapObject) flag;
-            flags.add(new Flag(flagRect, grid));
+            Flag adder = new Flag(flagRect, grid);
+            flags.add(adder);
+            System.out.println("Flag placed." + adder.flagTile);
+            i++;
         }
     }
 
