@@ -114,6 +114,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         actor = objectMaker.actor;
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
 
+        //Gdx.graphics.setContinuousRendering(false);
 
     }
 
@@ -128,6 +129,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
         sb.setProjectionMatrix(camera.combined);
+
 
         //Text
         playerInstructionBackspace = "Click to choose cards and press ENTER to run program!";
@@ -348,8 +350,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 } else if (type.equals("Backup")) {
                     System.out.println("Actor should move backwards by: " + action.getMoves());
                     actor.backward(1,moveDist, grid);
-                    //actor.setBackupTile(current);
-                    //System.out.println("New Backup position set as: [" + current + "]");
 
                 } else if (type == "Turn") {
                     if (action.getTurn() == Card.Turn.LEFT) {
