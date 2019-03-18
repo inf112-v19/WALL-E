@@ -49,8 +49,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
     private Sprite Health;
     private Batch batch;
     private Texture texture;
-    ArrayList<Card> handout = new ArrayList<>(9);
-    ArrayList<Card> chosen = new ArrayList<>(5);
+    public ArrayList<Card> handout = new ArrayList<>(9);
+    public ArrayList<Card> chosen = new ArrayList<>(5);
     private BitmapFont font;
     private String playerInstructionBackspace;
     private String playerInstructionALT;
@@ -61,6 +61,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public void create(){
+
+        // TODO: Sjekk hvorfor map filen ikke kan leses
+
         map = new Map("map_v1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         this.PXSIZE = getTileSize();
@@ -168,14 +171,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
     }
 
-    void handOut() {
+    public void handOut() {
         handout.clear();
         for (int i = 0; i < 9; i++) {
             handout.add(deck.handOut());
         }
     }
 
-    void chooseCard(int i) {
+    public void chooseCard(int i) {
         Card card = handout.get(i);
         chosen.add(0,card);
         while (chosen.size() > 5) {
