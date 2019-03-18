@@ -1,9 +1,6 @@
 package inf112.skeleton.app.Game;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,7 +19,6 @@ import inf112.skeleton.app.CardFunctionality.Deck;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Map.Map;
-import inf112.skeleton.app.Objects.Actor.Actor;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Objects.IObject;
 import inf112.skeleton.app.Objects.ObjectMaker;
@@ -31,13 +27,14 @@ import java.util.ArrayList;
 
 import static inf112.skeleton.app.CardFunctionality.Card.getType;
 
-public class MyGame extends ApplicationAdapter implements InputProcessor {
+public class MyGame extends ApplicationAdapter implements InputProcessor, Screen {
     public int PXSIZE;
     public TiledMap tiledMap;
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     SpriteBatch sb;
     public MyActor actor;
+    public MyActor actor2;
     public GridOfTiles grid;
     public Map map;
     public Deck deck;
@@ -58,9 +55,18 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
     private String cardString;
     private float textPositionX;
     private float textPositionY;
+    Card testCard;
+    private int cardStartX;
+    RoboRally game;
 
-    @Override
-    public void create(){
+    /**
+     * Variabel bool playerSwitch for enkel variasjon i bevegelse av player 1 / 2
+     * styres etter alle valg av kort er ferdig for spiler, og så bruk av kort for spiller
+     */
+    private boolean playerSwitch = false;
+
+    public MyGame(RoboRally game) {
+        this.game = game;
         map = new Map("map_v1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         this.PXSIZE = getTileSize();
@@ -85,10 +91,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        double x = Gdx.graphics.getWidth()-(Gdx.graphics.getWidth()*0.97);
-        double y = Gdx.graphics.getHeight()-(Gdx.graphics.getHeight()*0.035);
-        textPositionX = (float)x;
-        textPositionY = (float)y;
+        double x = Gdx.graphics.getWidth() - (Gdx.graphics.getWidth() * 0.97);
+        double y = Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() * 0.035);
+        textPositionX = (float) x;
+        textPositionY = (float) y;
         playerInstructionSelect = "";
         cardString = "";
 
@@ -101,25 +107,30 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
         deck = new Deck();
         handOut();
+        testCard = handout.get(2);
+        testCard.create();
         chosen = new ArrayList<>(5);
         //To be used later for drawing and rendering cards
         CardArr = new Card[5];
         booleans = new Boolean[5];
 
+        cardStartX = Gdx.graphics.getWidth()/6;
+
         ObjectMaker objectMaker = new ObjectMaker(map, grid);
         actor = objectMaker.actor;
-        grid.getTileWfloats(0,0).addObjOnTile(actor);
-
-    }
+        actor2 = objectMaker.actor2;
+        grid.getTileWfloats(0, 0).addObjOnTile(actor);
+        grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
     private int getTileSize() {
-        TiledMapTileLayer layer = (TiledMapTileLayer)map.getMapLayer(0);
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
         return (int) layer.getTileWidth();
     }
 
+
     @Override
-    public void render(){
-        Gdx.gl.glClearColor(0,0,0,1);
+    public void render(float v) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -128,26 +139,132 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         tiledMapRenderer.render();
         sb.setProjectionMatrix(camera.combined);
 
+
         //Text
-        playerInstructionBackspace = "Press backspace to deal cards";
-        playerInstructionALT = "Press Left ALT followed by backspace for new handout";
+        playerInstructionBackspace = "Click to choose cards and press ENTER to run program!";
+        playerInstructionALT = "Press Left ALT for new handout";
+
 
         batch.begin();
-        font.draw(batch,playerInstructionBackspace,textPositionX,textPositionY);
-        font.draw(batch,playerInstructionALT,textPositionX,textPositionY-35);
-        font.draw(batch,playerInstructionSelect,textPositionX,130);
-        font.draw(batch,cardString,textPositionX,100);
+        font.draw(batch, playerInstructionBackspace, textPositionX, textPositionY);
+        font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
         batch.end();
-
 
         Sprites();
         //drawHUD();
+
+        createCards();
+
+    if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+    //kort 1
+        if (chosen.size() >= 5) System.out.println("You can't choose more cards");
+        else {
+            if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(0).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(0).getY() + handout.get(0).getHeight() && Gdx.input.getX() > handout.get(0).getX() && Gdx.input.getX() < handout.get(0).getX() + handout.get(0).getWidth()) {
+                if(!handout.get(0).isChosen){
+                    chooseCard(0);
+                    handout.get(0).setY(handout.get(0).getY()+Gdx.graphics.getHeight()/20);
+                    //handout.get(0).isShowing = false;
+                    System.out.println("You chose: " + getType(handout.get(0)) + " | Num :" + (1));
+                    handout.get(0).isChosen = true;
+                }
+            }
+            //kort 2
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(1).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(1).getY() + handout.get(1).getHeight() && Gdx.input.getX() > handout.get(1).getX() && Gdx.input.getX() < handout.get(1).getX() + handout.get(1).getWidth()) {
+                if(!handout.get(1).isChosen) {
+                    chooseCard(1);
+                    handout.get(1).setY(handout.get(1).getY()+Gdx.graphics.getHeight()/20);
+                    //handout.get(1).isShowing = false;
+                    System.out.println("You chose: " + getType(handout.get(1)) + " | Num :" + (2));
+                    handout.get(1).isChosen = true;
+                }
+            }
+            //kort 3
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(2).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(2).getY() + handout.get(2).getHeight() && Gdx.input.getX() > handout.get(2).getX() && Gdx.input.getX() < handout.get(2).getX() + handout.get(2).getWidth()) {
+                if(!handout.get(2).isChosen) {
+                    chooseCard(2);
+                    handout.get(2).setY(handout.get(2).getY()+Gdx.graphics.getHeight()/20);
+                    //handout.get(2).isShowing = false;
+                    System.out.println("You chose: " + getType(handout.get(2)) + " | Num :" + (3));
+                    handout.get(2).isChosen = true;
+                }
+            }
+            //kort 4
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(3).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(3).getY() + handout.get(3).getHeight() && Gdx.input.getX() > handout.get(3).getX() && Gdx.input.getX() < handout.get(3).getX() + handout.get(3).getWidth()) {
+                if(!handout.get(3).isChosen) {
+                    chooseCard(3);
+                    handout.get(3).setY(handout.get(3).getY()+Gdx.graphics.getHeight()/20);
+                    //handout.get(3).isShowing = false;
+                    System.out.println("You chose: " + getType(handout.get(3)) + " | Num :" + (4));
+                    handout.get(3).isChosen = true;
+                }
+            }
+            //kort 5
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(4).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(4).getY() + handout.get(4).getHeight() && Gdx.input.getX() > handout.get(4).getX() && Gdx.input.getX() < handout.get(4).getX() + handout.get(4).getWidth()) {
+                if(!handout.get(4).isChosen) {
+                    chooseCard(4);
+                    handout.get(4).setY(handout.get(4).getY()+Gdx.graphics.getHeight()/20);
+                    //handout.get(4).isShowing = false;
+                    System.out.println("You chose: " + getType(handout.get(4)) + " | Num :" + (5));
+                    handout.get(4).isChosen = true;
+                }
+            }
+            //kort 6
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(5).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(5).getY() + handout.get(5).getHeight() && Gdx.input.getX() > handout.get(5).getX() && Gdx.input.getX() < handout.get(5).getX() + handout.get(5).getWidth()) {
+                if(!handout.get(5).isChosen) {
+                    chooseCard(5);
+                    handout.get(5).setY(handout.get(5).getY()+Gdx.graphics.getHeight()/20);
+                    //handout.get(5).isShowing = false;
+                    System.out.println("You chose: " + getType(handout.get(5)) + " | Num :" + (6));
+                    handout.get(5).isChosen = true;
+                }
+            }
+            //kort 7
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(6).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(6).getY() + handout.get(6).getHeight() && Gdx.input.getX() > handout.get(6).getX() && Gdx.input.getX() < handout.get(6).getX() + handout.get(6).getWidth()) {
+                if(!handout.get(6).isChosen) {
+                    chooseCard(6);
+                    handout.get(6).setY(handout.get(6).getY()+Gdx.graphics.getHeight()/20);
+                    //handout.get(6).isShowing = false;
+                    System.out.println("You chose: " + getType(handout.get(6)) + " | Num :" + (7));
+                    handout.get(6).isChosen = true;
+                }
+            }
+            //kort 8
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(7).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(7).getY() + handout.get(7).getHeight() && Gdx.input.getX() > handout.get(7).getX() && Gdx.input.getX() < handout.get(7).getX() + handout.get(7).getWidth()) {
+                if(!handout.get(7).isChosen) {
+                    chooseCard(7);
+                    handout.get(7).setY(handout.get(7).getY()+Gdx.graphics.getHeight()/20);
+                    //handout.get(7).isShowing = false;
+                    System.out.println("You chose: " + getType(handout.get(7)) + " | Num :" + (8));
+                    handout.get(7).isChosen = true;
+                }
+            }
+            //kort 9
+            else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(8).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(8).getY() + handout.get(8).getHeight() && Gdx.input.getX() > handout.get(8).getX() && Gdx.input.getX() < handout.get(8).getX() + handout.get(8).getWidth()) {
+                if(!handout.get(8).isChosen) {
+                    chooseCard(8);
+                    handout.get(8).setY(handout.get(8).getY()+Gdx.graphics.getHeight()/20);
+                    //handout.get(8).isShowing = false;
+                    System.out.println("You chose: " + getType(handout.get(8)) + " | Num :" + (9));
+                    handout.get(8).isChosen = true;
+                }
+            }
+        }
+
+    }
+
+
+
+    }
+
+    private int getTileSize() {
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
+        return (int) layer.getTileWidth();
     }
 
     private void drawHUD() {
         sb.begin();
         BackBoard.draw(sb);
-        for (int i = 0; i <5; i++) {
+        for (int i = 0; i < 5; i++) {
             if (booleans[i] != true) CardArr[i].draw(sb);
         }
         sb.end();
@@ -155,14 +272,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
     private void Sprites() {
         sb.begin();
-        for (IObject obj : grid.getAll()){
+        for (IObject obj : grid.getAll()) {
             if (obj.getSprite() != null) obj.getSprite().draw(sb);
         }
         sb.end();
     }
 
     private GridOfTiles initGrid() {
-        TiledMapTileLayer layer = (TiledMapTileLayer)map.getMapLayer(0);
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
         int HeightNTiles = layer.getHeight();
         int WidthNTiles = layer.getWidth();
         return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
@@ -177,33 +294,50 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
     void chooseCard(int i) {
         Card card = handout.get(i);
-        chosen.add(0,card);
+        chosen.add(0, card);
         while (chosen.size() > 5) {
-            Card deletedCard = chosen.remove(chosen.size()-1);
+            Card deletedCard = chosen.remove(chosen.size() - 1);
             handout.add(deletedCard);
         }
     }
 
+
+    void createCards() {
+        int cardX = 0;
+        int cardY = 100;
+        for (int i = 0; i < handout.size(); i++) {
+            Card c = handout.get(i);
+            c.x = cardStartX + cardX;
+            //c.y = cardY;
+            cardX += c.cardWidth + Gdx.graphics.getWidth()/128;
+            c.create();
+            c.render();
+        }
+    }
+
+
     @Override
     public boolean keyDown(int keycode) {
+        if (playerSwitch) actor = actor2;
         float x = actor.getX();
         float y = actor.getY();
-        Tile current = grid.getTileWfloats(x, y);
+        Tile current = grid.getTileWfloats(y, x);
 
         int moveDist = PXSIZE;
 
-        if(keycode== Input.Keys.RIGHT){
+        if (keycode == Input.Keys.RIGHT) {
             actor.turnRight();
         }
-        if(keycode== Input.Keys.LEFT){
+        if (keycode == Input.Keys.LEFT) {
             actor.turnLeft();
         }
-        if (keycode==Input.Keys.UP){
+        if (keycode == Input.Keys.UP) {
             actor.Forward(1, moveDist, grid);
         }
-        if(keycode== Input.Keys.DOWN){
-            actor.Forward(1, moveDist*(-1), grid);
+        if (keycode == Input.Keys.DOWN) {
+            actor.Forward(1, moveDist * (-1), grid);
         }
+
 
         //__________________________________________________________
         if (keycode == Input.Keys.ENTER) {
@@ -214,11 +348,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
 
                 if (type == "Move") {
                     System.out.println("Actor should move " + actor.getDir() + " by: " + action.getMoves());
-                    actor.Forward(1*action.getMoves(), moveDist, grid);
+                    actor.Forward(1 * action.getMoves(), moveDist, grid);
 
                 } else if (type.equals("Backup")) {
-                    actor.setBackupTile(current);
-                    System.out.println("New Backup position set as: [" + current +"]");
+                    System.out.println("Actor should move backwards by: " + action.getMoves());
+                    actor.backward(1,moveDist, grid);
 
                 } else if (type == "Turn") {
                     if (action.getTurn() == Card.Turn.LEFT) {
@@ -231,16 +365,30 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
                     System.out.println("It was a turn card. Actor turned " + action.getTurn());
                 }
             } //else {
-                System.out.println("No cards left in chosen");
+
+            System.out.println(actor + " has no cards left in chosen");
+            if (!playerSwitch) playerSwitch = true;
+            else if (playerSwitch) playerSwitch = false;
+            System.out.println(actor + " to choose cards.");
+            keyDown(Input.Keys.ALT_LEFT);
             //}
         }
 
-        if (keycode == Input.Keys.ALT_LEFT){
+        if (keycode == Input.Keys.ALT_LEFT) {
             handOut();
 
         }
 
-        if(keycode == Input.Keys.B){
+
+        if (Gdx.input.isTouched()) {
+            Gdx.app.exit();
+        }
+
+        if (keycode == Input.Keys.ESCAPE) {
+            Gdx.app.exit();
+        }
+
+        if (keycode == Input.Keys.B) {
             actor.setBackupTile(current);
             System.out.println("Backup set to: " + current);
         }
@@ -249,9 +397,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
             StringBuilder s = new StringBuilder("Cards in handout: ");
             int num = 1;
             for (Card c : handout) {
-                s.append(num +": ");
+                s.append(num + ": ");
                 String type = getType(c);
-                if(type.equals("Move")) s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
+                if (type.equals("Move"))
+                    s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
                 else if (type.equals("Turn")) s.append(type).append(" ").append(c.getTurn()).append(", ");
                 else s.append(type).append(", ");
                 num++;
@@ -260,9 +409,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
             cardString = s.toString();
             playerInstructionSelect = "Press the number of the card in the required order to select, and then ENTER to perform moves!";
         }
-
-
-
         return false;
     }
 
@@ -276,6 +422,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
         }
         return false;
     }
+
 
     @Override
     public boolean keyTyped(char character) {
@@ -305,6 +452,21 @@ public class MyGame extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     public enum Dir {

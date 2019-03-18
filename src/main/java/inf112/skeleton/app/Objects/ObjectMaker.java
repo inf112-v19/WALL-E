@@ -16,6 +16,7 @@ public class ObjectMaker {
     public Map map;
     public GridOfTiles grid;
     public MyActor actor;
+    public MyActor actor2;
     public List<IObject> flags;
 
     public ObjectMaker(Map map, GridOfTiles grid){
@@ -23,20 +24,30 @@ public class ObjectMaker {
         this.grid = grid;
 
         createActor();
+        createActor2();
         createFlags();
     }
 
     private void createFlags() {
         flags = new ArrayList<>();
         MapLayer layer = map.getMapLayer("Flags");
+        int i = 0;
         for (MapObject flag : layer.getObjects()){
             RectangleMapObject flagRect = (RectangleMapObject) flag;
-            flags.add(new Flag(flagRect, grid));
+            Flag adder = new Flag(flagRect, grid);
+            flags.add(adder);
+            System.out.println("Flag placed." + adder.flagTile);
+            i++;
         }
     }
 
     private void createActor() {
         MyGame.Dir startDir = MyGame.Dir.NORTH;
         actor = new MyActor(new Texture("robbie.png"), startDir);
+    }
+
+    private void createActor2() {
+        MyGame.Dir startDir = MyGame.Dir.EAST;
+        actor2 = new MyActor((new Texture("robbie.png")), startDir);
     }
 }

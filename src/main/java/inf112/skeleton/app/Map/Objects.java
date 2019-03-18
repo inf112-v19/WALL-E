@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Objects extends ApplicationAdapter {
-    //Flags
+   /* //Flags
     private Batch flag;
     private Texture flagTex;
     private int flagWidth = 100;
@@ -29,8 +29,8 @@ public class Objects extends ApplicationAdapter {
 
         //Render flag
         flag.begin();
-        flag.draw(flagTex,middleWidth+300, middleHeight-180, 150, 100);
+        flag.draw(flagTex,middleWidth+300, middleHeight-180, 150, 150);
         flag.end();
-    }
+    }*/
 
 }

@@ -42,6 +42,20 @@ public class Tile implements ITile, Comparable<Tile>{
         return ObjOnTile;
     }
 
+    public boolean equals(Object o){
+        if (!(o instanceof Tile))
+            return false;
+        if (o == this)
+            return true;
+
+        Tile tile = (Tile) o;
+
+        if (tile.x == this.x && tile.y == this.y)
+            return true;
+
+        return false;
+    }
+
     public void addObjOnTile(IObject obj) {
         ObjOnTile.add(obj);
     }
