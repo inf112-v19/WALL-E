@@ -10,16 +10,23 @@ public class Card extends ApplicationAdapter {
     private int moves;
     private int priority;
     private boolean isBackup;
-    private float x;
-    private float y;
+    public float x;
+    public float y;
     private SpriteBatch card;
     private Texture cardTexture;
+    public float cardWidth = Gdx.graphics.getWidth()/15;
+    public float cardHeight = Gdx.graphics.getHeight()/6;
+    public boolean isShowing;
+    public boolean isChosen;
 
     Card(Turn turn, int moves, int priority, boolean isBackup) {
         this.turn = turn;
         this.moves = moves;
         this.priority = priority;
         this.isBackup = isBackup;
+        this.isShowing = true;
+        y = Gdx.graphics.getHeight()/10;
+        this.isChosen = false;
     }
 
     public Turn getTurn() {
@@ -80,26 +87,28 @@ public class Card extends ApplicationAdapter {
         assert type != null;
         switch (type) {
             case "Move":
-                if (this.moves == 1) cardTexture = new Texture((Gdx.files.internal("arrow1step.png")));
-                if (this.moves == 2) cardTexture = new Texture((Gdx.files.internal("arrow2step.png")));
-                if (this.moves == 3) cardTexture = new Texture((Gdx.files.internal("arrow3step.png")));
+                if (this.moves == 1) cardTexture = new Texture((Gdx.files.internal("Move1.png")));
+                if (this.moves == 2) cardTexture = new Texture((Gdx.files.internal("Move2.png")));
+                if (this.moves == 3) cardTexture = new Texture((Gdx.files.internal("Move3.png")));
                 break;
             case "Backup":
-                cardTexture = new Texture((Gdx.files.internal("arrow1stepback.png")));
+                cardTexture = new Texture((Gdx.files.internal("MoveBack.png")));
                 break;
             case "Turn":
-                if (this.turn == Turn.LEFT) cardTexture = new Texture((Gdx.files.internal("rotate90Left.png")));
-                if (this.turn == Turn.RIGHT) cardTexture = new Texture((Gdx.files.internal("rotate90Right.png")));
-                if (this.turn == Turn.UTURN) cardTexture = new Texture((Gdx.files.internal("rotate180.png")));
+                if (this.turn == Turn.LEFT) cardTexture = new Texture((Gdx.files.internal("TurnLeft.png")));
+                if (this.turn == Turn.RIGHT) cardTexture = new Texture((Gdx.files.internal("TurnRight.png")));
+                if (this.turn == Turn.UTURN) cardTexture = new Texture((Gdx.files.internal("UTurn.png")));
                 break;
         }
     }
 
     @Override
     public void render() {
-        card.begin();
-        card.draw(cardTexture, x, y, 32, 32);
-        card.end();
+        if(isShowing) {
+            card.begin();
+            card.draw(cardTexture, x, y, cardWidth, cardHeight);
+            card.end();
+        }
     }
 
     public void draw(SpriteBatch sb) {
@@ -109,4 +118,16 @@ public class Card extends ApplicationAdapter {
     public enum Turn {
         LEFT, RIGHT, UTURN, NONE
     }
+
+    public float getHeight(){
+        return cardHeight;
+    }
+
+    public float getWidth(){
+        return cardWidth;
+    }
+
+    public float getX(){ return x;}
+
+    public float getY(){ return y;}
 }

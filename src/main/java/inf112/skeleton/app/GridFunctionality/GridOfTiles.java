@@ -36,10 +36,10 @@ public class GridOfTiles {
     }
 
     public Tile getTileWfloats(float yCo, float xCo){
-        int xTileCoordinate = ((int) xCo/pxSize);
-        int yTileCoordinate = ((int) yCo/pxSize);
+        int xTileCoordinate = (int) xCo/pxSize;
+        int yTileCoordinate = (int) yCo/pxSize;
 
-        if((xCo % pxSize == 0) && (yCo%pxSize == 0)){
+        if((xCo % pxSize == 0) && (yCo % pxSize == 0)){
             int x = ((int) xCo / pxSize);
             int y = ((int) yCo / pxSize);
             return getTile(y,x);
@@ -47,7 +47,7 @@ public class GridOfTiles {
         return getTile(yTileCoordinate, xTileCoordinate);
     }
 
-    private Tile getTile(int y, int x) {
+    public Tile getTile(int y, int x) {
         if (x>=Ncol || y>=Nrow){
             throw new IllegalArgumentException("Out of bounds");
         }

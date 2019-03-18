@@ -2,11 +2,14 @@ package inf112.skeleton.app.Objects.Actor;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Collision;
 import inf112.skeleton.app.Objects.IObject;
+
+import java.util.ArrayList;
 
 public class MyActor implements IObject, IActor {
     MyGame.Dir currentDir;
@@ -14,6 +17,7 @@ public class MyActor implements IObject, IActor {
     Sprite actorSprite;
     float x;
     float y;
+    ArrayList<Card> chosen = new ArrayList<>(5);
 
     public MyActor(Texture texture, MyGame.Dir startDir){
         this.currentDir = startDir;
@@ -48,6 +52,30 @@ public class MyActor implements IObject, IActor {
                 break;
             case WEST:
                 this.setPosition((int) getY(), (int) getX() - moveDist, grid);
+                break;
+        }
+    }
+
+    public void backward(int steps, int moveDist, GridOfTiles grid){
+        for (int i = 0; i < steps; i++) {
+            moveBackward(moveDist, grid);
+        }
+        CollisionCheck(grid);
+    }
+
+    private void moveBackward(int moveDist, GridOfTiles grid) {
+        switch (currentDir){
+            case NORTH:
+                this.setPosition((int) getY()-moveDist, (int) getX(), grid);
+                break;
+            case EAST:
+                this.setPosition((int) getY(), (int) getX() - moveDist, grid);
+                break;
+            case SOUTH:
+                this.setPosition((int) getY()+ moveDist, (int) getX(), grid);
+                break;
+            case WEST:
+                this.setPosition((int) getY(), (int) getX() + moveDist, grid);
                 break;
         }
     }
@@ -122,7 +150,7 @@ public class MyActor implements IObject, IActor {
         int pxSize = grid.pxSize;
         if (this.backupTile != null){
             setPosition(backupTile.y*pxSize, backupTile.x*pxSize, grid);
-            System.out.println(grid.getTileWfloats(this.getX(), this.getY()));
+            System.out.println("Actor to backup: " + grid.getTileWfloats(this.getY(), this.getX()) + ", Actor no longer has a backup");
         }
     }
 
@@ -131,12 +159,12 @@ public class MyActor implements IObject, IActor {
             death(grid);
             return;
         }
-        Tile current = grid.getTileWfloats(getX(), getY());
+        Tile current = grid.getTileWfloats(getY(), getX());
         setX(x);
         setY(y);
 
         current.getObjOnTile().remove(this);
-        grid.getTileWfloats(x, y).addObjOnTile(this);
+        grid.getTileWfloats(y, x).addObjOnTile(this);
 
     }
 
@@ -144,6 +172,10 @@ public class MyActor implements IObject, IActor {
         if(backupTile != null){
             backToBackup(grid);
             deleteBackup();
+        } else{
+            System.out.println("Actor died! Out of bounds.");
+            this.setBackupTile(grid.getTileWfloats(0, 0));
+            this.backToBackup(grid);
         }
     }
 
