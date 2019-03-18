@@ -328,12 +328,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (keycode == Input.Keys.LEFT) {
                 actor.turnLeft();
             }
+
             if (keycode == Input.Keys.UP) {
                 actor.Forward(1, moveDist, grid);
             }
             if (keycode == Input.Keys.DOWN) {
                 actor.Forward(1, moveDist * (-1), grid);
             }
+
 
 
             //__________________________________________________________

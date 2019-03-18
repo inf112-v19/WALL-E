@@ -48,6 +48,6 @@ public class ObjectMaker {
 
     private void createActor2() {
         MyGame.Dir startDir = MyGame.Dir.EAST;
-        actor2 = new MyActor((new Texture("robbie.png")), startDir);
+        actor2 = new MyActor((new Texture("wall-e.png")), startDir);
     }
 }
