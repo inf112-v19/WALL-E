@@ -139,6 +139,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         tiledMapRenderer.render();
         sb.setProjectionMatrix(camera.combined);
 
+
         //Text
         playerInstructionBackspace = "Click to choose cards and press ENTER to run program!";
         playerInstructionALT = "Press Left ALT for new handout";
@@ -320,7 +321,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         if (playerSwitch) actor = actor2;
         float x = actor.getX();
         float y = actor.getY();
-        Tile current = grid.getTileWfloats(x, y);
+        Tile current = grid.getTileWfloats(y, x);
 
         int moveDist = PXSIZE;
 
@@ -352,7 +353,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 } else if (type.equals("Backup")) {
                     System.out.println("Actor should move backwards by: " + action.getMoves());
                     actor.backward(1,moveDist, grid);
-         
+
                 } else if (type == "Turn") {
                     if (action.getTurn() == Card.Turn.LEFT) {
                         actor.turnLeft();

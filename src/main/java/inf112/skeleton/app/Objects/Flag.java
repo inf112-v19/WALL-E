@@ -21,7 +21,8 @@ public class Flag implements IObject {
         sprite = new Sprite(texture);
         sprite.setSize(100, 100);
 
-        flagTile = grid.getTileWfloats(x ,y);
+        flagTile = grid.getTileWfloats(y ,x);
+        //flagTile = grid.getTile(y, x);
         flagTile.addObjOnTile(this);
     }
 
@@ -29,13 +30,13 @@ public class Flag implements IObject {
         this.x = x;
         this.y = y;
         sprite=null;
-        flagTile = grid.getTileWfloats(x ,y);
+        flagTile = grid.getTileWfloats(y ,x);
         flagTile.addObjOnTile(this);
     }
 
     public void remove(GridOfTiles grid){
         this.sprite = null;
-        Tile tile = grid.getTileWfloats(this.x, this.y);
+        Tile tile = grid.getTileWfloats(this.y, this.x);
         tile.getObjOnTile().remove(this);
     }
 
@@ -44,9 +45,10 @@ public class Flag implements IObject {
     }
 
     public void handle(MyActor actor, GridOfTiles grid){
-        Tile actorTile = grid.getTileWfloats(actor.getX(), actor.getY());
+        Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
         if (flagTile.equals(actorTile)){
             actor.setBackupTile(flagTile);
+            //System.out.println("Actor has new backup: "+ flagTile);
             remove(grid);
         }
     }
@@ -56,5 +58,9 @@ public class Flag implements IObject {
         sprite.setY(y);
         sprite.setX(x);
         return sprite;
+    }
+
+    public Tile getTile(){
+        return this.flagTile;
     }
 }
