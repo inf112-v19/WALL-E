@@ -18,6 +18,10 @@ public class ObjectMaker {
     public MyActor actor;
     public MyActor actor2;
     public List<IObject> flags;
+    public static List<IObject> blueTeleports;
+    public List<IObject> yellowTeleports;
+    public List<IObject> holes;
+    public List<IObject> wrenches;
 
     public ObjectMaker(Map map, GridOfTiles grid){
         this.map = map;
@@ -26,6 +30,7 @@ public class ObjectMaker {
         createActor();
         createActor2();
         createFlags();
+        createBlueTeleports();
     }
 
     private void createFlags() {
@@ -34,11 +39,25 @@ public class ObjectMaker {
         int i = 0;
         for (MapObject flag : layer.getObjects()){
             RectangleMapObject flagRect = (RectangleMapObject) flag;
-            Flag adder = new Flag(flagRect, grid);
-            flags.add(adder);
-            System.out.println("Flag placed." + adder.flagTile);
+            Flag addThisFlagToMap = new Flag(flagRect, grid);
+            flags.add(addThisFlagToMap);
+            System.out.println("Flag placed at: " + addThisFlagToMap.flagTile);
             i++;
         }
+    }
+
+    private void createBlueTeleports(){
+        blueTeleports = new ArrayList<>();
+        MapLayer layer = map.getMapLayer("BlueTeleport");
+        int i = 0;
+        for (MapObject blueTeleport : layer.getObjects()) {
+            RectangleMapObject blueTelRect = (RectangleMapObject) blueTeleport;
+            BlueTeleport addThisTeleportToMap = new BlueTeleport(blueTelRect, grid);
+            blueTeleports.add(addThisTeleportToMap);
+            System.out.println("Blue Teleport placed at: " + addThisTeleportToMap.bTeleportTileFrom);
+            i++;
+        }
+
     }
 
     private void createActor() {

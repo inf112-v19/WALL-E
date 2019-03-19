@@ -40,11 +40,7 @@ public class Flag implements IObject {
         tile.getObjOnTile().remove(this);
     }
 
-    public Tile getFlagTile(){
-        return this.flagTile;
-    }
-
-    public void handle(MyActor actor, GridOfTiles grid){
+    public void handleFlag(MyActor actor, GridOfTiles grid){
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
         if (flagTile.equals(actorTile)){
             actor.setBackupTile(flagTile);

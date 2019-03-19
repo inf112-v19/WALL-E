@@ -221,6 +221,11 @@ public class MyActor implements IObject, IActor {
     }
 
     @Override
+    public Tile getTile() {
+        return null;
+    }
+
+    @Override
     public boolean alive() {
         return false;
     }
