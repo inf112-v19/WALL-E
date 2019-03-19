@@ -159,6 +159,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
             font.draw(batch, actor1Health, WIDTH-WIDTH/3, textPositionY);
             font.draw(batch, actor2Health, WIDTH-WIDTH/3, textPositionY-HEIGHT/30);
+            batch.setColor(Color.WHITE);
+            batch.draw(healthTexture, WIDTH-(WIDTH/200)*54,HEIGHT-(HEIGHT/100)*6,(WIDTH/200)*37, (HEIGHT/300)*7);
+            batch.setColor(Color.BLACK);
+            batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/19,WIDTH/6, HEIGHT/80);
+            batch.setColor(Color.WHITE);
+            batch.draw(healthTexture, WIDTH-(WIDTH/200)*54,HEIGHT-(HEIGHT/400)*46,(WIDTH/200)*37, (HEIGHT/300)*7);
+            batch.setColor(Color.BLACK);
+            batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/12,WIDTH/6, HEIGHT/80);
             if (actor.getHealth()> 0.6f) {
                 batch.setColor(Color.GREEN);
             }else if (actor.getHealth() > 0.2f) {
@@ -166,7 +174,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }else {
                 batch.setColor(Color.RED);
             }
-            batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/19,WIDTH/6*actor.getHealth(), HEIGHT/80);
+            if(actor.getHealth()>0) batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/19,WIDTH/6*actor.getHealth(), HEIGHT/80);
             if (actor2.getHealth()> 0.6f) {
                 batch.setColor(Color.GREEN);
             }else if (actor2.getHealth() > 0.2f) {
@@ -174,7 +182,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }else {
                 batch.setColor(Color.RED);
             }
-            batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/12,WIDTH/6*actor2.getHealth(), HEIGHT/80);
+            if(actor2.getHealth()>0) batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/12,WIDTH/6*actor2.getHealth(), HEIGHT/80);
             batch.end();
 
             Sprites();
