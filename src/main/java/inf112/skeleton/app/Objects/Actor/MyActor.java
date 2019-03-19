@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class MyActor implements IObject, IActor {
     MyGame.Dir currentDir;
     Tile backupTile;
+    Tile previousTile;
     Sprite actorSprite;
     float x;
     float y;
@@ -25,6 +26,7 @@ public class MyActor implements IObject, IActor {
         this.actorSprite.setSize(150, 150);
         this.actorSprite.setOrigin((float) 150 / 2, (float) 150 / 2);
         this.backupTile = null;
+        this.previousTile = null;
     }
 
     public void Forward(int steps, int moveDist, GridOfTiles grid){
@@ -137,6 +139,10 @@ public class MyActor implements IObject, IActor {
         }
     }
 
+    public Tile getBackupTile(){
+        return this.backupTile;
+    }
+
     public void setBackupTile(Tile backupTile){
         this.backupTile = backupTile;
         System.out.println("New backup location: " + backupTile);
@@ -194,6 +200,13 @@ public class MyActor implements IObject, IActor {
 
     }
 
+    public Tile getPreviousTile() {
+        return this.previousTile;
+    }
+
+    public void setPreviousTile(Tile tile){
+        previousTile = tile;
+    }
 
     public float getY() {
         return this.y;
@@ -222,7 +235,9 @@ public class MyActor implements IObject, IActor {
 
     @Override
     public Tile getTile() {
-        return null;
+        float x = this.getX();
+        float y = this.getY();
+        return MyGame.grid.getTileWfloats(y, x);
     }
 
     @Override

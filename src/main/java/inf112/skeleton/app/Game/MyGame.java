@@ -35,7 +35,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     SpriteBatch sb;
     public MyActor actor;
     public MyActor actor2;
-    public GridOfTiles grid;
+    public static GridOfTiles grid;
     public Map map;
     public Deck deck;
     private Card temp;
@@ -319,6 +319,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             float x = actor.getX();
             float y = actor.getY();
             Tile current = grid.getTileWfloats(y, x);
+            actor.setPreviousTile(current);
 
             int moveDist = PXSIZE;
 
@@ -330,9 +331,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }
             if (keycode == Input.Keys.UP) {
                 actor.Forward(1, moveDist, grid);
+                actor.setPreviousTile(actor.getTile());
             }
             if (keycode == Input.Keys.DOWN) {
                 actor.Forward(1, moveDist * (-1), grid);
+                actor.setPreviousTile(actor.getTile());
             }
 
 

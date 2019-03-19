@@ -32,6 +32,7 @@ public class ObjectMaker {
         createFlags();
         createBlueTeleports();
         createYellowTeleports();
+        createHoles();
     }
 
     private void createFlags() {
@@ -69,6 +70,19 @@ public class ObjectMaker {
             YellowTeleport addThisTeleportToMap = new YellowTeleport(yellowTelRect, grid);
             yellowTeleports.add(addThisTeleportToMap);
             System.out.println("Yellow Teleport placed at: " + addThisTeleportToMap.yTeleportTileFrom);
+            i++;
+        }
+    }
+
+    private void createHoles(){
+        holes = new ArrayList<>();
+        MapLayer layer = map.getMapLayer("Holes");
+        int i = 0;
+        for (MapObject hole : layer.getObjects()) {
+            RectangleMapObject holeRect = (RectangleMapObject) hole;
+            Hole addThisHoleToMap = new Hole(holeRect, grid);
+            holes.add(addThisHoleToMap);
+            System.out.println("Hole found at: " + addThisHoleToMap.hole);
             i++;
         }
     }
