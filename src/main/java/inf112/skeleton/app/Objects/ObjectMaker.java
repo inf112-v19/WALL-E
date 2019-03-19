@@ -19,7 +19,7 @@ public class ObjectMaker {
     public MyActor actor2;
     public List<IObject> flags;
     public static List<IObject> blueTeleports;
-    public List<IObject> yellowTeleports;
+    public static List<IObject> yellowTeleports;
     public List<IObject> holes;
     public List<IObject> wrenches;
 
@@ -31,6 +31,7 @@ public class ObjectMaker {
         createActor2();
         createFlags();
         createBlueTeleports();
+        createYellowTeleports();
     }
 
     private void createFlags() {
@@ -57,7 +58,19 @@ public class ObjectMaker {
             System.out.println("Blue Teleport placed at: " + addThisTeleportToMap.bTeleportTileFrom);
             i++;
         }
+    }
 
+    private void createYellowTeleports(){
+        yellowTeleports = new ArrayList<>();
+        MapLayer layer = map.getMapLayer("YellowTeleport");
+        int i = 0;
+        for (MapObject yellowTeleport : layer.getObjects()) {
+            RectangleMapObject yellowTelRect = (RectangleMapObject) yellowTeleport;
+            YellowTeleport addThisTeleportToMap = new YellowTeleport(yellowTelRect, grid);
+            yellowTeleports.add(addThisTeleportToMap);
+            System.out.println("Yellow Teleport placed at: " + addThisTeleportToMap.yTeleportTileFrom);
+            i++;
+        }
     }
 
     private void createActor() {
