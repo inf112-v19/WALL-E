@@ -25,11 +25,9 @@ public class ObjectMaker {
 
         createActor();
         createActor2();
-        // TODO: Implemeter på enn eller anenn måte
-        // createFlags();
     }
 
-    private void createFlags() {
+    public void createFlags() {
         flags = new ArrayList<>();
         MapLayer layer = map.getMapLayer("Flags");
         int i = 0;

@@ -60,6 +60,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     Card testCard;
     private int cardStartX;
     RoboRally game;
+    private ObjectMaker objectMaker;
 
     /**
      * Variabel bool playerSwitch for enkel variasjon i bevegelse av player 1 / 2
@@ -93,9 +94,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         ObjectMaker objectMaker = new ObjectMaker(map, grid);
         actor = objectMaker.actor;
         actor2 = objectMaker.actor2;
-        //grid.getTileWfloats(0, 0).addObjOnTile(actor);
-        // grid.getTileWfloats(0, 0).addObjOnTile(actor2);
-
     }
 
     @Override
@@ -137,6 +135,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         actor2.create();
 
         testCard.create();
+
+        grid.getTileWfloats(0, 0).addObjOnTile(actor);
+        grid.getTileWfloats(0, 0).addObjOnTile(actor2);
+
+        objectMaker.createFlags();
     }
 
 
