@@ -159,6 +159,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
             font.draw(batch, actor1Health, WIDTH-WIDTH/3, textPositionY);
             font.draw(batch, actor2Health, WIDTH-WIDTH/3, textPositionY-HEIGHT/30);
+
+            // Health-bar
             batch.setColor(Color.WHITE);
             batch.draw(healthTexture, WIDTH-(WIDTH/200)*54,HEIGHT-(HEIGHT/100)*6,(WIDTH/200)*37, (HEIGHT/300)*7);
             batch.setColor(Color.BLACK);
