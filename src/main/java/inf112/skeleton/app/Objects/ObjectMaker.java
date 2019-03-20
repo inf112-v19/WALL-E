@@ -129,5 +129,6 @@ public class ObjectMaker {
     public int getConveyorLandedon(MyActor actor, GridOfTiles grid, String color) {
         List<IObject> search;
         if (color.equals("red")) search = redConveyors;
-return 0;
-}}
+        return 0;
+    }
+}
