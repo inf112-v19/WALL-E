@@ -2,7 +2,6 @@ package inf112.skeleton.app.Objects;
 
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
-import inf112.skeleton.app.Objects.Actor.Actor;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 
 import java.util.List;
@@ -24,8 +23,16 @@ public class Collision {
         for (int i = 0; i <onTile.size() ; i++) {
             if (onTile.get(i).equals(actor)) continue;
             if (onTile.get(i) instanceof  Flag){
-                ((Flag) onTile.get(i)).handle(actor, grid);
-                //System.out.println("Collision with flag and actor");
+                ((Flag) onTile.get(i)).handleFlag(actor, grid);
+            }
+            if (onTile.get(i) instanceof BlueTeleport){
+                ((BlueTeleport) onTile.get(i)).handleTeleportation(actor, grid);
+            }
+            if (onTile.get(i) instanceof YellowTeleport){
+                ((YellowTeleport) onTile.get(i)).handleTeleportation(actor, grid);
+            }
+            if (onTile.get(i) instanceof Hole){
+                ((Hole) onTile.get(i)).handleFallingIntoHoles(actor, grid);
             }
 
         }
