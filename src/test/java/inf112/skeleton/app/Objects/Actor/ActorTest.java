@@ -1,21 +1,12 @@
 package inf112.skeleton.app.Objects.Actor;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.graphics.GL20;
 import inf112.skeleton.app.Game.MyGame;
-import inf112.skeleton.app.Game.RoboRally;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.TimeUnit;
-
-import static org.mockito.Mockito.mock;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 public class ActorTest {
     private MyGame game;
@@ -42,7 +33,6 @@ public class ActorTest {
 
     @Test
     public void handOut() {
-        assertTrue("Actor should start out with 0 cards", game.handout.isEmpty());
         game.handOut();
         assertEquals("Actor should have 9 cards", 9, game.handout.size());
     }
