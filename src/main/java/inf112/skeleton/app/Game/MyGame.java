@@ -1,6 +1,7 @@
 package inf112.skeleton.app.Game;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,6 +23,7 @@ import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Objects.IObject;
 import inf112.skeleton.app.Objects.ObjectMaker;
+import org.mockito.internal.matchers.Null;
 
 import java.util.ArrayList;
 
@@ -65,8 +67,39 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
      */
     private boolean playerSwitch = false;
 
+    public String test;
+
+    public MyGame() {
+        this(null);
+    }
+
     public MyGame(RoboRally game) {
         this.game = game;
+
+        /*
+         * Add hp
+         * add dmg
+         * add sprites for hearts
+         */
+
+        deck = new Deck();
+        handOut();
+        testCard = handout.get(2);
+        chosen = new ArrayList<>(5);
+        //To be used later for drawing and rendering cards
+        CardArr = new Card[5];
+        booleans = new Boolean[5];
+
+        ObjectMaker objectMaker = new ObjectMaker(map, grid);
+        actor = objectMaker.actor;
+        actor2 = objectMaker.actor2;
+        //grid.getTileWfloats(0, 0).addObjOnTile(actor);
+        // grid.getTileWfloats(0, 0).addObjOnTile(actor2);
+
+    }
+
+    @Override
+    public void create() {
         map = new Map("map_v1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         this.PXSIZE = getTileSize();
@@ -98,30 +131,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         playerInstructionSelect = "";
         cardString = "";
 
-
-        /*
-         * Add hp
-         * add dmg
-         * add sprites for hearts
-         */
-
-        deck = new Deck();
-        handOut();
-        testCard = handout.get(2);
-        testCard.create();
-        chosen = new ArrayList<>(5);
-        //To be used later for drawing and rendering cards
-        CardArr = new Card[5];
-        booleans = new Boolean[5];
-
         cardStartX = Gdx.graphics.getWidth() / 6;
 
-        ObjectMaker objectMaker = new ObjectMaker(map, grid);
-        actor = objectMaker.actor;
-        actor2 = objectMaker.actor2;
-        grid.getTileWfloats(0, 0).addObjOnTile(actor);
-        grid.getTileWfloats(0, 0).addObjOnTile(actor2);
+        actor.create();
+        actor2.create();
 
+        testCard.create();
     }
 
 
@@ -282,14 +297,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
         }
 
-        void handOut () {
+        public void handOut() {
             handout.clear();
             for (int i = 0; i < 9; i++) {
                 handout.add(deck.handOut());
             }
         }
 
-        void chooseCard ( int i){
+        public void chooseCard(int i){
             Card card = handout.get(i);
             chosen.add(0, card);
             while (chosen.size() > 5) {
@@ -318,7 +333,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (playerSwitch) actor = actor2;
             float x = actor.getX();
             float y = actor.getY();
-            Tile current = grid.getTileWfloats(y, x);
 
             int moveDist = PXSIZE;
 
@@ -388,6 +402,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }
 
             if (keycode == Input.Keys.B) {
+                Tile current = grid.getTileWfloats(y, x);
                 actor.setBackupTile(current);
                 System.out.println("Backup set to: " + current);
             }

@@ -14,8 +14,8 @@ public class Card extends ApplicationAdapter {
     public float y;
     private SpriteBatch card;
     private Texture cardTexture;
-    public float cardWidth = Gdx.graphics.getWidth()/15;
-    public float cardHeight = Gdx.graphics.getHeight()/6;
+    public float cardWidth;
+    public float cardHeight;
     public boolean isShowing;
     public boolean isChosen;
 
@@ -25,7 +25,6 @@ public class Card extends ApplicationAdapter {
         this.priority = priority;
         this.isBackup = isBackup;
         this.isShowing = true;
-        y = Gdx.graphics.getHeight()/10;
         this.isChosen = false;
     }
 
@@ -82,6 +81,10 @@ public class Card extends ApplicationAdapter {
 
     @Override
     public void create() {
+        cardWidth = Gdx.graphics.getWidth()/15;
+        cardHeight = Gdx.graphics.getHeight()/6;
+        y = Gdx.graphics.getHeight()/10;
+
         card = new SpriteBatch();
         String type = getType(this);
         assert type != null;

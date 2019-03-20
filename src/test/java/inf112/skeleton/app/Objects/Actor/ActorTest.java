@@ -1,13 +1,19 @@
 package inf112.skeleton.app.Objects.Actor;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.graphics.GL20;
 import inf112.skeleton.app.Game.MyGame;
+import inf112.skeleton.app.Game.RoboRally;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
+import static org.mockito.Mockito.mock;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
@@ -16,27 +22,8 @@ public class ActorTest {
 
     @Before
     public void setUp() {
-        game = new MyGame();
+        this.game = new MyGame();
         new HeadlessApplication(game);
-
-        /*LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "Robo-Rally!";
-        cfg.width = 1080;
-        cfg.height = 720;
-        cfg.resizable = false;
-
-        new LwjglApplication(game, cfg);*/
-
-        long start = System.currentTimeMillis();
-
-        while (System.currentTimeMillis() - start < 5000) {
-            try {
-                game.actor.getX();
-                break;
-            } catch (NullPointerException ignored) {
-
-            }
-        }
     }
 
     @Test

@@ -25,7 +25,8 @@ public class ObjectMaker {
 
         createActor();
         createActor2();
-        createFlags();
+        // TODO: Implemeter på enn eller anenn måte
+        // createFlags();
     }
 
     private void createFlags() {
@@ -43,11 +44,11 @@ public class ObjectMaker {
 
     private void createActor() {
         MyGame.Dir startDir = MyGame.Dir.NORTH;
-        actor = new MyActor(new Texture("robbie.png"), startDir);
+        actor = new MyActor("robbie.png", startDir);
     }
 
     private void createActor2() {
         MyGame.Dir startDir = MyGame.Dir.EAST;
-        actor2 = new MyActor((new Texture("wall-e.png")), startDir);
+        actor2 = new MyActor("wall-e.png", startDir);
     }
 }
