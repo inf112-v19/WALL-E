@@ -260,4 +260,9 @@ public class MyActor implements IObject, IActor {
     public MyGame.Dir getDir() {
         return currentDir;
     }
+
+    public void restoreHealth(double v) {
+        if(health<1) this.health += v;
+        if(health>1) this.health = 1;
+    }
 }

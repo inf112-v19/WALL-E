@@ -34,6 +34,12 @@ public class Collision {
             if (onTile.get(i) instanceof Hole){
                 ((Hole) onTile.get(i)).handleFallingIntoHoles(actor, grid);
             }
+            if (onTile.get(i) instanceof WrenchesSingle){
+                ((WrenchesSingle) onTile.get(i)).handleWrench(actor, grid);
+            }
+            if (onTile.get(i) instanceof WrenchesDouble){
+                ((WrenchesDouble) onTile.get(i)).handleWrench(actor, grid);
+            }
 
         }
 

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="15" nextobjectid="71">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="19" nextobjectid="78">
  <tileset firstgid="1" source="RoboTiles.tsx"/>
  <layer id="1" name="Tile Layer 1" width="12" height="12">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYIRiVSQchsaH4RwoZoPy09HUa+FQLwTExiSYL4fFPaZAbIakBhmzYVHviKYGJK4OxUI47AdhcTT3qGNxDzJWRmKD1KZgCQcQNoLS+mjiID0BaGqQsTUQ9yOpjQbiGCR5UBy4ALErELsBsTsQeyCpN0LyNzb3Z6O5hZAeZPUAyDAcug==
+   eJxjZGBgYIRiVSQchsaH4RwoZoPy09HUa+FQLwTExiSYL4fFPaZAbIakBhmzYVHviKYGJK4OxUJQfiMWN4ijuUcdi3uQsTISG6Q2BUs4gLARlNZHEwfpCUBTg4ytgbgfSW00EMcgyYPiwAWIXYHYDYjdgdgDSb0Rkr+xuT8bzS2E9CCrBwA7Px0W
   </data>
  </layer>
+ <objectgroup id="17" name="SnurreDings">
+  <object id="71" x="600" y="750" width="150" height="150"/>
+ </objectgroup>
  <objectgroup id="6" name="Flags">
   <object id="32" x="0" y="600" width="150" height="150"/>
   <object id="33" x="600" y="900" width="150" height="150"/>
@@ -23,12 +26,11 @@
   <object id="63" x="1200" y="150" width="150" height="150"/>
   <object id="64" x="300" y="1050" width="150" height="150"/>
  </objectgroup>
- <objectgroup id="12" name="Wrenches">
-  <object id="65" x="150" y="1050" width="150" height="150"/>
-  <object id="66" x="1500" y="1200" width="150" height="150"/>
- </objectgroup>
  <objectgroup id="13" name="OnMapWalls">
   <object id="67" x="1354.55" y="757.576" width="136.364" height="15.1515"/>
+ </objectgroup>
+ <objectgroup id="16" name="WrenchesDouble">
+  <object id="74" x="1500" y="1200" width="150" height="150"/>
  </objectgroup>
  <objectgroup id="7" name="RedConv">
   <object id="41" x="300" y="150" width="150" height="150"/>
@@ -38,6 +40,9 @@
   <object id="46" x="300" y="750" width="150" height="150"/>
   <object id="47" x="300" y="900" width="150" height="150"/>
  </objectgroup>
+ <objectgroup id="18" name="WrenchesSingle">
+  <object id="76" x="150" y="1050" width="150" height="150"/>
+ </objectgroup>
  <objectgroup id="8" name="BlueConv">
   <object id="48" x="1500" y="1350" width="150" height="150"/>
   <object id="50" x="1350" y="1350" width="150" height="150"/>
@@ -46,6 +51,5 @@
  </objectgroup>
  <objectgroup id="14" name="BlueTeleport">
   <object id="69" x="600" y="150" width="150" height="150"/>
-  <object id="70" x="750" y="1350" width="150" height="150"/>
  </objectgroup>
 </map>

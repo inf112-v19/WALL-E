@@ -26,14 +26,6 @@ public class Flag implements IObject {
         flagTile.addObjOnTile(this);
     }
 
-    public Flag(int x, int y, GridOfTiles grid){
-        this.x = x;
-        this.y = y;
-        sprite=null;
-        flagTile = grid.getTileWfloats(y ,x);
-        flagTile.addObjOnTile(this);
-    }
-
     public void remove(GridOfTiles grid){
         this.sprite = null;
         Tile tile = grid.getTileWfloats(this.y, this.x);
