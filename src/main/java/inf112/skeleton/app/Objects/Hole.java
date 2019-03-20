@@ -1,6 +1,7 @@
 package inf112.skeleton.app.Objects;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
@@ -11,6 +12,7 @@ public class Hole implements IObject {
     public int y;
     public int x;
     Tile hole;
+    SpriteBatch sb;
 
     public Hole(RectangleMapObject TiledHole, GridOfTiles grid){
         y = (int) TiledHole.getRectangle().getY();
@@ -31,6 +33,7 @@ public class Hole implements IObject {
         Tile actorFellFrom = actor.getPreviousTile();
         if(hole.equals(actorTile)){
             System.out.println("Actor fell into a hole! HP lost: ");
+
             if(actor.getBackupTile() != null){
                 actor.backToBackup(grid);
             }else{
