@@ -19,6 +19,7 @@ public class MyActor implements IObject, IActor {
     float x;
     float y;
     ArrayList<Card> chosen = new ArrayList<>(5);
+    float health;
 
     public MyActor(Texture texture, MyGame.Dir startDir){
         this.currentDir = startDir;
@@ -26,7 +27,9 @@ public class MyActor implements IObject, IActor {
         this.actorSprite.setSize(150, 150);
         this.actorSprite.setOrigin((float) 150 / 2, (float) 150 / 2);
         this.backupTile = null;
+        this.health = 1;
         this.previousTile = null;
+
     }
 
     public void Forward(int steps, int moveDist, GridOfTiles grid){
@@ -198,6 +201,14 @@ public class MyActor implements IObject, IActor {
         int TileX = x/grid.pxSize;
         return TileY >= grid.Nrow || TileX >= grid.Ncol;
 
+    }
+
+    public void takeDamage(double i){
+        this.health -= i;
+    }
+
+    public float getHealth(){
+        return health;
     }
 
     public Tile getPreviousTile() {
