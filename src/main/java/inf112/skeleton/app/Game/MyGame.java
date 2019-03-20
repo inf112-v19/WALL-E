@@ -20,6 +20,7 @@ import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
+import inf112.skeleton.app.Objects.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 import inf112.skeleton.app.Objects.ObjectMaker;
 
@@ -49,6 +50,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Texture healthTexture;
     ArrayList<Card> handout = new ArrayList<>(9);
     ArrayList<Card> chosen = new ArrayList<>(5);
+    //public ArrayList<Explosion> explosions;
     private BitmapFont font;
     private String playerInstructionBackspace;
     private String playerInstructionALT;
@@ -82,6 +84,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         camera.translate(-900, -1300);
         HEIGHT = Gdx.graphics.getHeight();
         WIDTH = Gdx.graphics.getWidth();
+        //explosions = new ArrayList<>();
 
         this.grid = initGrid();
         Gdx.input.setInputProcessor(this);
@@ -191,6 +194,25 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             //drawHUD();
 
             createCards();
+
+            //Explosion
+
+            ArrayList<Explosion> explosionsToRemove = new ArrayList<Explosion>();
+            for (Explosion explosion :actor.explosions) {
+                explosion.update(v);
+                if (explosion.remove)
+                    explosionsToRemove.add(explosion);
+            }
+            actor.explosions.removeAll(explosionsToRemove);
+
+
+            for(Explosion explosion : actor.explosions){
+                sb.begin();
+                explosion.render(sb);
+                sb.end();
+            }
+
+
 
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 //kort 1
@@ -424,6 +446,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (keycode == Input.Keys.ALT_LEFT) {
                 handOut();
 
+            }
+
+            if (keycode == Input.Keys.E){
+                actor.explosions.add(new Explosion(actor.getX(),actor.getY()));
             }
 
 

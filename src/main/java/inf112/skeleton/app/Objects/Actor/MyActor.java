@@ -7,6 +7,7 @@ import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Collision;
+import inf112.skeleton.app.Objects.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class MyActor implements IObject, IActor {
     float y;
     ArrayList<Card> chosen = new ArrayList<>(5);
     float health;
+    public ArrayList<Explosion> explosions;
 
     public MyActor(Texture texture, MyGame.Dir startDir){
         this.currentDir = startDir;
@@ -29,6 +31,7 @@ public class MyActor implements IObject, IActor {
         this.backupTile = null;
         this.health = 1;
         this.previousTile = null;
+        explosions = new ArrayList<>();
 
     }
 
@@ -179,13 +182,16 @@ public class MyActor implements IObject, IActor {
 
     private void death(GridOfTiles grid) {
         if(backupTile != null){
+            explosions.add(new Explosion(getX(),getY()));
             backToBackup(grid);
             deleteBackup();
         } else{
+            explosions.add(new Explosion(getX(),getY()));
             System.out.println("Actor died! Out of bounds.");
             this.setBackupTile(grid.getTileWfloats(0, 0));
             this.backToBackup(grid);
         }
+
     }
 
     public void setX(float x) {
