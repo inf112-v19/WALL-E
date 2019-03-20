@@ -18,6 +18,7 @@ public class MyActor implements IObject, IActor {
     float x;
     float y;
     ArrayList<Card> chosen = new ArrayList<>(5);
+    private static Texture texture;
 
     public MyActor(Texture texture, MyGame.Dir startDir){
         this.currentDir = startDir;
@@ -229,4 +230,7 @@ public class MyActor implements IObject, IActor {
     public MyGame.Dir getDir() {
         return currentDir;
     }
+
 }
+
+
