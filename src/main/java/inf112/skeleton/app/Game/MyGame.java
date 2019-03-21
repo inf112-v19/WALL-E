@@ -197,6 +197,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
             //Explosion
 
+            for(Explosion explosion : actor.explosions){
+                sb.begin();
+                explosion.render(sb);
+                sb.end();
+            }
+
             ArrayList<Explosion> explosionsToRemove = new ArrayList<Explosion>();
             for (Explosion explosion :actor.explosions) {
                 explosion.update(v);
@@ -204,13 +210,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                     explosionsToRemove.add(explosion);
             }
             actor.explosions.removeAll(explosionsToRemove);
-
-
-            for(Explosion explosion : actor.explosions){
-                sb.begin();
-                explosion.render(sb);
-                sb.end();
-            }
 
 
 
