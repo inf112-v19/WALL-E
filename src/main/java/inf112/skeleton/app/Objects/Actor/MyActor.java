@@ -17,8 +17,9 @@ public class MyActor implements IObject, IActor {
     Tile backupTile;
     Tile previousTile;
     Sprite actorSprite;
-    float x;
-    float y;
+    public float x;
+    public float y;
+    float speed;
     ArrayList<Card> chosen = new ArrayList<>(5);
     float health;
     public ArrayList<Explosion> explosions;
@@ -32,6 +33,7 @@ public class MyActor implements IObject, IActor {
         this.health = 1;
         this.previousTile = null;
         explosions = new ArrayList<>();
+        speed = 1;
 
     }
 
@@ -63,6 +65,7 @@ public class MyActor implements IObject, IActor {
                 break;
         }
     }
+
 
     public void backward(int steps, int moveDist, GridOfTiles grid){
         for (int i = 0; i < steps; i++) {
@@ -197,6 +200,8 @@ public class MyActor implements IObject, IActor {
     public void setX(float x) {
        this.x = x;
     }
+
+
     public void setY(float y){
         this.y = y;
     }

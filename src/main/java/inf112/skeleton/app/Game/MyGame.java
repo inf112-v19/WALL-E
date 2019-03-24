@@ -18,6 +18,7 @@ import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
+import inf112.skeleton.app.HUD.HealthBar;
 import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Objects.Explosion;
@@ -47,7 +48,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Sprite Health;
     private Batch batch;
     private Texture texture;
-    private Texture healthTexture;
+    //private Texture healthTexture;
     ArrayList<Card> handout = new ArrayList<>(9);
     ArrayList<Card> chosen = new ArrayList<>(5);
     //public ArrayList<Explosion> explosions;
@@ -65,6 +66,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private int WIDTH;
     private String actor1Health;
     private String actor2Health;
+    HealthBar healthBar;
 
     /**
      * Variabel bool playerSwitch for enkel variasjon i bevegelse av player 1 / 2
@@ -134,7 +136,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
-        healthTexture = new Texture(Gdx.files.internal("blank.png"));
+        //healthTexture = new Texture(Gdx.files.internal("blank.png"));
+        healthBar = new HealthBar(actor,"Kristian");
 
     }
 
@@ -160,10 +163,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             batch.begin();
             font.draw(batch, playerInstructionBackspace, textPositionX, textPositionY);
             font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
-            font.draw(batch, actor1Health, WIDTH-WIDTH/3, textPositionY);
-            font.draw(batch, actor2Health, WIDTH-WIDTH/3, textPositionY-HEIGHT/30);
+            //font.draw(batch, actor1Health, WIDTH-WIDTH/3, textPositionY);
+            //font.draw(batch, actor2Health, WIDTH-WIDTH/3, textPositionY-HEIGHT/30);
 
             // Health-bar
+            /**
             batch.setColor(Color.WHITE);
             batch.draw(healthTexture, WIDTH-(WIDTH/200)*54,HEIGHT-(HEIGHT/100)*6,(WIDTH/200)*37, (HEIGHT/300)*7);
             batch.setColor(Color.BLACK);
@@ -188,7 +192,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 batch.setColor(Color.RED);
             }
             if(actor2.getHealth()>0) batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/12,WIDTH/6*actor2.getHealth(), HEIGHT/80);
-            batch.end();
+            **/
+             batch.end();
+             healthBar.render();
 
             Sprites();
             //drawHUD();
