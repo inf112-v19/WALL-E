@@ -45,18 +45,13 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Boolean[] booleans;
     private int cardX;
     private Sprite BackBoard;
-    private Sprite Health;
     private Batch batch;
     private Texture texture;
-    //private Texture healthTexture;
     ArrayList<Card> handout = new ArrayList<>(9);
     ArrayList<Card> chosen = new ArrayList<>(5);
-    //public ArrayList<Explosion> explosions;
     private BitmapFont font;
     private String playerInstructionBackspace;
     private String playerInstructionALT;
-    private String playerInstructionSelect;
-    private String cardString;
     private float textPositionX;
     private float textPositionY;
     Card testCard;
@@ -64,11 +59,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     RoboRally game;
     private int HEIGHT;
     private int WIDTH;
-    private String actor1Health;
-    private String actor2Health;
-    HealthBar healthBar;
-    HealthBar healthBar2;
-    ArrayList<MyActor> players;
+    private HealthBar healthBar;
+    private HealthBar healthBar2;
 
     /**
      * Variabel bool playerSwitch for enkel variasjon i bevegelse av player 1 / 2
@@ -88,7 +80,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         camera.translate(-900, -1300);
         HEIGHT = Gdx.graphics.getHeight();
         WIDTH = Gdx.graphics.getWidth();
-        //explosions = new ArrayList<>();
 
         this.grid = initGrid();
         Gdx.input.setInputProcessor(this);
@@ -109,10 +100,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         double y = HEIGHT - (HEIGHT * 0.035);
         textPositionX = (float) x;
         textPositionY = (float) y;
-        playerInstructionSelect = "";
-        cardString = "";
-        actor1Health = "Player 1: ";
-        actor2Health = "Player 2: ";
 
 
         /*
@@ -131,12 +118,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         booleans = new Boolean[5];
 
         cardStartX = WIDTH / 6;
-        players = new ArrayList<>();
         ObjectMaker objectMaker = new ObjectMaker(map, grid);
         actor = objectMaker.actor;
         actor2 = objectMaker.actor2;
-        players.add(actor);
-        players.add(actor2);
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
@@ -448,22 +432,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 System.out.println("Backup set to: " + current);
             }
 
-            if (keycode == Input.Keys.BACKSPACE) {
-                StringBuilder s = new StringBuilder("Cards in handout: ");
-                int num = 1;
-                for (Card c : handout) {
-                    s.append(num + ": ");
-                    String type = getType(c);
-                    if (type.equals("Move"))
-                        s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
-                    else if (type.equals("Turn")) s.append(type).append(" ").append(c.getTurn()).append(", ");
-                    else s.append(type).append(", ");
-                    num++;
-                }
-                System.out.println(s);
-                cardString = s.toString();
-                playerInstructionSelect = "Press the number of the card in the required order to select, and then ENTER to perform moves!";
-            }
             return false;
         }
 
