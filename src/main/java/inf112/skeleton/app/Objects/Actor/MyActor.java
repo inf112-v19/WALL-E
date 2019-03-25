@@ -7,6 +7,7 @@ import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Collision;
+import inf112.skeleton.app.Objects.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 
 import java.util.ArrayList;
@@ -14,11 +15,14 @@ import java.util.ArrayList;
 public class MyActor implements IObject, IActor {
     MyGame.Dir currentDir;
     Tile backupTile;
+    Tile previousTile;
     Sprite actorSprite;
     float x;
     float y;
     ArrayList<Card> chosen = new ArrayList<>(5);
     String textureFile;
+    float health;
+    public ArrayList<Explosion> explosions;
 
     public MyActor(String textureFile, MyGame.Dir startDir){
         this.currentDir = startDir;
@@ -30,6 +34,10 @@ public class MyActor implements IObject, IActor {
         this.actorSprite = new Sprite(new Texture(textureFile));
         this.actorSprite.setSize(150, 150);
         this.actorSprite.setOrigin((float) 150 / 2, (float) 150 / 2);
+        this.backupTile = null;
+        this.health = 1;
+        this.previousTile = null;
+        explosions = new ArrayList<>();
     }
 
     public void Forward(int steps, int moveDist, GridOfTiles grid){
@@ -142,6 +150,10 @@ public class MyActor implements IObject, IActor {
         }
     }
 
+    public Tile getBackupTile(){
+        return this.backupTile;
+    }
+
     public void setBackupTile(Tile backupTile){
         this.backupTile = backupTile;
         System.out.println("New backup location: " + backupTile);
@@ -175,13 +187,16 @@ public class MyActor implements IObject, IActor {
 
     private void death(GridOfTiles grid) {
         if(backupTile != null){
+            explosions.add(new Explosion(getX(),getY()));
             backToBackup(grid);
             deleteBackup();
         } else{
+            explosions.add(new Explosion(getX(),getY()));
             System.out.println("Actor died! Out of bounds.");
             this.setBackupTile(grid.getTileWfloats(0, 0));
             this.backToBackup(grid);
         }
+
     }
 
     public void setX(float x) {
@@ -199,6 +214,21 @@ public class MyActor implements IObject, IActor {
 
     }
 
+    public void takeDamage(double i){
+        this.health -= i;
+    }
+
+    public float getHealth(){
+        return health;
+    }
+
+    public Tile getPreviousTile() {
+        return this.previousTile;
+    }
+
+    public void setPreviousTile(Tile tile){
+        previousTile = tile;
+    }
 
     public float getY() {
         return this.y;
@@ -223,6 +253,13 @@ public class MyActor implements IObject, IActor {
         actorSprite.setX(this.x);
         actorSprite.setY(this.y);
         return this.actorSprite;
+    }
+
+    @Override
+    public Tile getTile() {
+        float x = this.getX();
+        float y = this.getY();
+        return MyGame.grid.getTileWfloats(y, x);
     }
 
     @Override

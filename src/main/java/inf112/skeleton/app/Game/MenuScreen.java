@@ -41,6 +41,7 @@ public class MenuScreen implements Screen {
         exitAct = new Texture(Gdx.files.internal("exit_active.png"));
         batch = new SpriteBatch();
 
+
         PLAY_BUTTON_X = (WIDTH/2)-(playInAct.getWidth()/2);
         PLAY_BUTTON_y = HEIGHT-(HEIGHT/4);
         PLAY_BUTTON_HEIGHT = playAct.getHeight();
@@ -51,6 +52,7 @@ public class MenuScreen implements Screen {
         EXIT_BUTTON_HEIGHT = exitAct.getHeight();
         EXIT_BUTTON_WIDTH = exitAct.getWidth();
     }
+
 
     @Override
     public void show() {

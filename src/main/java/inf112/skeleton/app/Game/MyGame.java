@@ -21,6 +21,7 @@ import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
+import inf112.skeleton.app.Objects.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 import inf112.skeleton.app.Objects.ObjectMaker;
 import org.mockito.internal.matchers.Null;
@@ -37,7 +38,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     SpriteBatch sb;
     public MyActor actor;
     public MyActor actor2;
-    public GridOfTiles grid;
+    public static GridOfTiles grid;
     public Map map;
     public Deck deck;
     private Card temp;
@@ -48,8 +49,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Sprite Health;
     private Batch batch;
     private Texture texture;
+    private Texture healthTexture;
     public ArrayList<Card> handout = new ArrayList<>(9);
     public ArrayList<Card> chosen = new ArrayList<>(5);
+    //public ArrayList<Explosion> explosions;
     private BitmapFont font;
     private String playerInstructionBackspace;
     private String playerInstructionALT;
@@ -61,6 +64,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private int cardStartX;
     RoboRally game;
     private ObjectMaker objectMaker;
+    private int HEIGHT;
+    private int WIDTH;
+    private String actor1Health;
+    private String actor2Health;
 
     /**
      * Variabel bool playerSwitch for enkel variasjon i bevegelse av player 1 / 2
@@ -106,6 +113,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         camera = new MyCam(tiledMap);
         camera.translate(-900, -1300);
+        HEIGHT = Gdx.graphics.getHeight();
+        WIDTH = Gdx.graphics.getWidth();
+        //explosions = new ArrayList<>();
 
         this.grid = initGrid();
         Gdx.input.setInputProcessor(this);
@@ -122,12 +132,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        double x = Gdx.graphics.getWidth() - (Gdx.graphics.getWidth() * 0.97);
-        double y = Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() * 0.035);
+        double x = WIDTH - (WIDTH * 0.97);
+        double y = HEIGHT - (HEIGHT * 0.035);
         textPositionX = (float) x;
         textPositionY = (float) y;
         playerInstructionSelect = "";
         cardString = "";
+        actor1Health = "Player 1: ";
+        actor2Health = "Player 2: ";
 
         cardStartX = Gdx.graphics.getWidth() / 6;
 
@@ -135,11 +147,16 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         actor2.create();
 
         testCard.create();
+      
+        cardStartX = WIDTH / 6;
 
+        ObjectMaker objectMaker = new ObjectMaker(map, grid);
+        actor = objectMaker.actor;
+        actor2 = objectMaker.actor2;
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
-        objectMaker.createFlags();
+        healthTexture = new Texture(Gdx.files.internal("blank.png"));
     }
 
 
@@ -164,12 +181,58 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             batch.begin();
             font.draw(batch, playerInstructionBackspace, textPositionX, textPositionY);
             font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
+            font.draw(batch, actor1Health, WIDTH-WIDTH/3, textPositionY);
+            font.draw(batch, actor2Health, WIDTH-WIDTH/3, textPositionY-HEIGHT/30);
+
+            // Health-bar
+            batch.setColor(Color.WHITE);
+            batch.draw(healthTexture, WIDTH-(WIDTH/200)*54,HEIGHT-(HEIGHT/100)*6,(WIDTH/200)*37, (HEIGHT/300)*7);
+            batch.setColor(Color.BLACK);
+            batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/19,WIDTH/6, HEIGHT/80);
+            batch.setColor(Color.WHITE);
+            batch.draw(healthTexture, WIDTH-(WIDTH/200)*54,HEIGHT-(HEIGHT/400)*46,(WIDTH/200)*37, (HEIGHT/300)*7);
+            batch.setColor(Color.BLACK);
+            batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/12,WIDTH/6, HEIGHT/80);
+            if (actor.getHealth()> 0.6f) {
+                batch.setColor(Color.GREEN);
+            }else if (actor.getHealth() > 0.2f) {
+                batch.setColor(Color.ORANGE);
+            }else {
+                batch.setColor(Color.RED);
+            }
+            if(actor.getHealth()>0) batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/19,WIDTH/6*actor.getHealth(), HEIGHT/80);
+            if (actor2.getHealth()> 0.6f) {
+                batch.setColor(Color.GREEN);
+            }else if (actor2.getHealth() > 0.2f) {
+                batch.setColor(Color.ORANGE);
+            }else {
+                batch.setColor(Color.RED);
+            }
+            if(actor2.getHealth()>0) batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/12,WIDTH/6*actor2.getHealth(), HEIGHT/80);
             batch.end();
 
             Sprites();
             //drawHUD();
 
             createCards();
+
+            //Explosion
+
+            for(Explosion explosion : actor.explosions){
+                sb.begin();
+                explosion.render(sb);
+                sb.end();
+            }
+
+            ArrayList<Explosion> explosionsToRemove = new ArrayList<Explosion>();
+            for (Explosion explosion :actor.explosions) {
+                explosion.update(v);
+                if (explosion.remove)
+                    explosionsToRemove.add(explosion);
+            }
+            actor.explosions.removeAll(explosionsToRemove);
+
+
 
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 //kort 1
@@ -336,6 +399,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (playerSwitch) actor = actor2;
             float x = actor.getX();
             float y = actor.getY();
+            Tile current = grid.getTileWfloats(y, x);
+            actor.setPreviousTile(current);
 
             int moveDist = PXSIZE;
 
@@ -348,12 +413,20 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
             if (keycode == Input.Keys.UP) {
                 actor.Forward(1, moveDist, grid);
+                actor.setPreviousTile(actor.getTile());
             }
             if (keycode == Input.Keys.DOWN) {
                 actor.Forward(1, moveDist * (-1), grid);
+                actor.setPreviousTile(actor.getTile());
             }
 
+            if (keycode == Input.Keys.D) {
+                actor.takeDamage(0.1);
+            }
 
+            if (keycode == Input.Keys.S) {
+                actor2.takeDamage(0.1);
+            }
 
             //__________________________________________________________
             if (keycode == Input.Keys.ENTER) {
@@ -393,6 +466,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (keycode == Input.Keys.ALT_LEFT) {
                 handOut();
 
+            }
+
+            if (keycode == Input.Keys.E){
+                actor.explosions.add(new Explosion(actor.getX(),actor.getY()));
             }
 
 
