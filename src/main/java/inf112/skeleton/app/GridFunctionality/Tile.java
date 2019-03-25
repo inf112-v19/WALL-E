@@ -1,6 +1,8 @@
 package inf112.skeleton.app.GridFunctionality;
 
+import inf112.skeleton.app.Objects.BlueConveyorBelt;
 import inf112.skeleton.app.Objects.IObject;
+import inf112.skeleton.app.Objects.RedConveyorBelt;
 
 import java.util.ArrayList;
 
@@ -21,6 +23,7 @@ public class Tile implements ITile, Comparable<Tile>{
     public int xCoordTo;
     public int yCoordFrom;
     public int yCoordTo;
+    public boolean isConveyor;
     ArrayList<IObject> ObjOnTile;
 
 
@@ -54,6 +57,10 @@ public class Tile implements ITile, Comparable<Tile>{
             return true;
 
         return false;
+    }
+
+    public boolean isConveyor() {
+        return isConveyor;
     }
 
     public void addObjOnTile(IObject obj) {

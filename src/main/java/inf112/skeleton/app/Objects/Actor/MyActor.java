@@ -20,6 +20,7 @@ public class MyActor implements IObject, IActor {
     float y;
     ArrayList<Card> chosen = new ArrayList<>(5);
     float health;
+    public Tile currentTile;
 
     public MyActor(Texture texture, MyGame.Dir startDir){
         this.currentDir = startDir;
@@ -36,6 +37,7 @@ public class MyActor implements IObject, IActor {
         for (int i = 0; i < steps; i++) {
             moveForward(moveDist, grid);
         }
+        currentTile = grid.getTileWfloats(this.y, this.x);
         CollisionCheck(grid);
     }
 
@@ -264,5 +266,26 @@ public class MyActor implements IObject, IActor {
     public void restoreHealth(double v) {
         if(health<1) this.health += v;
         if(health>1) this.health = 1;
+    }
+
+    public void moveToTile(Tile destination, GridOfTiles grid){
+       /* this.setX(destination.x);
+        this.setY(destination.y);
+        this.x = destination.x;
+        this.y = destination.y;*/
+       int moveDist = grid.pxSize;
+       float moveX =  moveDist * (destination.x - this.x);
+       float moveY =  moveDist * (destination.y - this.y);
+       this.setPosition((int)(this.y + moveY), (int)(this.x + moveX), grid);
+
+    }
+
+    public void setDir(MyGame.Dir conveyorDirection) {
+        currentDir = conveyorDirection;
+    }
+
+    public void moveInDirection(int toMove, MyGame.Dir conveyorDirection, GridOfTiles grid) {
+        currentDir = conveyorDirection;
+        Forward(1, toMove, grid);
     }
 }

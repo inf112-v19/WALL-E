@@ -22,26 +22,30 @@ public class Collision {
         System.out.println(actorTile);
         for (int i = 0; i <onTile.size() ; i++) {
             if (onTile.get(i).equals(actor)) continue;
-            if (onTile.get(i) instanceof  Flag){
+            if (onTile.get(i) instanceof Flag) {
                 ((Flag) onTile.get(i)).handleFlag(actor, grid);
             }
-            if (onTile.get(i) instanceof BlueTeleport){
+            if (onTile.get(i) instanceof BlueTeleport) {
                 ((BlueTeleport) onTile.get(i)).handleTeleportation(actor, grid);
             }
-            if (onTile.get(i) instanceof YellowTeleport){
+            if (onTile.get(i) instanceof YellowTeleport) {
                 ((YellowTeleport) onTile.get(i)).handleTeleportation(actor, grid);
             }
-            if (onTile.get(i) instanceof Hole){
+            if (onTile.get(i) instanceof Hole) {
                 ((Hole) onTile.get(i)).handleFallingIntoHoles(actor, grid);
             }
-            if (onTile.get(i) instanceof WrenchesSingle){
+            if (onTile.get(i) instanceof WrenchesSingle) {
                 ((WrenchesSingle) onTile.get(i)).handleWrench(actor, grid);
             }
-            if (onTile.get(i) instanceof WrenchesDouble){
+            if (onTile.get(i) instanceof WrenchesDouble) {
                 ((WrenchesDouble) onTile.get(i)).handleWrench(actor, grid);
             }
-
+            if (onTile.get(i) instanceof RedConveyorBelt) {
+                ((RedConveyorBelt) onTile.get(i)).handleConveyorTransport(actor, grid);
+            }
+            if (onTile.get(i) instanceof  BlueConveyorBelt){
+                ((BlueConveyorBelt) onTile.get(i)).handleConveyorTransport(actor, grid);
+            }
         }
-
     }
 }

@@ -101,7 +101,7 @@ public class ObjectMaker {
         int i = 0;
         for (MapObject blueConveyor : layer.getObjects()) {
             RectangleMapObject blueConvRect = (RectangleMapObject) blueConveyor;
-            BlueConveyorBelt addThisConveyorToMap = new BlueConveyorBelt(blueConvRect, grid);
+            BlueConveyorBelt addThisConveyorToMap = new BlueConveyorBelt(blueConvRect, grid, 1);
             blueConveyors.add(addThisConveyorToMap);
             i++;
         }
@@ -113,7 +113,7 @@ public class ObjectMaker {
         int i = 0;
         for (MapObject redConveyor : layer.getObjects()) {
             RectangleMapObject redConvRect = (RectangleMapObject) redConveyor;
-            RedConveyorBelt addThisConveyorToMap = new RedConveyorBelt(redConvRect, grid);
+            RedConveyorBelt addThisConveyorToMap = new RedConveyorBelt(redConvRect, grid, 1);
             redConveyors.add(addThisConveyorToMap);
             i++;
         }
