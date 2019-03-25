@@ -47,8 +47,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Sprite BackBoard;
     private Batch batch;
     private Texture texture;
-    ArrayList<Card> handout = new ArrayList<>(9);
-    ArrayList<Card> chosen = new ArrayList<>(5);
+    public ArrayList<Card> handout = new ArrayList<>(9);
+    public ArrayList<Card> chosen = new ArrayList<>(5);
     private BitmapFont font;
     private String playerInstructionBackspace;
     private String playerInstructionALT;
