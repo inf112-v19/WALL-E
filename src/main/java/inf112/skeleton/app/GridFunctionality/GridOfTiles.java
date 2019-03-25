@@ -1,8 +1,11 @@
 package inf112.skeleton.app.GridFunctionality;
 
+import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.Objects.IObject;
 
 import java.util.ArrayList;
+
+import static inf112.skeleton.app.Game.MyGame.Dir.NORTH;
 
 public class GridOfTiles {
     public int pxSize;
@@ -47,6 +50,17 @@ public class GridOfTiles {
         return getTile(yTileCoordinate, xTileCoordinate);
     }
 
+    public Tile getTileWithDirection(Tile on, MyGame.Dir dir){
+        int x = 0;
+        int y = 0;
+        switch (dir) {
+            case NORTH: x = 0; y = 1;
+            case EAST: x = 1; y = 0;
+            case WEST: x = -1; y = 0;
+            case SOUTH: x = 0; y  =-1;
+        }
+        return getTile(on.y+y, on.x+x);
+    }
     public Tile getTile(int y, int x) {
         if (x>=Ncol || y>=Nrow){
             throw new IllegalArgumentException("Out of bounds");
