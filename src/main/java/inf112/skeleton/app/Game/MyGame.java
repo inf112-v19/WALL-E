@@ -48,8 +48,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Batch batch;
     private Texture texture;
     private Texture healthTexture;
-    ArrayList<Card> handout = new ArrayList<>(9);
-    ArrayList<Card> chosen = new ArrayList<>(5);
+    public ArrayList<Card> handout = new ArrayList<>(9);
+    public ArrayList<Card> chosen = new ArrayList<>(5);
     //public ArrayList<Explosion> explosions;
     private BitmapFont font;
     private String playerInstructionBackspace;
@@ -61,6 +61,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     Card testCard;
     private int cardStartX;
     RoboRally game;
+    private ObjectMaker objectMaker;
     private int HEIGHT;
     private int WIDTH;
     private String actor1Health;
@@ -72,8 +73,34 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
      */
     private boolean playerSwitch = false;
 
-    public MyGame(RoboRally game) {
+    public MyGame() {
+        this(null);
+
+        objectMaker = new ObjectMaker(null, null);
+        actor = objectMaker.actor;
+        actor2 = objectMaker.actor2;
+    }
+
+    MyGame(RoboRally game) {
         this.game = game;
+
+        /*
+         * Add hp
+         * add dmg
+         * add sprites for hearts
+         */
+
+        deck = new Deck();
+        handOut();
+        testCard = handout.get(2);
+        chosen = new ArrayList<>(5);
+        //To be used later for drawing and rendering cards
+        CardArr = new Card[5];
+        booleans = new Boolean[5];
+    }
+
+    @Override
+    public void create() {
         map = new Map("map_v1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         this.PXSIZE = getTileSize();
@@ -110,32 +137,23 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         actor1Health = "Player 1: ";
         actor2Health = "Player 2: ";
 
+        cardStartX = Gdx.graphics.getWidth() / 6;
 
-        /*
-         * Add hp
-         * add dmg
-         * add sprites for hearts
-         */
 
-        deck = new Deck();
-        handOut();
-        testCard = handout.get(2);
         testCard.create();
-        chosen = new ArrayList<>(5);
-        //To be used later for drawing and rendering cards
-        CardArr = new Card[5];
-        booleans = new Boolean[5];
 
         cardStartX = WIDTH / 6;
 
-        ObjectMaker objectMaker = new ObjectMaker(map, grid);
+        objectMaker = new ObjectMaker(map, grid);
+        objectMaker.create();
         actor = objectMaker.actor;
         actor2 = objectMaker.actor2;
+        actor.create();
+        actor2.create();
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
         healthTexture = new Texture(Gdx.files.internal("blank.png"));
-
     }
 
 
@@ -342,14 +360,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
         }
 
-        void handOut () {
+        public void handOut() {
             handout.clear();
             for (int i = 0; i < 9; i++) {
                 handout.add(deck.handOut());
             }
         }
 
-        void chooseCard ( int i){
+        public void chooseCard(int i){
             Card card = handout.get(i);
             chosen.add(0, card);
             while (chosen.size() > 5) {
