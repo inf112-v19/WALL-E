@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import static inf112.skeleton.app.CardFunctionality.Card.getType;
 
 public class MyGame extends ApplicationAdapter implements InputProcessor, Screen {
-    public int PXSIZE;
+    public int PXSIZE = 78;
     public TiledMap tiledMap;
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
@@ -365,8 +365,13 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (playerSwitch) actor = actor2;
             float x = actor.getX();
             float y = actor.getY();
-            Tile current = grid.getTileWfloats(y, x);
-            actor.setPreviousTile(current);
+            Tile current = new Tile(0, 0, 0);
+            try {
+                current = grid.getTileWfloats(y, x);
+                actor.setPreviousTile(current);
+            } catch (NullPointerException e) {
+
+            }
 
             int moveDist = PXSIZE;
 
@@ -379,11 +384,13 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
             if (keycode == Input.Keys.UP) {
                 actor.Forward(1, moveDist, grid);
-                actor.setPreviousTile(actor.getTile());
+                if (grid != null)
+                    actor.setPreviousTile(actor.getTile());
             }
             if (keycode == Input.Keys.DOWN) {
                 actor.Forward(1, moveDist * (-1), grid);
-                actor.setPreviousTile(actor.getTile());
+                if (grid != null)
+                    actor.setPreviousTile(actor.getTile());
             }
 
             if (keycode == Input.Keys.D) {

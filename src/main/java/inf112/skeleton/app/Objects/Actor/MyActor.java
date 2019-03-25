@@ -96,7 +96,8 @@ public class MyActor implements IObject, IActor {
     }
 
     public void turnRight(){
-        actorSprite.rotate(-90);
+        if (actorSprite != null)
+            actorSprite.rotate(-90);
 
         switch (currentDir){
             case NORTH:
@@ -115,7 +116,8 @@ public class MyActor implements IObject, IActor {
     }
 
     public void turnLeft(){
-        actorSprite.rotate(90);
+        if (actorSprite != null)
+            actorSprite.rotate(90);
 
         switch (currentDir){
             case NORTH:
@@ -134,7 +136,8 @@ public class MyActor implements IObject, IActor {
     }
 
     public void uTurn(){
-        actorSprite.rotate(180);
+        if (actorSprite != null)
+            actorSprite.rotate(180);
 
         switch (currentDir){
             case NORTH:
@@ -174,16 +177,18 @@ public class MyActor implements IObject, IActor {
     }
 
     public void setPosition(int y, int x, GridOfTiles grid) {
-        if(checkOutOfBounds(y, x, grid)){
+        if (grid != null && checkOutOfBounds(y, x, grid)) {
             death(grid);
             return;
         }
-        Tile current = grid.getTileWfloats(getY(), getX());
         setX(x);
         setY(y);
 
-        current.getObjOnTile().remove(this);
-        grid.getTileWfloats(y, x).addObjOnTile(this);
+        if (grid != null) {
+            Tile current = grid.getTileWfloats(getY(), getX());
+            current.getObjOnTile().remove(this);
+            grid.getTileWfloats(y, x).addObjOnTile(this);
+        }
 
     }
 

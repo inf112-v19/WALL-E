@@ -57,14 +57,17 @@ public class ActorTest {
 
         // Move player RIGHT
         game.keyDown(Input.Keys.RIGHT);
+        game.keyDown(Input.Keys.UP);
         assertEquals("Remain on same y-level", posY, game.actor.getY());
-        assertEquals("Move right 142px", posX + 142, game.actor.getX());
+        assertEquals("Move right 78px", posX + 78, game.actor.getX());
         posX = game.actor.getX();
 
         // Move player LEFT
         game.keyDown(Input.Keys.LEFT);
+        game.keyDown(Input.Keys.LEFT);
+        game.keyDown(Input.Keys.UP);
         assertEquals("Remain on same y-level", posY, game.actor.getY());
-        assertEquals("Move left 142px", posX - 142, game.actor.getX());
+        assertEquals("Move left 78px", posX - 78, game.actor.getX());
         posX = game.actor.getX();
 
         // Assert that we are back in starting position
