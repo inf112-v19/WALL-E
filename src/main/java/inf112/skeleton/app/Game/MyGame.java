@@ -67,6 +67,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private String actor1Health;
     private String actor2Health;
     HealthBar healthBar;
+    HealthBar healthBar2;
+    ArrayList<MyActor> players;
 
     /**
      * Variabel bool playerSwitch for enkel variasjon i bevegelse av player 1 / 2
@@ -129,15 +131,17 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         booleans = new Boolean[5];
 
         cardStartX = WIDTH / 6;
-
+        players = new ArrayList<>();
         ObjectMaker objectMaker = new ObjectMaker(map, grid);
         actor = objectMaker.actor;
         actor2 = objectMaker.actor2;
+        players.add(actor);
+        players.add(actor2);
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
-        //healthTexture = new Texture(Gdx.files.internal("blank.png"));
-        healthBar = new HealthBar(actor,"Kristian");
+        healthBar = new HealthBar(actor,"Player 1",1);
+        healthBar2 = new HealthBar(actor2,"Player 2",2);
 
     }
 
@@ -163,38 +167,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             batch.begin();
             font.draw(batch, playerInstructionBackspace, textPositionX, textPositionY);
             font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
-            //font.draw(batch, actor1Health, WIDTH-WIDTH/3, textPositionY);
-            //font.draw(batch, actor2Health, WIDTH-WIDTH/3, textPositionY-HEIGHT/30);
 
             // Health-bar
-            /**
-            batch.setColor(Color.WHITE);
-            batch.draw(healthTexture, WIDTH-(WIDTH/200)*54,HEIGHT-(HEIGHT/100)*6,(WIDTH/200)*37, (HEIGHT/300)*7);
-            batch.setColor(Color.BLACK);
-            batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/19,WIDTH/6, HEIGHT/80);
-            batch.setColor(Color.WHITE);
-            batch.draw(healthTexture, WIDTH-(WIDTH/200)*54,HEIGHT-(HEIGHT/400)*46,(WIDTH/200)*37, (HEIGHT/300)*7);
-            batch.setColor(Color.BLACK);
-            batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/12,WIDTH/6, HEIGHT/80);
-            if (actor.getHealth()> 0.6f) {
-                batch.setColor(Color.GREEN);
-            }else if (actor.getHealth() > 0.2f) {
-                batch.setColor(Color.ORANGE);
-            }else {
-                batch.setColor(Color.RED);
-            }
-            if(actor.getHealth()>0) batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/19,WIDTH/6*actor.getHealth(), HEIGHT/80);
-            if (actor2.getHealth()> 0.6f) {
-                batch.setColor(Color.GREEN);
-            }else if (actor2.getHealth() > 0.2f) {
-                batch.setColor(Color.ORANGE);
-            }else {
-                batch.setColor(Color.RED);
-            }
-            if(actor2.getHealth()>0) batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/12,WIDTH/6*actor2.getHealth(), HEIGHT/80);
-            **/
-             batch.end();
-             healthBar.render();
+            batch.end();
+            healthBar.render();
+            healthBar2.render();
 
             Sprites();
             //drawHUD();
