@@ -1,12 +1,10 @@
 package inf112.skeleton.app.Objects;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
-import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 
@@ -32,7 +30,9 @@ public class ObjectMaker {
 
         createActor();
         createActor2();
-        if (map == null) return;
+    }
+
+    public void create() {
         createFlags();
         createBlueTeleports();
         createYellowTeleports();
@@ -41,7 +41,7 @@ public class ObjectMaker {
         createRedConveyors();
     }
 
-    public void createFlags() {
+    private void createFlags() {
         flags = new ArrayList<>();
         MapLayer layer = map.getMapLayer("Flags");
         int i = 0;

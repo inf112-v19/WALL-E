@@ -1,7 +1,6 @@
 package inf112.skeleton.app.Game;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -24,7 +23,6 @@ import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Objects.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 import inf112.skeleton.app.Objects.ObjectMaker;
-import org.mockito.internal.matchers.Null;
 
 import java.util.ArrayList;
 
@@ -75,13 +73,15 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
      */
     private boolean playerSwitch = false;
 
-    public String test;
-
     public MyGame() {
         this(null);
+
+        objectMaker = new ObjectMaker(null, null);
+        actor = objectMaker.actor;
+        actor2 = objectMaker.actor2;
     }
 
-    public MyGame(RoboRally game) {
+    MyGame(RoboRally game) {
         this.game = game;
 
         /*
@@ -97,10 +97,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         //To be used later for drawing and rendering cards
         CardArr = new Card[5];
         booleans = new Boolean[5];
-
-        objectMaker = new ObjectMaker(map, grid);
-        actor = objectMaker.actor;
-        actor2 = objectMaker.actor2;
     }
 
     @Override
@@ -143,16 +139,17 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         cardStartX = Gdx.graphics.getWidth() / 6;
 
-        actor.create();
-        actor2.create();
 
         testCard.create();
-      
+
         cardStartX = WIDTH / 6;
 
         objectMaker = new ObjectMaker(map, grid);
+        objectMaker.create();
         actor = objectMaker.actor;
         actor2 = objectMaker.actor2;
+        actor.create();
+        actor2.create();
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
