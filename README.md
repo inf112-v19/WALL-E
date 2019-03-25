@@ -6,14 +6,38 @@ Simple skeleton with libgdx.
 Currently throws "WARNING: An illegal reflective access operation has occurred", 
 when the java version used is >8. This has no effect on function or performance, and is just a warning.
 
-### Working directory
-To run the game and tests, working directory needs to be set to `$PROJECT_DIR/core/assets`.
-E.g., in IntelliJ IDEA, edit run configurations and set **Working directory** to `/IdeaProjects/WALL-E/core/assets`
+## Compiling
+
+Move to the Assets directory so we are sure the assets files are included:
+
+```bash
+cd ./core/assets
+```
+
+Then setup using Maven:
+
+```bash
+mvn clean dependency:copy-dependencies compile assembly:single  package -f ../../
+```
 
 ## Running
-Make sure [working directory](#working-directory) has been configured correctly.
-To run the game, run Main.main().
+
+Assuming you have done the steps in [Compiling](#compiling),
+runninng should be as simple as:
+
+```bash
+java -jar target/wall-e-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
 
 ## Testing
-Make sure [working directory](#working-directory) has been configured correctly.
-Tests are located at `src/test/java/`, and are ran with JUnit.
+
+If you haven't already:
+```bash
+cd ./core/assets
+```
+
+Then run the tests with Maven:
+
+```bash
+mvn test -f ../../
+```
