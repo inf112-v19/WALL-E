@@ -1,12 +1,10 @@
 package inf112.skeleton.app.Objects;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
-import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 
@@ -33,6 +31,9 @@ public class ObjectMaker {
 
         createActor();
         createActor2();
+    }
+
+    public void create() {
         createFlags();
         createBlueTeleports();
         createYellowTeleports();
@@ -147,12 +148,12 @@ public class ObjectMaker {
 
     private void createActor() {
         MyGame.Dir startDir = MyGame.Dir.NORTH;
-        actor = new MyActor(new Texture("robbie.png"), startDir);
+        actor = new MyActor("robbie.png", startDir);
     }
 
     private void createActor2() {
         MyGame.Dir startDir = MyGame.Dir.EAST;
-        actor2 = new MyActor((new Texture("wall-e.png")), startDir);
+        actor2 = new MyActor("wall-e.png", startDir);
     }
 
     public int getConveyorLandedon(MyActor actor, GridOfTiles grid, String color) {

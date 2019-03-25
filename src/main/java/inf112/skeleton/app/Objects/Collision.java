@@ -16,6 +16,8 @@ public class Collision {
     }
 
     public void collisionCheck(){
+        if (grid == null) return;
+
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
         List onTile = actorTile.getObjOnTile();
 

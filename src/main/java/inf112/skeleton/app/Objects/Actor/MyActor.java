@@ -7,6 +7,7 @@ import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Collision;
+import inf112.skeleton.app.Objects.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 
 import java.util.ArrayList;
@@ -16,21 +17,29 @@ public class MyActor implements IObject, IActor {
     Tile backupTile;
     Tile previousTile;
     Sprite actorSprite;
-    float x;
-    float y;
+    public float x;
+    public float y;
+    float speed;
     ArrayList<Card> chosen = new ArrayList<>(5);
+    String textureFile;
     float health;
     public Tile currentTile;
+    public ArrayList<Explosion> explosions;
 
-    public MyActor(Texture texture, MyGame.Dir startDir){
+    public MyActor(String textureFile, MyGame.Dir startDir){
         this.currentDir = startDir;
-        this.actorSprite = new Sprite(texture);
+        this.textureFile = textureFile;
+        this.backupTile = null;
+    }
+
+    public void create() {
+        this.actorSprite = new Sprite(new Texture(textureFile));
         this.actorSprite.setSize(150, 150);
         this.actorSprite.setOrigin((float) 150 / 2, (float) 150 / 2);
         this.backupTile = null;
         this.health = 1;
         this.previousTile = null;
-
+        explosions = new ArrayList<>();
     }
 
     public void Forward(int steps, int moveDist, GridOfTiles grid){
@@ -63,6 +72,7 @@ public class MyActor implements IObject, IActor {
         }
     }
 
+
     public void backward(int steps, int moveDist, GridOfTiles grid){
         for (int i = 0; i < steps; i++) {
             moveBackward(moveDist, grid);
@@ -88,7 +98,8 @@ public class MyActor implements IObject, IActor {
     }
 
     public void turnRight(){
-        actorSprite.rotate(-90);
+        if (actorSprite != null)
+            actorSprite.rotate(-90);
 
         switch (currentDir){
             case NORTH:
@@ -107,7 +118,8 @@ public class MyActor implements IObject, IActor {
     }
 
     public void turnLeft(){
-        actorSprite.rotate(90);
+        if (actorSprite != null)
+            actorSprite.rotate(90);
 
         switch (currentDir){
             case NORTH:
@@ -126,7 +138,8 @@ public class MyActor implements IObject, IActor {
     }
 
     public void uTurn(){
-        actorSprite.rotate(180);
+        if (actorSprite != null)
+            actorSprite.rotate(180);
 
         switch (currentDir){
             case NORTH:
@@ -166,33 +179,40 @@ public class MyActor implements IObject, IActor {
     }
 
     public void setPosition(int y, int x, GridOfTiles grid) {
-        if(checkOutOfBounds(y, x, grid)){
+        if (grid != null && checkOutOfBounds(y, x, grid)) {
             death(grid);
             return;
         }
-        Tile current = grid.getTileWfloats(getY(), getX());
         setX(x);
         setY(y);
 
-        current.getObjOnTile().remove(this);
-        grid.getTileWfloats(y, x).addObjOnTile(this);
+        if (grid != null) {
+            Tile current = grid.getTileWfloats(getY(), getX());
+            current.getObjOnTile().remove(this);
+            grid.getTileWfloats(y, x).addObjOnTile(this);
+        }
 
     }
 
     private void death(GridOfTiles grid) {
         if(backupTile != null){
+            explosions.add(new Explosion(getX(),getY()));
             backToBackup(grid);
             deleteBackup();
         } else{
+            explosions.add(new Explosion(getX(),getY()));
             System.out.println("Actor died! Out of bounds.");
             this.setBackupTile(grid.getTileWfloats(0, 0));
             this.backToBackup(grid);
         }
+
     }
 
     public void setX(float x) {
        this.x = x;
     }
+
+
     public void setY(float y){
         this.y = y;
     }

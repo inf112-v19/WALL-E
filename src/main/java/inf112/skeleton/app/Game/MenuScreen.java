@@ -53,6 +53,7 @@ public class MenuScreen implements Screen {
         EXIT_BUTTON_WIDTH = exitAct.getWidth();
     }
 
+
     @Override
     public void show() {
     }
@@ -97,6 +98,7 @@ public class MenuScreen implements Screen {
 
     public void setGameScreen(){
         MyGame gameScreen = new MyGame(game);
+        gameScreen.create();
         game.setScreen(gameScreen);
     }
 
