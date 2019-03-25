@@ -32,6 +32,7 @@ public class ObjectMaker {
 
         createActor();
         createActor2();
+        if (map == null) return;
         createFlags();
         createBlueTeleports();
         createYellowTeleports();

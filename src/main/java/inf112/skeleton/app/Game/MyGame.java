@@ -98,7 +98,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         CardArr = new Card[5];
         booleans = new Boolean[5];
 
-        ObjectMaker objectMaker = new ObjectMaker(map, grid);
+        objectMaker = new ObjectMaker(map, grid);
         actor = objectMaker.actor;
         actor2 = objectMaker.actor2;
     }
@@ -150,7 +150,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
       
         cardStartX = WIDTH / 6;
 
-        ObjectMaker objectMaker = new ObjectMaker(map, grid);
+        objectMaker = new ObjectMaker(map, grid);
         actor = objectMaker.actor;
         actor2 = objectMaker.actor2;
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
@@ -482,7 +482,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }
 
             if (keycode == Input.Keys.B) {
-                Tile current = grid.getTileWfloats(y, x);
                 actor.setBackupTile(current);
                 System.out.println("Backup set to: " + current);
             }
