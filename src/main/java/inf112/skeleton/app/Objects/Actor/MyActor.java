@@ -21,20 +21,24 @@ public class MyActor implements IObject, IActor {
     public float y;
     float speed;
     ArrayList<Card> chosen = new ArrayList<>(5);
+    String textureFile;
     float health;
     public ArrayList<Explosion> explosions;
 
-    public MyActor(Texture texture, MyGame.Dir startDir){
+    public MyActor(String textureFile, MyGame.Dir startDir){
         this.currentDir = startDir;
-        this.actorSprite = new Sprite(texture);
+        this.textureFile = textureFile;
+        this.backupTile = null;
+    }
+
+    public void create() {
+        this.actorSprite = new Sprite(new Texture(textureFile));
         this.actorSprite.setSize(150, 150);
         this.actorSprite.setOrigin((float) 150 / 2, (float) 150 / 2);
         this.backupTile = null;
         this.health = 1;
         this.previousTile = null;
         explosions = new ArrayList<>();
-        speed = 1;
-
     }
 
     public void Forward(int steps, int moveDist, GridOfTiles grid){
