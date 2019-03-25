@@ -18,6 +18,7 @@ import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
+import inf112.skeleton.app.HUD.HealthBar;
 import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Objects.Explosion;
@@ -44,18 +45,13 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Boolean[] booleans;
     private int cardX;
     private Sprite BackBoard;
-    private Sprite Health;
     private Batch batch;
     private Texture texture;
-    private Texture healthTexture;
-    public ArrayList<Card> handout = new ArrayList<>(9);
-    public ArrayList<Card> chosen = new ArrayList<>(5);
-    //public ArrayList<Explosion> explosions;
+    ArrayList<Card> handout = new ArrayList<>(9);
+    ArrayList<Card> chosen = new ArrayList<>(5);
     private BitmapFont font;
     private String playerInstructionBackspace;
     private String playerInstructionALT;
-    private String playerInstructionSelect;
-    private String cardString;
     private float textPositionX;
     private float textPositionY;
     Card testCard;
@@ -64,8 +60,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private ObjectMaker objectMaker;
     private int HEIGHT;
     private int WIDTH;
-    private String actor1Health;
-    private String actor2Health;
+    private HealthBar healthBar;
+    private HealthBar healthBar2;
 
     /**
      * Variabel bool playerSwitch for enkel variasjon i bevegelse av player 1 / 2
@@ -111,7 +107,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         camera.translate(-900, -1300);
         HEIGHT = Gdx.graphics.getHeight();
         WIDTH = Gdx.graphics.getWidth();
-        //explosions = new ArrayList<>();
 
         this.grid = initGrid();
         Gdx.input.setInputProcessor(this);
@@ -132,10 +127,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         double y = HEIGHT - (HEIGHT * 0.035);
         textPositionX = (float) x;
         textPositionY = (float) y;
-        playerInstructionSelect = "";
-        cardString = "";
-        actor1Health = "Player 1: ";
-        actor2Health = "Player 2: ";
 
         cardStartX = Gdx.graphics.getWidth() / 6;
 
@@ -143,7 +134,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         testCard.create();
 
         cardStartX = WIDTH / 6;
-
+        ObjectMaker objectMaker = new ObjectMaker(map, grid);
         objectMaker = new ObjectMaker(map, grid);
         objectMaker.create();
         actor = objectMaker.actor;
@@ -153,7 +144,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
-        healthTexture = new Texture(Gdx.files.internal("blank.png"));
+        healthBar = new HealthBar(actor,"Player 1",1);
+        healthBar2 = new HealthBar(actor2,"Player 2",2);
+
     }
 
 
@@ -178,35 +171,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             batch.begin();
             font.draw(batch, playerInstructionBackspace, textPositionX, textPositionY);
             font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
-            font.draw(batch, actor1Health, WIDTH-WIDTH/3, textPositionY);
-            font.draw(batch, actor2Health, WIDTH-WIDTH/3, textPositionY-HEIGHT/30);
 
             // Health-bar
-            batch.setColor(Color.WHITE);
-            batch.draw(healthTexture, WIDTH-(WIDTH/200)*54,HEIGHT-(HEIGHT/100)*6,(WIDTH/200)*37, (HEIGHT/300)*7);
-            batch.setColor(Color.BLACK);
-            batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/19,WIDTH/6, HEIGHT/80);
-            batch.setColor(Color.WHITE);
-            batch.draw(healthTexture, WIDTH-(WIDTH/200)*54,HEIGHT-(HEIGHT/400)*46,(WIDTH/200)*37, (HEIGHT/300)*7);
-            batch.setColor(Color.BLACK);
-            batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/12,WIDTH/6, HEIGHT/80);
-            if (actor.getHealth()> 0.6f) {
-                batch.setColor(Color.GREEN);
-            }else if (actor.getHealth() > 0.2f) {
-                batch.setColor(Color.ORANGE);
-            }else {
-                batch.setColor(Color.RED);
-            }
-            if(actor.getHealth()>0) batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/19,WIDTH/6*actor.getHealth(), HEIGHT/80);
-            if (actor2.getHealth()> 0.6f) {
-                batch.setColor(Color.GREEN);
-            }else if (actor2.getHealth() > 0.2f) {
-                batch.setColor(Color.ORANGE);
-            }else {
-                batch.setColor(Color.RED);
-            }
-            if(actor2.getHealth()>0) batch.draw(healthTexture, WIDTH-WIDTH/4,HEIGHT-HEIGHT/12,WIDTH/6*actor2.getHealth(), HEIGHT/80);
             batch.end();
+            healthBar.render();
+            healthBar2.render();
 
             Sprites();
             //drawHUD();
@@ -483,22 +452,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 System.out.println("Backup set to: " + current);
             }
 
-            if (keycode == Input.Keys.BACKSPACE) {
-                StringBuilder s = new StringBuilder("Cards in handout: ");
-                int num = 1;
-                for (Card c : handout) {
-                    s.append(num + ": ");
-                    String type = getType(c);
-                    if (type.equals("Move"))
-                        s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
-                    else if (type.equals("Turn")) s.append(type).append(" ").append(c.getTurn()).append(", ");
-                    else s.append(type).append(", ");
-                    num++;
-                }
-                System.out.println(s);
-                cardString = s.toString();
-                playerInstructionSelect = "Press the number of the card in the required order to select, and then ENTER to perform moves!";
-            }
             return false;
         }
 

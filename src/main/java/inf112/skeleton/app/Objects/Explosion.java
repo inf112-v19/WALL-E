@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Explosion {
-    public static final float FRAME_DUR = 0.17f;
+    public static final float FRAME_DUR = 0.15f;
     public static final int SIZE = 32;
     public static final int OFFSET = 8;
 
