@@ -19,7 +19,6 @@ public class MyActor implements IObject, IActor {
     Sprite actorSprite;
     public float x;
     public float y;
-    float speed;
     public ArrayList<Card> chosen;
     String textureFile;
     float health;

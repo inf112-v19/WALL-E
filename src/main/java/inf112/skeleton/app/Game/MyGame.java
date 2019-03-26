@@ -52,7 +52,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private BitmapFont font;
     private float textPositionX;
     private float textPositionY;
-    Card testCard;
     private int cardStartX;
     RoboRally game;
     private ObjectMaker objectMaker;
@@ -81,11 +80,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         deck = new Deck();
         handOut();
-        testCard = handout.get(2);
-        //chosen = new ArrayList<>(5);
-        //To be used later for drawing and rendering cards
-        CardArr = new Card[5];
-        booleans = new Boolean[5];
     }
 
     @Override
@@ -105,8 +99,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         Gdx.input.setInputProcessor(this);
         sb = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("robbie.png"));
-
-        texture = new Texture("arrow3step.png");
         BackBoard = new Sprite(texture);
         BackBoard.setSize(300, 150);
         BackBoard.setPosition(-140, 700);
@@ -122,7 +114,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         textPositionX = (float) x;
         textPositionY = (float) y;
 
-        testCard.create();
 
         cardStartX = WIDTH / 6;
         ObjectMaker objectMaker = new ObjectMaker(map, grid);
