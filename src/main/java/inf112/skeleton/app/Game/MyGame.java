@@ -49,10 +49,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Batch batch;
     private Texture texture;
     public ArrayList<Card> handout = new ArrayList<>(9);
-    public ArrayList<Card> chosen;
     private BitmapFont font;
-    private String playerInstructionBackspace;
-    private String playerInstructionALT;
     private float textPositionX;
     private float textPositionY;
     Card testCard;
@@ -63,6 +60,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private int WIDTH;
     private HealthBar healthBar;
     private HealthBar healthBar2;
+    private String activePlayer;
 
     public MyGame() {
         this(null);
@@ -84,7 +82,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         deck = new Deck();
         handOut();
         testCard = handout.get(2);
-        chosen = new ArrayList<>(5);
+        //chosen = new ArrayList<>(5);
         //To be used later for drawing and rendering cards
         CardArr = new Card[5];
         booleans = new Boolean[5];
@@ -114,17 +112,15 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         BackBoard.setPosition(-140, 700);
 
         //Text
+        activePlayer = "Player 1, you're up!";
 
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        double x = WIDTH - (WIDTH * 0.97);
-        double y = HEIGHT - (HEIGHT * 0.035);
+        double x = WIDTH - (WIDTH * 0.93);
+        double y = HEIGHT - (HEIGHT * 0.04);
         textPositionX = (float) x;
         textPositionY = (float) y;
-
-        cardStartX = Gdx.graphics.getWidth() / 6;
-
 
         testCard.create();
 
@@ -142,7 +138,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         healthBar = new HealthBar(actor,"Player 1",1);
         healthBar2 = new HealthBar(actor2,"Player 2",2);
 
-        chosen = new ArrayList<>();
+        //chosen = new ArrayList<>();
         currentActor = actor;
     }
 
@@ -160,17 +156,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             sb.setProjectionMatrix(camera.combined);
 
 
-            //Text
-            playerInstructionBackspace = "Click to choose cards and press ENTER to run program!";
-            playerInstructionALT = "Press Left ALT for new handout";
-
-
-            batch.begin();
-            font.draw(batch, playerInstructionBackspace, textPositionX, textPositionY);
-            font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
 
             // Health-bar
-            batch.end();
             healthBar.render();
             healthBar2.render();
 
@@ -178,6 +165,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             //drawHUD();
 
             createCards();
+
+            batch.begin();
+            font.getData().setScale(2);
+            font.draw(batch, activePlayer,textPositionX,textPositionY);
+            batch.end();
 
             //Explosion
 
@@ -187,7 +179,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 sb.end();
             }
 
-            ArrayList<Explosion> explosionsToRemove = new ArrayList<Explosion>();
+            ArrayList<Explosion> explosionsToRemove = new ArrayList<>();
             for (Explosion explosion :currentActor.explosions) {
                 explosion.update(v);
                 if (explosion.remove)
@@ -199,7 +191,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 //kort 1
-                if (chosen.size() >= 5) System.out.println("You can't choose more cards");
+                if (currentActor.chosen.size() >= 5) System.out.println("You can't choose more cards");
                 else {
                     if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(0).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(0).getY() + handout.get(0).getHeight() && Gdx.input.getX() > handout.get(0).getX() && Gdx.input.getX() < handout.get(0).getX() + handout.get(0).getWidth()) {
                         if (!handout.get(0).isChosen) {
@@ -317,9 +309,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         public void chooseCard(int i){
             Card card = handout.get(i);
-            chosen.add(0, card);
-            while (chosen.size() > 5) {
-                Card deletedCard = chosen.remove(chosen.size() - 1);
+            currentActor.chosen.add(0, card);
+            while (currentActor.chosen.size() > 5) {
+                Card deletedCard = currentActor.chosen.remove(currentActor.chosen.size() - 1);
                 handout.add(deletedCard);
             }
         }
@@ -384,10 +376,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }
 
             if (keycode == Input.Keys.ENTER) {
-                if(chosen.size()==5){
-                while (chosen.size() > 0) {
-                    Card action = chosen.get(chosen.size() - 1);
-                    chosen.remove(chosen.size() - 1);
+                if(currentActor.chosen.size()==5){
+                while (currentActor.chosen.size() > 0) {
+                    Card action = currentActor.chosen.get(currentActor.chosen.size() - 1);
+                    currentActor.chosen.remove(currentActor.chosen.size() - 1);
                     String type = getType(action);
 
                     if (type == "Move") {
@@ -413,8 +405,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 System.out.println(currentActor + " has no cards left in chosen");
                 if (currentActor == actor){
                     currentActor = actor2;
+                    activePlayer = "Player 2, you're up!";
                 }else if(currentActor == actor2){
                     currentActor = actor;
+                    activePlayer = "Player 1, you're up!";
                 }
                 System.out.println(currentActor + " to choose cards.");
                 keyDown(Input.Keys.ALT_LEFT);
@@ -449,7 +443,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         @Override
         public boolean keyUp ( int keycode){
-            if (chosen.size() >= 5) System.out.println("You can't choose more cards");
+            if (currentActor.chosen.size() >= 5) System.out.println("You can't choose more cards");
 
             else if (keycode >= Input.Keys.NUM_1 && keycode <= Input.Keys.NUM_9) {
                 chooseCard(keycode - 8);
