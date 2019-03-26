@@ -189,6 +189,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                             chooseCard(0);
                             System.out.println("You chose: " + getType(handout.get(0)) + " | Num :" + (1));
                             handout.get(0).isChosen = true;
+                        }else if(handout.get(0).isChosen){
+                            deselectCard(0);
+                            System.out.println("You deselected: " + getType(handout.get(0)) + " | Num :" + (1));
+                            handout.get(0).isChosen = false;
                         }
                     }
                     //kort 2
@@ -197,6 +201,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                             chooseCard(1);
                             System.out.println("You chose: " + getType(handout.get(1)) + " | Num :" + (2));
                             handout.get(1).isChosen = true;
+                        }else if(handout.get(1).isChosen){
+                            deselectCard(1);
+                            System.out.println("You deselected: " + getType(handout.get(1)) + " | Num :" + (2));
+                            handout.get(1).isChosen = false;
                         }
                     }
                     //kort 3
@@ -205,6 +213,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                             chooseCard(2);
                             System.out.println("You chose: " + getType(handout.get(2)) + " | Num :" + (3));
                             handout.get(2).isChosen = true;
+                        }else if(handout.get(2).isChosen){
+                            deselectCard(2);
+                            System.out.println("You deselected: " + getType(handout.get(2)) + " | Num :" + (3));
+                            handout.get(2).isChosen = false;
                         }
                     }
                     //kort 4
@@ -213,6 +225,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                             chooseCard(3);
                             System.out.println("You chose: " + getType(handout.get(3)) + " | Num :" + (4));
                             handout.get(3).isChosen = true;
+                        }else if(handout.get(3).isChosen){
+                            deselectCard(3);
+                            System.out.println("You deselected: " + getType(handout.get(3)) + " | Num :" + (4));
+                            handout.get(3).isChosen = false;
                         }
                     }
                     //kort 5
@@ -221,6 +237,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                             chooseCard(4);
                             System.out.println("You chose: " + getType(handout.get(4)) + " | Num :" + (5));
                             handout.get(4).isChosen = true;
+                        }else if(handout.get(4).isChosen){
+                            deselectCard(4);
+                            System.out.println("You deselected: " + getType(handout.get(4)) + " | Num :" + (5));
+                            handout.get(4).isChosen = false;
                         }
                     }
                     //kort 6
@@ -229,6 +249,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                             chooseCard(5);
                             System.out.println("You chose: " + getType(handout.get(5)) + " | Num :" + (6));
                             handout.get(5).isChosen = true;
+                        }else if(handout.get(5).isChosen){
+                            deselectCard(5);
+                            System.out.println("You deselected: " + getType(handout.get(5)) + " | Num :" + (6));
+                            handout.get(5).isChosen = false;
                         }
                     }
                     //kort 7
@@ -237,6 +261,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                             chooseCard(6);
                             System.out.println("You chose: " + getType(handout.get(6)) + " | Num :" + (7));
                             handout.get(6).isChosen = true;
+                        }else if(handout.get(6).isChosen){
+                            deselectCard(6);
+                            System.out.println("You deselected: " + getType(handout.get(6)) + " | Num :" + (7));
+                            handout.get(6).isChosen = false;
                         }
                     }
                     //kort 8
@@ -245,6 +273,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                             chooseCard(7);
                             System.out.println("You chose: " + getType(handout.get(7)) + " | Num :" + (8));
                             handout.get(7).isChosen = true;
+                        }else if(handout.get(7).isChosen){
+                            deselectCard(7);
+                            System.out.println("You deselected: " + getType(handout.get(7)) + " | Num :" + (8));
+                            handout.get(7).isChosen = false;
                         }
                     }
                     //kort 9
@@ -253,6 +285,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                             chooseCard(8);
                             System.out.println("You chose: " + getType(handout.get(8)) + " | Num :" + (9));
                             handout.get(8).isChosen = true;
+                        }else if(handout.get(8).isChosen){
+                            deselectCard(8);
+                            System.out.println("You deselected: " + getType(handout.get(8)) + " | Num :" + (9));
+                            handout.get(8).isChosen = false;
                         }
                     }
                 }
@@ -305,6 +341,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 Card deletedCard = currentActor.chosen.remove(currentActor.chosen.size() - 1);
                 handout.add(deletedCard);
             }
+        }
+
+        void deselectCard(int i){
+            Card card = handout.get(i);
+            currentActor.chosen.remove(card);
         }
 
 
