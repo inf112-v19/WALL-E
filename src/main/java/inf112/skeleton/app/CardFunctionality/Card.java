@@ -10,8 +10,8 @@ public class Card extends ApplicationAdapter {
     private int moves;
     private int priority;
     private boolean isBackup;
-    public float x;
-    public float y;
+    private float x;
+    private float y;
     private SpriteBatch card;
     private Texture cardTexture;
     public float cardWidth;
@@ -83,7 +83,7 @@ public class Card extends ApplicationAdapter {
     public void create() {
         cardWidth = Gdx.graphics.getWidth()/15;
         cardHeight = Gdx.graphics.getHeight()/6;
-        y = Gdx.graphics.getHeight()/10;
+        //y = Gdx.graphics.getHeight()/10;
 
         card = new SpriteBatch();
         String type = getType(this);
