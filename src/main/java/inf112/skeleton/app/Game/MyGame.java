@@ -64,12 +64,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private HealthBar healthBar;
     private HealthBar healthBar2;
 
-    /**
-     * Variabel bool playerSwitch for enkel variasjon i bevegelse av player 1 / 2
-     * styres etter alle valg av kort er ferdig for spiler, og så bruk av kort for spiller
-     */
-    private boolean playerSwitch = false;
-
     public MyGame() {
         this(null);
 
@@ -389,7 +383,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 actor2.takeDamage(0.1);
             }
 
-            //__________________________________________________________
             if (keycode == Input.Keys.ENTER) {
                 if(chosen.size()==5){
                 while (chosen.size() > 0) {
