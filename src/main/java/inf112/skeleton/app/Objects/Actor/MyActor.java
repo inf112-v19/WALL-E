@@ -20,7 +20,7 @@ public class MyActor implements IObject, IActor {
     public float x;
     public float y;
     float speed;
-    ArrayList<Card> chosen = new ArrayList<>(5);
+    public ArrayList<Card> chosen;
     String textureFile;
     float health;
     public Tile currentTile;
@@ -40,6 +40,7 @@ public class MyActor implements IObject, IActor {
         this.health = 1;
         this.previousTile = null;
         explosions = new ArrayList<>();
+        chosen = new ArrayList<>(5);
     }
 
     public void Forward(int steps, int moveDist, GridOfTiles grid){
@@ -197,10 +198,14 @@ public class MyActor implements IObject, IActor {
     private void death(GridOfTiles grid) {
         if(backupTile != null){
             explosions.add(new Explosion(getX(),getY()));
+            System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
+            chosen.clear();
             backToBackup(grid);
             deleteBackup();
         } else{
             explosions.add(new Explosion(getX(),getY()));
+            System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
+            chosen.clear();
             System.out.println("Actor died! Out of bounds.");
             this.setBackupTile(grid.getTileWfloats(0, 0));
             this.backToBackup(grid);

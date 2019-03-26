@@ -25,7 +25,7 @@ public class ActorTest {
         int i = 0;
         while (i++ < 9) game.chooseCard(0);
 
-        assertEquals("Should choose no more or less than 5 cards", 5, game.chosen.size());
+        assertEquals("Should choose no more or less than 5 cards", 5, game.currentActor.chosen.size());
 
         // Teardown
         game.handout.clear();
