@@ -8,22 +8,16 @@ when the java version used is >8. This has no effect on function or performance,
 
 ## Compiling
 
-Move to the Assets directory so we are sure the assets files are included:
+Compile everything using Maven:
 
 ```bash
-cd ./core/assets
-```
-
-Then setup using Maven:
-
-```bash
-mvn clean dependency:copy-dependencies compile assembly:single  package -f ../../
+mvn clean dependency:copy-dependencies compile assembly:single package
 ```
 
 ## Running
 
 Assuming you have done the steps in [Compiling](#compiling),
-runninng should be as simple as:
+running should be as simple as:
 
 ```bash
 java -jar target/wall-e-1.0-SNAPSHOT-jar-with-dependencies.jar
@@ -31,13 +25,8 @@ java -jar target/wall-e-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 ## Testing
 
-If you haven't already:
-```bash
-cd ./core/assets
-```
-
-Then run the tests with Maven:
+Run the tests with Maven:
 
 ```bash
-mvn test -f ../../
+mvn test
 ```
