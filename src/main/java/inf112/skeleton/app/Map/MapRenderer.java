@@ -7,11 +7,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.Game.MenuScreen;
 import inf112.skeleton.app.Game.NewGame;
 
 public class MapRenderer extends ApplicationAdapter {
     public static TiledMap map;
-    private TiledMapRenderer renderer;
+    public static TiledMapRenderer renderer;
+    public static TiledMap map1 = new TmxMapLoader().load("map_v1.tmx");
+    public static TiledMap map2 = new TmxMapLoader().load("map_v2.tmx");
+
 
     public static void setMap(TiledMap selectedMap) {
         map = selectedMap;
@@ -19,14 +23,37 @@ public class MapRenderer extends ApplicationAdapter {
 
     @Override
     public void create() {
-        TiledMap map = new TmxMapLoader().load("map_v1.tmx");
+       whatMapToCreate();
+    }
 
-        Maps.addMap(map);
+    public static TiledMap whatMapToCreate(){
+        int whatMapToCreate = MenuScreen.getMAP_CHOICE();
+        TiledMap returnMap = null;
+        switch (whatMapToCreate){
+            case 0:
+                returnMap = map1;
+                renderer = new OrthogonalTiledMapRenderer(map1);
+                break;
+            case 1:
+                returnMap = map2;
+                renderer = new OrthogonalTiledMapRenderer(map2);
+                break;
+        }
+        return returnMap ;
+    }
 
-        //map = map1;
-
-        renderer = new OrthogonalTiledMapRenderer(map);
-
+    public static String whatMapToCreateString(){
+        int whatMapToCreate = MenuScreen.getMAP_CHOICE();
+        String returnMap = null;
+        switch (whatMapToCreate){
+            case 0:
+                returnMap = "map_v1.tmx";
+                break;
+            case 1:
+                returnMap = "map_v2.tmx";
+                break;
+        }
+        return returnMap ;
     }
 
     @Override
