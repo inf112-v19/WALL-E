@@ -34,6 +34,7 @@ public class Hole implements IObject {
         if(hole.equals(actorTile)){
             System.out.println("Actor fell into a hole! HP lost: ");
             actor.explosions.add(new Explosion(actor.getX(),actor.getY()));
+            actor.takeDamage(0.2);
 
             if(actor.getBackupTile() != null){
                 actor.backToBackup(grid);

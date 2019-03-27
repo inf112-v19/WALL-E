@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
+import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 
@@ -17,6 +18,7 @@ public class ObjectMaker {
     public MyActor actor;
     public MyActor actor2;
     public List<IObject> flags;
+    public static ArrayList<Tile> tilesWithFlags;
     public static List<IObject> blueTeleports;
     public static List<IObject> yellowTeleports;
     public static List<IObject> blueConveyors;
@@ -44,14 +46,20 @@ public class ObjectMaker {
         createWrenchesDouble();
     }
 
+    public static ArrayList<Tile> getTilesWithFlags(){
+        return tilesWithFlags;
+    }
+
     private void createFlags() {
         flags = new ArrayList<>();
+        tilesWithFlags = new ArrayList<>(flags.size());
         MapLayer layer = map.getMapLayer("Flags");
         int i = 0;
         for (MapObject flag : layer.getObjects()) {
             RectangleMapObject flagRect = (RectangleMapObject) flag;
             Flag addThisFlagToMap = new Flag(flagRect, grid);
             flags.add(addThisFlagToMap);
+            tilesWithFlags.add(addThisFlagToMap.flagTile);
             System.out.println("Flag placed at: " + addThisFlagToMap.flagTile);
             i++;
         }
