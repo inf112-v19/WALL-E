@@ -1,5 +1,6 @@
 package inf112.skeleton.app.Objects.Actor;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import inf112.skeleton.app.CardFunctionality.Card;
@@ -7,7 +8,7 @@ import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Collision;
-import inf112.skeleton.app.Objects.Explosion;
+import inf112.skeleton.app.Animations.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 
 import java.util.ArrayList;
@@ -24,11 +25,13 @@ public class MyActor implements IObject, IActor {
     float health;
     public Tile currentTile;
     public ArrayList<Explosion> explosions;
+    //private String name;
 
     public MyActor(String textureFile, MyGame.Dir startDir){
         this.currentDir = startDir;
         this.textureFile = textureFile;
         this.backupTile = null;
+        //this.name = name;
     }
 
     public void create() {
@@ -252,6 +255,8 @@ public class MyActor implements IObject, IActor {
     public float getX() {
         return this.x;
     }
+
+    //public String getName(){return this.name;}
 
     @Override
     public String getName(String name) {

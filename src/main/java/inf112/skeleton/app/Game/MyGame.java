@@ -21,7 +21,7 @@ import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.HUD.HealthBar;
 import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
-import inf112.skeleton.app.Objects.Explosion;
+import inf112.skeleton.app.Animations.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 import inf112.skeleton.app.Objects.ObjectMaker;
 
@@ -468,6 +468,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (keycode == Input.Keys.B) {
                 currentActor.setBackupTile(current);
                 System.out.println("Backup set to: " + current);
+            }
+
+            if (keycode == Input.Keys.O) {
+                GameOverScreen gameOverScreen = new GameOverScreen(game, "Player 2");
+                game.setScreen(gameOverScreen);
             }
 
             return false;
