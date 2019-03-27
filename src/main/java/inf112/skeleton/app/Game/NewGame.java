@@ -13,6 +13,7 @@ import inf112.skeleton.app.Map.Objects;
 
 import java.util.ArrayList;
 
+
 public class NewGame extends ApplicationAdapter implements InputProcessor {
     public static OrthographicCamera camera;
     public Actor actor;
@@ -23,6 +24,8 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
     private MapRenderer mapRenderer;
     private BitmapFont font;
     private String playerMessage;
+
+
 
     public NewGame(int nPlayers) {
         this.nPlayers = nPlayers;
@@ -51,9 +54,6 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         //actor.create();
 
         flag.create();
-
-
-
 
     }
 

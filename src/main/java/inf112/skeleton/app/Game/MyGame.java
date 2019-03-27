@@ -21,6 +21,7 @@ import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Objects.IObject;
+import inf112.skeleton.app.Objects.Laser;
 import inf112.skeleton.app.Objects.ObjectMaker;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     SpriteBatch sb;
+    SpriteBatch sbLaser;
     public MyActor actor;
     public MyActor actor2;
     public GridOfTiles grid;
@@ -46,8 +48,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Sprite Health;
     private Batch batch;
     private Texture texture;
+    private Texture laserText;
     ArrayList<Card> handout = new ArrayList<>(9);
     ArrayList<Card> chosen = new ArrayList<>(5);
+    ArrayList<Texture> listLasers;
+    ArrayList<Laser> lasers;
     private BitmapFont font;
     private String playerInstructionBackspace;
     private String playerInstructionALT;
@@ -79,12 +84,16 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         this.grid = initGrid();
         Gdx.input.setInputProcessor(this);
         sb = new SpriteBatch();
+        sbLaser = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("robbie.png"));
+        laserText = new Texture(Gdx.files.internal("greenLaser.png"));
+
 
         texture = new Texture("arrow3step.png");
         BackBoard = new Sprite(texture);
         BackBoard.setSize(300, 150);
         BackBoard.setPosition(-140, 700);
+
 
         //Text
 
@@ -127,15 +136,18 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
 
         @Override
-        public void render ( float v){
+        public void render (float v) {
             Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
 
             camera.update();
             tiledMapRenderer.setView(camera);
             tiledMapRenderer.render();
             sb.setProjectionMatrix(camera.combined);
+
 
 
             //Text
@@ -146,12 +158,17 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             batch.begin();
             font.draw(batch, playerInstructionBackspace, textPositionX, textPositionY);
             font.draw(batch, playerInstructionALT, textPositionX, textPositionY - 35);
+
+
             batch.end();
 
             Sprites();
+            Laser(v);
+
             //drawHUD();
 
             createCards();
+
 
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 //kort 1
@@ -252,7 +269,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
 
         }
-
         private int getTileSize () {
             TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
             return (int) layer.getTileWidth();
@@ -268,11 +284,36 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
 
         private void Sprites () {
-            sb.begin();
+
+           sb.begin();
             for (IObject obj : grid.getAll()) {
                 if (obj.getSprite() != null) obj.getSprite().draw(sb);
             }
-            sb.end();
+                sb.end();
+        }
+
+        private void Laser(float delta) {
+            float actorRight = actor.getX()+100;
+            float actorTop = actor.getY();
+            float actorMiddle = actorTop/2;
+
+            lasers = new ArrayList<Laser>();
+            lasers.add(new Laser(actorRight, actorTop));
+
+            ArrayList<Laser> lasersToRemove = new ArrayList<Laser>();
+            for(Laser laser : lasers) {
+                laser.update(delta);
+                if(laser.remove) {
+                    lasersToRemove.add(laser);
+                }
+                lasers.removeAll(lasersToRemove);
+            }
+
+            sbLaser.begin();
+            for(Laser laser : lasers) {
+                laser.render(sbLaser);
+            }
+            sbLaser.end();
         }
 
         private GridOfTiles initGrid () {

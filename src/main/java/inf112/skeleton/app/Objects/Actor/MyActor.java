@@ -1,5 +1,6 @@
 package inf112.skeleton.app.Objects.Actor;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import inf112.skeleton.app.CardFunctionality.Card;
@@ -220,6 +221,7 @@ public class MyActor implements IObject, IActor {
         actorSprite.setY(this.y);
         return this.actorSprite;
     }
+
 
     @Override
     public boolean alive() {

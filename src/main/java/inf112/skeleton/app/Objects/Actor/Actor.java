@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
+import inf112.skeleton.app.Objects.Laser;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     private boolean hasBackup;
     private float textPositionX;
     private float textPositionY;
+
 
     ArrayList<Card> chosen = new ArrayList<>(5);
     private Deck deck = new Deck();
@@ -73,7 +75,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         SOUTH
     }
 
-
     @Override
     public void create() {
         Gdx.input.setInputProcessor(this);
@@ -89,6 +90,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
         handOut();
     }
+
 
     @Override
     public void render() {
