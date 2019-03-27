@@ -37,7 +37,7 @@ public class Flag implements IObject {
         if (flagTile.equals(actorTile)){
             actor.setBackupTile(flagTile);
             //System.out.println("Actor has new backup: "+ flagTile);
-            remove(grid);
+            //remove(grid);
         }
     }
 
