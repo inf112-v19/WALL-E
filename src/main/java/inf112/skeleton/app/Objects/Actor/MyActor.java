@@ -25,7 +25,7 @@ public class MyActor implements IObject, IActor {
     float health;
     public Tile currentTile;
     public ArrayList<Explosion> explosions;
-    //private String name;
+    private String name;
 
     public MyActor(String textureFile, MyGame.Dir startDir){
         this.currentDir = startDir;
@@ -43,6 +43,7 @@ public class MyActor implements IObject, IActor {
         this.previousTile = null;
         explosions = new ArrayList<>();
         chosen = new ArrayList<>(5);
+        name = "";
     }
 
     public void Forward(int steps, int moveDist, GridOfTiles grid){
@@ -202,12 +203,14 @@ public class MyActor implements IObject, IActor {
             explosions.add(new Explosion(getX(),getY()));
             System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
             chosen.clear();
+            takeDamage(0.1);
             backToBackup(grid);
             deleteBackup();
         } else{
             explosions.add(new Explosion(getX(),getY()));
             System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
             chosen.clear();
+            takeDamage(0.1);
             System.out.println("Actor died! Out of bounds.");
             this.setBackupTile(grid.getTileWfloats(0, 0));
             this.backToBackup(grid);
@@ -258,10 +261,11 @@ public class MyActor implements IObject, IActor {
 
     //public String getName(){return this.name;}
 
-    @Override
-    public String getName(String name) {
-        return null;
+    public String getName() {
+        return this.name;
     }
+
+    public void setName(String name){ this.name = name;}
 
     @Override
     public Boolean isCPU() {

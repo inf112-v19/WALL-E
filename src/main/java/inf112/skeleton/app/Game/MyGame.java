@@ -123,11 +123,13 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         actor2 = objectMaker.actor2;
         actor.create();
         actor2.create();
+        actor.setName("Player 1");
+        actor2.setName("Player 2");
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
-        healthBar = new HealthBar(actor,"Player 1",1);
-        healthBar2 = new HealthBar(actor2,"Player 2",2);
+        healthBar = new HealthBar(actor,actor.getName(),1);
+        healthBar2 = new HealthBar(actor2,actor2.getName(),2);
 
         //chosen = new ArrayList<>();
         currentActor = actor;
@@ -145,6 +147,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             tiledMapRenderer.setView(camera);
             tiledMapRenderer.render();
             sb.setProjectionMatrix(camera.combined);
+
+            if(actor.getHealth()<=0){
+                GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
+                game.setScreen(gameOverScreen);
+            } else if(actor2.getHealth()<=0){
+                GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+                game.setScreen(gameOverScreen);
+            }
 
 
 
@@ -540,5 +550,13 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             EAST,
             WEST,
             SOUTH
+        }
+
+        public void changeActor(){
+            if(currentActor==actor){
+                currentActor = actor2;
+            } else if(currentActor==actor2){
+                currentActor = actor2;
+            }
         }
     }
