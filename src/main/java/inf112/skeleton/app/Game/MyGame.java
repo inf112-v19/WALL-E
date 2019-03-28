@@ -445,13 +445,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 }
 
                 System.out.println(currentActor + " has no cards left in chosen");
-                if (currentActor == actor){
-                    currentActor = actor2;
-                    activePlayer = "Player 2, you're up!";
-                }else if(currentActor == actor2){
-                    currentActor = actor;
-                    activePlayer = "Player 1, you're up!";
-                }
+                changeActor();
                 System.out.println(currentActor + " to choose cards.");
                 keyDown(Input.Keys.ALT_LEFT);
                 }
@@ -555,8 +549,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         public void changeActor(){
             if(currentActor==actor){
                 currentActor = actor2;
+                activePlayer = "Player 2, you're up!";
             } else if(currentActor==actor2){
-                currentActor = actor2;
+                currentActor = actor;
+                activePlayer = "Player 1, you're up!";
             }
         }
     }
