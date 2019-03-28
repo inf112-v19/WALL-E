@@ -33,9 +33,9 @@ public class GameOverScreen implements Screen {
 
         batch.begin();
         font.getData().setScale(4);
-        font.draw(batch,winner + " won!",WIDTH/2-(WIDTH/11), HEIGHT /2+(HEIGHT/7));
+        font.draw(batch,winner + " won!",WIDTH/2-(WIDTH/12), HEIGHT /2+(HEIGHT/7));
         font.getData().setScale(2);
-        font.draw(batch,"Press ENTER to play again",WIDTH/2-(WIDTH/11), HEIGHT /2);
+        font.draw(batch,"Press ENTER to play again or ESCAPE to exit",WIDTH/2-(WIDTH/7), HEIGHT /2);
         batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
