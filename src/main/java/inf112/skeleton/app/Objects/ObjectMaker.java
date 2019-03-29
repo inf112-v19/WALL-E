@@ -156,12 +156,12 @@ public class ObjectMaker {
 
     private void createActor() {
         MyGame.Dir startDir = MyGame.Dir.NORTH;
-        actor = new MyActor("blaTanks1.png", startDir);
+        actor = new MyActor("blaTanks1.png", startDir, false, "Player One");
     }
 
     private void createActor2() {
         MyGame.Dir startDir = MyGame.Dir.NORTH;
-        actor2 = new MyActor("redTanks1.png", startDir);
+        actor2 = new MyActor("redTanks1.png", startDir, true, "Computer Player");
     }
 
     public int getConveyorLandedon(MyActor actor, GridOfTiles grid, String color) {

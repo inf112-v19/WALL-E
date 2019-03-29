@@ -122,8 +122,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         actor2 = objectMaker.actor2;
         actor.create();
         actor2.create();
-        actor.setName("Player 1");
-        actor2.setName("Player 2");
+        actor.setName("Player One");
+        actor2.setName("Computer");
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
@@ -197,6 +197,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
 
 
+            if (currentActor.isCPU){
+                goToCPUActions(currentActor);
+            }
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 //kort 1
                 if (currentActor.chosen.size() >= 5) System.out.println("You can't choose more cards");
@@ -313,7 +316,22 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }
         }
 
-        private int getTileSize () {
+    private void goToCPUActions(MyActor CPU) {
+        int max = 8;
+        int min = 0;
+        int range = max - min + 1;
+        int[] choicesForCPU = new int[4];
+        for (int choice : choicesForCPU) {
+            choice = (int)(Math.random()*range)+1;
+            System.out.println(choice);
+            Card addForCPU = handout.get(choice);
+            CPU.chosen.add(addForCPU);
+            System.out.println(CPU.getName() + " chose: " + getType(handout.get(8)) + " | Num :" + choice);
+            keyDown(Input.Keys.ENTER);
+        }
+    }
+
+    private int getTileSize () {
             TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
             return (int) layer.getTileWidth();
         }
@@ -425,11 +443,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                     String type = getType(action);
 
                     if (type == "Move") {
-                        System.out.println("Actor should move " + currentActor.getDir() + " by: " + action.getMoves());
+                        System.out.println(currentActor.getName()+ " should move " + currentActor.getDir() + " by: " + action.getMoves());
                         currentActor.Forward(1 * action.getMoves(), moveDist, grid);
 
                     } else if (type.equals("Backup")) {
-                        System.out.println("Actor should move backwards by: " + action.getMoves());
+                        System.out.println(currentActor.getName() + " should move backwards by: " + action.getMoves());
                         currentActor.backward(1, moveDist, grid);
 
                     } else if (type == "Turn") {
@@ -440,13 +458,13 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         } else if (action.getTurn() == Card.Turn.UTURN) {
                             currentActor.uTurn();
                         }
-                        System.out.println("It was a turn card. Actor turned " + action.getTurn());
+                        System.out.println("It was a turn card. " + currentActor.getName() +  " turned " + action.getTurn());
                     }
                 }
 
-                System.out.println(currentActor + " has no cards left in chosen");
+                System.out.println(currentActor.getName() + " has no cards left in chosen");
                 changeActor();
-                System.out.println(currentActor + " to choose cards.");
+                System.out.println(currentActor.getName() + " to choose cards.");
                 keyDown(Input.Keys.ALT_LEFT);
                 }
             }
@@ -549,10 +567,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         public void changeActor(){
             if(currentActor==actor){
                 currentActor = actor2;
-                activePlayer = "Player 2, you're up!";
+                activePlayer = currentActor.getName() + ", you're up!";
             } else if(currentActor==actor2){
                 currentActor = actor;
-                activePlayer = "Player 1, you're up!";
+                activePlayer = currentActor.getName() + ", you're up!";
             }
         }
     }

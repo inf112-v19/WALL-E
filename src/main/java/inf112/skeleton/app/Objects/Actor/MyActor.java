@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class MyActor implements IObject, IActor {
     public boolean gameOver;
     public boolean isDead;
+    public boolean isCPU;
     MyGame.Dir currentDir;
     Tile backupTile;
     Tile previousTile;
@@ -30,12 +31,13 @@ public class MyActor implements IObject, IActor {
     public ArrayList<Explosion> explosions;
     private String name;
 
-    public MyActor(String textureFile, MyGame.Dir startDir){
+    public MyActor(String textureFile, MyGame.Dir startDir, boolean isCPU, String name){
         this.gameOver = false;
         this.currentDir = startDir;
         this.textureFile = textureFile;
         this.backupTile = null;
-        //this.name = name;
+        this.isCPU = isCPU;
+        this.name = name;
     }
 
     public void create() {
@@ -306,10 +308,6 @@ public class MyActor implements IObject, IActor {
     }
 
     public void moveToTile(Tile destination, GridOfTiles grid){
-       /* this.setX(destination.x);
-        this.setY(destination.y);
-        this.x = destination.x;
-        this.y = destination.y;*/
        int moveDist = grid.pxSize;
        float moveX =  moveDist * (destination.x - this.x);
        float moveY =  moveDist * (destination.y - this.y);
