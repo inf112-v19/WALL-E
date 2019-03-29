@@ -96,7 +96,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
 
         //Text
-
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
@@ -284,7 +283,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
 
         private void Sprites () {
-
            sb.begin();
             for (IObject obj : grid.getAll()) {
                 if (obj.getSprite() != null) obj.getSprite().draw(sb);
@@ -293,27 +291,27 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
 
         private void Laser(float delta) {
-            float actorRight = actor.getX()+100;
-            float actorTop = actor.getY();
+            float actorRight = actor.getX()-250;
+            float actorTop = actor.getY()+70;
             float actorMiddle = actorTop/2;
 
-            lasers = new ArrayList<Laser>();
+            lasers = new ArrayList<>();
             lasers.add(new Laser(actorRight, actorTop));
 
-            ArrayList<Laser> lasersToRemove = new ArrayList<Laser>();
+
+            ArrayList<Laser> lasersToRemove = new ArrayList<>();
             for(Laser laser : lasers) {
                 laser.update(delta);
-                if(laser.remove) {
+                if (laser.remove) {
                     lasersToRemove.add(laser);
                 }
                 lasers.removeAll(lasersToRemove);
             }
-
-            sbLaser.begin();
+            sb.begin();
             for(Laser laser : lasers) {
-                laser.render(sbLaser);
+                laser.render(sb);
             }
-            sbLaser.end();
+            sb.end();
         }
 
         private GridOfTiles initGrid () {
