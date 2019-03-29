@@ -549,10 +549,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         public void changeActor(){
             if(currentActor==actor){
                 currentActor = actor2;
-                activePlayer = "Player 2, you're up!";
+                activePlayer = currentActor.getName()+", you're up!";
             } else if(currentActor==actor2){
                 currentActor = actor;
-                activePlayer = "Player 1, you're up!";
+                activePlayer = currentActor.getName()+", you're up!";
             }
         }
     }

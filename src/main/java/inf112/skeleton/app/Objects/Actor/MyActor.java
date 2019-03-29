@@ -53,9 +53,9 @@ public class MyActor implements IObject, IActor {
     public void Forward(int steps, int moveDist, GridOfTiles grid){
         for (int i = 0; i < steps; i++) {
             moveForward(moveDist, grid);
+            currentTile = grid.getTileWfloats(this.y, this.x);
+            CollisionCheck(grid);
         }
-        currentTile = grid.getTileWfloats(this.y, this.x);
-        CollisionCheck(grid);
     }
 
     private void CollisionCheck(GridOfTiles grid) {
