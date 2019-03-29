@@ -25,7 +25,6 @@ public class Flag implements IObject {
         sprite.setSize(100, 100);
 
         flagTile = grid.getTileWfloats(y ,x);
-        //flagTile = grid.getTile(y, x);
         flagTile.addObjOnTile(this);
     }
 
