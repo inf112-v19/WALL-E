@@ -14,6 +14,8 @@ import inf112.skeleton.app.Objects.IObject;
 import java.util.ArrayList;
 
 public class MyActor implements IObject, IActor {
+    public boolean gameOver;
+    public boolean isDead;
     MyGame.Dir currentDir;
     Tile backupTile;
     Tile previousTile;
@@ -29,6 +31,7 @@ public class MyActor implements IObject, IActor {
     private String name;
 
     public MyActor(String textureFile, MyGame.Dir startDir){
+        this.gameOver = false;
         this.currentDir = startDir;
         this.textureFile = textureFile;
         this.backupTile = null;

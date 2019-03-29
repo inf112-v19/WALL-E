@@ -39,7 +39,10 @@ public class Flag implements IObject {
         if (flagTile.equals(actorTile)){
             actor.setBackupTile(flagTile);
             actor.visitedTile(flagTile);
-            if(checkFlagsForActor(actor)) System.out.println("Actor visited all flags");
+            if(checkFlagsForActor(actor)){
+                actor.gameOver = true;
+                System.out.println("Actor visited all flags");
+            }
             else System.out.println("More flags remaining!");
         }
     }
