@@ -21,7 +21,7 @@ import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.HUD.HealthBar;
 import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
-import inf112.skeleton.app.Objects.Explosion;
+import inf112.skeleton.app.Animations.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 import inf112.skeleton.app.Objects.ObjectMaker;
 
@@ -122,11 +122,13 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         actor2 = objectMaker.actor2;
         actor.create();
         actor2.create();
+        actor.setName("Player 1");
+        actor2.setName("Player 2");
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
-        healthBar = new HealthBar(actor,"Player 1",1);
-        healthBar2 = new HealthBar(actor2,"Player 2",2);
+        healthBar = new HealthBar(actor,actor.getName(),1);
+        healthBar2 = new HealthBar(actor2,actor2.getName(),2);
 
         //chosen = new ArrayList<>();
         currentActor = actor;
@@ -144,6 +146,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             tiledMapRenderer.setView(camera);
             tiledMapRenderer.render();
             sb.setProjectionMatrix(camera.combined);
+
+            if(actor.getHealth()<=0){
+                GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
+                game.setScreen(gameOverScreen);
+            } else if(actor2.getHealth()<=0){
+                GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+                game.setScreen(gameOverScreen);
+            }
 
 
 
@@ -427,13 +437,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 }
 
                 System.out.println(currentActor + " has no cards left in chosen");
-                if (currentActor == actor){
-                    currentActor = actor2;
-                    activePlayer = "Player 2, you're up!";
-                }else if(currentActor == actor2){
-                    currentActor = actor;
-                    activePlayer = "Player 1, you're up!";
-                }
+                changeActor();
                 System.out.println(currentActor + " to choose cards.");
                 keyDown(Input.Keys.ALT_LEFT);
                 }
@@ -460,6 +464,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (keycode == Input.Keys.B) {
                 currentActor.setBackupTile(current);
                 System.out.println("Backup set to: " + current);
+            }
+
+            if (keycode == Input.Keys.O) {
+                GameOverScreen gameOverScreen = new GameOverScreen(game, "Player 2");
+                game.setScreen(gameOverScreen);
             }
 
             return false;
@@ -527,5 +536,15 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             EAST,
             WEST,
             SOUTH
+        }
+
+        public void changeActor(){
+            if(currentActor==actor){
+                currentActor = actor2;
+                activePlayer = "Player 2, you're up!";
+            } else if(currentActor==actor2){
+                currentActor = actor;
+                activePlayer = "Player 1, you're up!";
+            }
         }
     }

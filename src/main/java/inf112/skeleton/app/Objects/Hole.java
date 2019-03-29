@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Actor.MyActor;
+import inf112.skeleton.app.Animations.Explosion;
 
 public class Hole implements IObject {
     Sprite notUsedForHoles;

@@ -1,5 +1,6 @@
 package inf112.skeleton.app.Objects.Actor;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import inf112.skeleton.app.CardFunctionality.Card;
@@ -7,7 +8,7 @@ import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Collision;
-import inf112.skeleton.app.Objects.Explosion;
+import inf112.skeleton.app.Animations.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 
 import java.util.ArrayList;
@@ -25,11 +26,13 @@ public class MyActor implements IObject, IActor {
     public Tile currentTile;
     public ArrayList<Tile> tilesVisited = new ArrayList<>(11*11);
     public ArrayList<Explosion> explosions;
+    private String name;
 
     public MyActor(String textureFile, MyGame.Dir startDir){
         this.currentDir = startDir;
         this.textureFile = textureFile;
         this.backupTile = null;
+        //this.name = name;
     }
 
     public void create() {
@@ -41,6 +44,7 @@ public class MyActor implements IObject, IActor {
         this.previousTile = null;
         explosions = new ArrayList<>();
         chosen = new ArrayList<>(5);
+        name = "";
     }
 
     public void Forward(int steps, int moveDist, GridOfTiles grid){
@@ -200,12 +204,14 @@ public class MyActor implements IObject, IActor {
             explosions.add(new Explosion(getX(),getY()));
             System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
             chosen.clear();
+            takeDamage(0.1);
             backToBackup(grid);
             deleteBackup();
         } else{
             explosions.add(new Explosion(getX(),getY()));
             System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
             chosen.clear();
+            takeDamage(0.1);
             System.out.println("Actor died! Out of bounds.");
             this.setBackupTile(grid.getTileWfloats(0, 0));
             this.backToBackup(grid);
@@ -254,10 +260,13 @@ public class MyActor implements IObject, IActor {
         return this.x;
     }
 
-    @Override
-    public String getName(String name) {
-        return null;
+    //public String getName(){return this.name;}
+
+    public String getName() {
+        return this.name;
     }
+
+    public void setName(String name){ this.name = name;}
 
     @Override
     public Boolean isCPU() {
