@@ -24,6 +24,7 @@ public class MyActor implements IObject, IActor {
     String textureFile;
     float health;
     public Tile currentTile;
+    public ArrayList<Tile> tilesVisited = new ArrayList<>(11*11);
     public ArrayList<Explosion> explosions;
     private String name;
 
@@ -320,5 +321,9 @@ public class MyActor implements IObject, IActor {
     public void moveInDirection(int toMove, MyGame.Dir conveyorDirection, GridOfTiles grid) {
         currentDir = conveyorDirection;
         Forward(1, toMove, grid);
+    }
+
+    public void visitedTile(Tile flagTile) {
+        tilesVisited.add(flagTile);
     }
 }

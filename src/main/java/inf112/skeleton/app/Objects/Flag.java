@@ -3,9 +3,12 @@ package inf112.skeleton.app.Objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Actor.MyActor;
+
+import static inf112.skeleton.app.Objects.ObjectMaker.tilesWithFlags;
 
 public class Flag implements IObject {
     Sprite sprite;
@@ -22,7 +25,6 @@ public class Flag implements IObject {
         sprite.setSize(100, 100);
 
         flagTile = grid.getTileWfloats(y ,x);
-        //flagTile = grid.getTile(y, x);
         flagTile.addObjOnTile(this);
     }
 
@@ -36,9 +38,19 @@ public class Flag implements IObject {
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
         if (flagTile.equals(actorTile)){
             actor.setBackupTile(flagTile);
-            //System.out.println("Actor has new backup: "+ flagTile);
-            //remove(grid);
+            actor.visitedTile(flagTile);
+            if(checkFlagsForActor(actor)) System.out.println("Actor visited all flags");
+            else System.out.println("More flags remaining!");
         }
+    }
+
+    public boolean checkFlagsForActor(MyActor actor){
+        for (Tile t : tilesWithFlags) {
+            if (!actor.tilesVisited.contains(t)){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

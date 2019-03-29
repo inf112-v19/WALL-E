@@ -41,14 +41,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     public static GridOfTiles grid;
     public Map map;
     public Deck deck;
-    private Card temp;
-    private Card[] CardArr;
-    private Boolean[] booleans;
-    private int cardX;
     private Sprite BackBoard;
     private Batch batch;
     private Texture texture;
     public ArrayList<Card> handout = new ArrayList<>(9);
+    public static int amountOfFlags;
     private BitmapFont font;
     private float textPositionX;
     private float textPositionY;
@@ -80,6 +77,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         deck = new Deck();
         handOut();
+        //amountOfFlags = objectMaker.flags.size();
     }
 
     @Override
@@ -116,9 +114,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
 
         cardStartX = WIDTH / 6;
-        ObjectMaker objectMaker = new ObjectMaker(map, grid);
+        ObjectMaker objectMaker;
         objectMaker = new ObjectMaker(map, grid);
         objectMaker.create();
+        amountOfFlags = objectMaker.flags.size();
         actor = objectMaker.actor;
         actor2 = objectMaker.actor2;
         actor.create();
@@ -304,22 +303,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 }
 
             }
-
-
         }
 
         private int getTileSize () {
             TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
             return (int) layer.getTileWidth();
-        }
-
-        private void drawHUD () {
-            sb.begin();
-            BackBoard.draw(sb);
-            for (int i = 0; i < 5; i++) {
-                if (booleans[i] != true) CardArr[i].draw(sb);
-            }
-            sb.end();
         }
 
         private void Sprites () {
@@ -375,6 +363,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 c.render();
             }
         }
+
+    public static int getAmountOfFlags() {
+        return amountOfFlags;
+    }
 
 
         @Override
