@@ -148,10 +148,18 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             sb.setProjectionMatrix(camera.combined);
 
             if(actor.getHealth()<=0){
+                actor.isDead = true;
                 GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
                 game.setScreen(gameOverScreen);
             } else if(actor2.getHealth()<=0){
+                actor2.isDead=true;
                 GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+                game.setScreen(gameOverScreen);
+            }else if (actor.gameOver){
+                GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+                game.setScreen(gameOverScreen);
+            }else if(actor2.gameOver){
+                GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
                 game.setScreen(gameOverScreen);
             }
 
