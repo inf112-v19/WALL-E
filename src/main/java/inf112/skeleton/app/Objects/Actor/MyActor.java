@@ -30,14 +30,16 @@ public class MyActor implements IObject, IActor {
     public ArrayList<Tile> tilesVisited = new ArrayList<>(11*11);
     public ArrayList<Explosion> explosions;
     private String name;
+    public int actorIndex;
 
-    public MyActor(String textureFile, MyGame.Dir startDir, boolean isCPU, String name){
+    public MyActor(String textureFile, MyGame.Dir startDir, boolean isCPU, String name, int actorIndex){
         this.gameOver = false;
         this.currentDir = startDir;
         this.textureFile = textureFile;
         this.backupTile = null;
         this.isCPU = isCPU;
         this.name = name;
+        this.actorIndex = actorIndex;
     }
 
     public void create() {
@@ -184,7 +186,7 @@ public class MyActor implements IObject, IActor {
         int pxSize = grid.pxSize;
         if (this.backupTile != null){
             setPosition(backupTile.y*pxSize, backupTile.x*pxSize, grid);
-            System.out.println("Actor to backup: " + grid.getTileWfloats(this.getY(), this.getX()) + ", Actor no longer has a backup");
+            System.out.println(this.name + " to backup: " + grid.getTileWfloats(this.getY(), this.getX()) + ", Actor no longer has a backup");
         }
     }
 
@@ -207,17 +209,17 @@ public class MyActor implements IObject, IActor {
     private void death(GridOfTiles grid) {
         if(backupTile != null){
             explosions.add(new Explosion(getX(),getY()));
-            System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
+            //System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
             chosen.clear();
             takeDamage(0.1);
             backToBackup(grid);
             deleteBackup();
         } else{
             explosions.add(new Explosion(getX(),getY()));
-            System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
+            //System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
             chosen.clear();
             takeDamage(0.1);
-            System.out.println("Actor died! Out of bounds.");
+            System.out.println(this.name + " took damage! Out of bounds.");
             this.setBackupTile(grid.getTileWfloats(0, 0));
             this.backToBackup(grid);
         }
