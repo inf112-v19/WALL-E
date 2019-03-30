@@ -58,6 +58,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private HealthBar healthBar;
     private HealthBar healthBar2;
     private String activePlayer;
+    private boolean hasSwappedActor;
 
     public MyGame() {
         this(null);
@@ -442,28 +443,31 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (keycode == Input.Keys.ENTER) {
                 if(currentActor.chosen.size()==5){
                 while (currentActor.chosen.size() > 0) {
-                    Card action = currentActor.chosen.get(currentActor.chosen.size() - 1);
-                    currentActor.chosen.remove(currentActor.chosen.size() - 1);
-                    String type = getType(action);
+                        Card action = currentActor.chosen.get(currentActor.chosen.size() - 1);
+                        currentActor.chosen.remove(currentActor.chosen.size() - 1);
+                        String type = getType(action);
 
-                    if (type == "Move") {
-                        System.out.println(currentActor.getName()+ " should move " + currentActor.getDir() + " by: " + action.getMoves());
-                        currentActor.Forward(1 * action.getMoves(), moveDist, grid);
+                        if (type == "Move") {
+                            System.out.println(currentActor.getName() + " should move " + currentActor.getDir() + " by: " + action.getMoves());
+                            for (int i = 0; i <action.getMoves() ; i++) {
 
-                    } else if (type.equals("Backup")) {
-                        System.out.println(currentActor.getName() + " should move backwards by: " + action.getMoves());
-                        currentActor.backward(1, moveDist, grid);
+                                currentActor.Forward(1, moveDist, grid);
+                            }
 
-                    } else if (type == "Turn") {
-                        if (action.getTurn() == Card.Turn.LEFT) {
-                            currentActor.turnLeft();
-                        } else if (action.getTurn() == Card.Turn.RIGHT) {
-                            currentActor.turnRight();
-                        } else if (action.getTurn() == Card.Turn.UTURN) {
-                            currentActor.uTurn();
+                        } else if (type.equals("Backup")) {
+                            System.out.println(currentActor.getName() + " should move backwards by: " + action.getMoves());
+                            currentActor.backward(1, moveDist, grid);
+
+                        } else if (type == "Turn") {
+                            if (action.getTurn() == Card.Turn.LEFT) {
+                                currentActor.turnLeft();
+                            } else if (action.getTurn() == Card.Turn.RIGHT) {
+                                currentActor.turnRight();
+                            } else if (action.getTurn() == Card.Turn.UTURN) {
+                                currentActor.uTurn();
+                            }
+                            System.out.println("It was a turn card. " + currentActor.getName() + " turned " + action.getTurn());
                         }
-                        System.out.println("It was a turn card. " + currentActor.getName() +  " turned " + action.getTurn());
-                    }
                 }
 
                 System.out.println(currentActor.getName() + " has no cards left in chosen");
@@ -574,7 +578,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         if (currentActor.actorIndex >= actors.size()-1) {
             currentActor = actors.get(0);
             activePlayer = currentActor.getName() + ", you're up!";
-            return;
         }else {
             currentActor = actors.get(currentActor.actorIndex + 1);
             activePlayer = currentActor.getName() + ", you're up!";
