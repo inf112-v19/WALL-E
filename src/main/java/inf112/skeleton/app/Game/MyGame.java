@@ -195,8 +195,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }
             currentActor.explosions.removeAll(explosionsToRemove);
 
-            lessHpLessCards(currentActor);
-
+            lessHpLockCards(currentActor);
 
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 //kort 1
@@ -335,13 +334,34 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
 
         public void handOut() {
-            handout.clear();
-            for (int i = 0; i < 9; i++) {
-                handout.add(deck.handOut());
+            if (false)
+                lessHpLessCards(currentActor);
+
+            else {
+                handout.clear();
+                for (int i = 0; i < 9; i++) {
+                    handout.add(deck.handOut());
+                }
             }
         }
 
-        public void lessHpLessCards(MyActor actor){
+        public void lessHpLessCards(MyActor actor) {
+            // Not working atm
+            int cardIndex = 8;
+            float actorHp = actor.getHealth();
+            float hpStep = (float) 0.75;
+
+            while (hpStep>0){
+                if (!(actorHp<hpStep)){
+                    handout.set(cardIndex, deck.handOut());
+                }
+
+                hpStep-=0.25;
+                cardIndex--;
+            }
+        }
+
+         public void lessHpLockCards(MyActor actor){
             int cardIndex = 8;
             float actorHp = actor.getHealth();
             float hpStep = (float) 0.75;
