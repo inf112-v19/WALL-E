@@ -195,6 +195,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }
             currentActor.explosions.removeAll(explosionsToRemove);
 
+            lessHpLessCards(currentActor);
 
 
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
@@ -337,6 +338,22 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             handout.clear();
             for (int i = 0; i < 9; i++) {
                 handout.add(deck.handOut());
+            }
+        }
+
+        public void lessHpLessCards(MyActor actor){
+            int cardIndex = 8;
+            float actorHp = actor.getHealth();
+            float hpStep = (float) 0.75;
+
+            while (hpStep>0){
+                if (actorHp<hpStep && !handout.get(cardIndex).isChosen){
+                    chooseCard(cardIndex);
+                    handout.get(cardIndex).isChosen = true;
+                }
+
+                hpStep-=0.25;
+                cardIndex--;
             }
         }
 

@@ -1,6 +1,7 @@
 package inf112.skeleton.app.CardFunctionality;
 
 import inf112.skeleton.app.CardFunctionality.Card.Turn;
+import inf112.skeleton.app.Objects.Actor.MyActor;
 
 import java.util.ArrayList;
 import java.util.Random;
