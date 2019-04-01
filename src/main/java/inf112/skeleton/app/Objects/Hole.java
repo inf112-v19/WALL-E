@@ -11,11 +11,11 @@ import inf112.skeleton.app.Objects.Actor.MyActor;
 public class Hole implements IObject {
     public int y;
     public int x;
-    Sprite notUsedForHoles;
+    private Sprite notUsedForHoles;
     Tile hole;
     SpriteBatch sb;
 
-    public Hole(RectangleMapObject TiledHole, GridOfTiles grid) {
+    Hole(RectangleMapObject TiledHole, GridOfTiles grid) {
         y = (int) TiledHole.getRectangle().getY();
         x = (int) TiledHole.getRectangle().getX();
 
@@ -29,7 +29,7 @@ public class Hole implements IObject {
         tile.getObjOnTile().remove(this);
     }
 
-    public void handleFallingIntoHoles(MyActor actor, GridOfTiles grid) {
+    void handleFallingIntoHoles(MyActor actor, GridOfTiles grid) {
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
         Tile actorFellFrom = actor.getPreviousTile();
         if (hole.equals(actorTile)) {
@@ -42,8 +42,6 @@ public class Hole implements IObject {
             } else {
                 System.out.println("This doesn't work, would like it to tho..");
                 System.out.println("Actor had no backup, started from previous tile: " + actorFellFrom);
-                /*actor.setX(actorFellFrom.getX());
-                actor.setY(actorFellFrom.getY());*/
                 actor.setPosition(actorFellFrom.y, actorFellFrom.x, grid);
             }
         }

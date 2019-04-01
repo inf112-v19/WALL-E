@@ -8,15 +8,15 @@ import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 
 public class RedConveyorBelt implements IObject {
-    static Tile redConvTile;
-    public MyGame.Dir conveyorDirection;
+    private static Tile redConvTile;
+    private MyGame.Dir conveyorDirection;
     public int y;
     public int x;
-    Sprite notUsedForConveyors;
-    int conveyorVelocity;
+    private Sprite notUsedForConveyors;
+    private int conveyorVelocity;
 
 
-    public RedConveyorBelt(RectangleMapObject TiledRedConveyor, GridOfTiles grid, int velocity) {
+    RedConveyorBelt(RectangleMapObject TiledRedConveyor, GridOfTiles grid, int velocity) {
         y = (int) TiledRedConveyor.getRectangle().getY();
         x = (int) TiledRedConveyor.getRectangle().getX();
 
@@ -33,7 +33,7 @@ public class RedConveyorBelt implements IObject {
         tile.getObjOnTile().remove(this);
     }
 
-    public void handleConveyorTransport(MyActor actor, GridOfTiles grid) {
+    void handleConveyorTransport(MyActor actor, GridOfTiles grid) {
         int toMove = grid.pxSize;
         MyGame.Dir oldDirectionForActor = actor.getDir();
         actor.moveInDirection(toMove, conveyorDirection, grid);
@@ -61,7 +61,7 @@ public class RedConveyorBelt implements IObject {
         } else return null;
     }
 
-    public MyGame.Dir getConveyorDirection(RectangleMapObject conveyor) {
+    private MyGame.Dir getConveyorDirection(RectangleMapObject conveyor) {
         String directionFromTile = (String) conveyor.getProperties().get("direction");
         switch (directionFromTile) {
             case "NORTH":

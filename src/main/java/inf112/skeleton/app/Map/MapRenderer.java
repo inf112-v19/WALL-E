@@ -8,13 +8,11 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Game.MenuScreen;
-import inf112.skeleton.app.Game.NewGame;
+import inf112.skeleton.app.Game.MyGame;
 
 public class MapRenderer extends ApplicationAdapter {
     public static TiledMap map;
-    public static TiledMapRenderer renderer;
-    public static String map1Name = "map_v1.tmx";
-    public static String map2Name = "map_v2.tmx";
+    private static TiledMapRenderer renderer;
 
     public static void setMap(TiledMap selectedMap) {
         map = selectedMap;
@@ -23,6 +21,8 @@ public class MapRenderer extends ApplicationAdapter {
     public static TiledMap whatMapToCreate() {
         int whatMapToCreate = MenuScreen.getMAP_CHOICE();
         TiledMap returnMap = null;
+        String map1Name = "map_v1.tmx";
+        String map2Name = "map_v2.tmx";
         switch (whatMapToCreate) {
             case 0:
                 returnMap = new TmxMapLoader().load(map1Name);
@@ -57,13 +57,12 @@ public class MapRenderer extends ApplicationAdapter {
 
     @Override
     public void render() {
-        renderer.setView(NewGame.camera);
+        renderer.setView(MyGame.camera);
         renderer.render();
     }
 
     public Vector2 getTileCord(int index) {
         TiledMapTile tile = map.getTileSets().getTile(index);
-        // TODO: return the coordinates of a specific tile
         return null;
     }
 }

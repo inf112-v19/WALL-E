@@ -31,30 +31,25 @@ import static inf112.skeleton.app.CardFunctionality.Card.getType;
 
 public class MyGame extends ApplicationAdapter implements InputProcessor, Screen {
     public static GridOfTiles grid;
-    public static int amountOfFlags;
-    public int PXSIZE = 78;
-    public TiledMap tiledMap;
-    public ArrayList<MyActor> actors;
+    public static OrthographicCamera camera;
+    private static int amountOfFlags;
+    private int PXSIZE = 78;
+    private TiledMap tiledMap;
     public MyActor actor;
-    public MyActor actor2;
+    private ArrayList<MyActor> actors;
     public MyActor currentActor;
     public Map map;
-    public Deck deck;
+    private MyActor actor2;
     public ArrayList<Card> handout = new ArrayList<>(9);
-    OrthographicCamera camera;
-    TiledMapRenderer tiledMapRenderer;
-    SpriteBatch sb;
-    RoboRally game;
-    private Sprite BackBoard;
+    private Deck deck;
+    private TiledMapRenderer tiledMapRenderer;
+    private SpriteBatch sb;
+    private RoboRally game;
     private Batch batch;
-    private Texture texture;
     private BitmapFont font;
     private float textPositionX;
     private float textPositionY;
     private int cardStartX;
-    private ObjectMaker objectMaker;
-    private int HEIGHT;
-    private int WIDTH;
     private HealthBar healthBar;
     private HealthBar healthBar2;
     private String activePlayer;
@@ -63,7 +58,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     public MyGame() {
         this(null);
 
-        objectMaker = new ObjectMaker(null, null);
+        ObjectMaker objectMaker = new ObjectMaker(null, null);
         actor = objectMaker.actor;
         actor2 = objectMaker.actor2;
     }
@@ -79,11 +74,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         deck = new Deck();
         handOut();
-        //amountOfFlags = objectMaker.flags.size();
-    }
-
-    public static int getAmountOfFlags() {
-        return amountOfFlags;
     }
 
     @Override
@@ -97,16 +87,16 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         camera = new MyCam(tiledMap);
         camera.translate(-900, -1300);
-        HEIGHT = Gdx.graphics.getHeight();
-        WIDTH = Gdx.graphics.getWidth();
+        int HEIGHT = Gdx.graphics.getHeight();
+        int WIDTH = Gdx.graphics.getWidth();
 
         grid = initGrid();
         Gdx.input.setInputProcessor(this);
         sb = new SpriteBatch();
-        texture = new Texture(Gdx.files.internal("robbie.png"));
-        BackBoard = new Sprite(texture);
-        BackBoard.setSize(300, 150);
-        BackBoard.setPosition(-140, 700);
+        Texture texture = new Texture(Gdx.files.internal("robbie.png"));
+        Sprite backBoard = new Sprite(texture);
+        backBoard.setSize(300, 150);
+        backBoard.setPosition(-140, 700);
 
         //Text
         activePlayer = "Player 1, you're up!";
@@ -140,7 +130,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         healthBar = new HealthBar(actor, actor.getName(), 1);
         healthBar2 = new HealthBar(actor2, actor2.getName(), 2);
 
-        //chosen = new ArrayList<>();
         currentActor = actor;
     }
 
@@ -177,7 +166,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         healthBar2.render();
 
         Sprites();
-        //drawHUD();
 
         createCards();
 
@@ -187,7 +175,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         batch.end();
 
         //Explosion
-
         for (Explosion explosion : currentActor.explosions) {
             sb.begin();
             explosion.render(sb);
@@ -329,7 +316,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         int[] choicesForCPU = new int[4];
         for (int choice : choicesForCPU) {
             choice = (int) (Math.random() * range) + min;
-            /*System.out.println(choice);*/
             Card addForCPU = handout.get(choice);
             CPU.chosen.add(addForCPU);
             System.out.println(CPU.getName() + " chose: " + getType(handout.get(8)) + " | Num :" + choice);
@@ -373,16 +359,15 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
     }
 
-    void deselectCard(int i) {
+    private void deselectCard(int i) {
         Card card = handout.get(i);
         currentActor.chosen.remove(card);
     }
 
-    void createCards() {
+    private void createCards() {
         int cardX = 0;
         int cardY = 100;
-        for (int i = 0; i < handout.size(); i++) {
-            Card c = handout.get(i);
+        for (Card c : handout) {
             if (c.isChosen) {
                 c.setY(cardY + Gdx.graphics.getHeight() / 20);
             } else {
@@ -403,7 +388,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         try {
             current = grid.getTileWfloats(y, x);
             currentActor.setPreviousTile(current);
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
 
         }
 
@@ -442,33 +427,36 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                     currentActor.chosen.remove(currentActor.chosen.size() - 1);
                     String type = getType(action);
 
-                    if (type == "Move") {
-                        System.out.println(currentActor.getName() + " should move " + currentActor.getDir() + " by: " + action.getMoves());
-                        for (int i = 0; i < action.getMoves(); i++) {
+                    assert type != null;
+                    switch (type) {
+                        case "Move":
+                            System.out.println(currentActor.getName() + " should move " + currentActor.getDir() + " by: " + action.getMoves());
+                            for (int i = 0; i < action.getMoves(); i++) {
 
-                            currentActor.Forward(1, moveDist, grid);
-                        }
+                                currentActor.Forward(1, moveDist, grid);
+                            }
 
-                    } else if (type.equals("Backup")) {
-                        System.out.println(currentActor.getName() + " should move backwards by: " + action.getMoves());
-                        currentActor.backward(1, moveDist, grid);
+                            break;
+                        case "Backup":
+                            System.out.println(currentActor.getName() + " should move backwards by: " + action.getMoves());
+                            currentActor.backward(1, moveDist, grid);
 
-                    } else if (type == "Turn") {
-                        if (action.getTurn() == Card.Turn.LEFT) {
-                            currentActor.turnLeft();
-                        } else if (action.getTurn() == Card.Turn.RIGHT) {
-                            currentActor.turnRight();
-                        } else if (action.getTurn() == Card.Turn.UTURN) {
-                            currentActor.uTurn();
-                        }
-                        System.out.println("It was a turn card. " + currentActor.getName() + " turned " + action.getTurn());
+                            break;
+                        case "Turn":
+                            if (action.getTurn() == Card.Turn.LEFT) {
+                                currentActor.turnLeft();
+                            } else if (action.getTurn() == Card.Turn.RIGHT) {
+                                currentActor.turnRight();
+                            } else if (action.getTurn() == Card.Turn.UTURN) {
+                                currentActor.uTurn();
+                            }
+                            System.out.println("It was a turn card. " + currentActor.getName() + " turned " + action.getTurn());
+                            break;
                     }
                 }
 
                 System.out.println(currentActor.getName() + " has no cards left in chosen");
                 changeActor();
-                /*System.out.println(currentActor.getName() + " to choose cards.");
-                keyDown(Input.Keys.ALT_LEFT);*/
             }
             System.out.println(currentActor.getName() + " to choose cards.");
             keyDown(Input.Keys.ALT_LEFT);
@@ -562,7 +550,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
     }
 
-    public void changeActor() {
+    private void changeActor() {
         if (currentActor.actorIndex >= actors.size() - 1) {
             currentActor = actors.get(0);
             activePlayer = currentActor.getName() + ", you're up!";

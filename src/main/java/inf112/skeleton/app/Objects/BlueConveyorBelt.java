@@ -8,15 +8,15 @@ import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 
 public class BlueConveyorBelt implements IObject {
-    static Tile blueConvTile;
-    public MyGame.Dir conveyorDirection;
+    private static Tile blueConvTile;
+    private MyGame.Dir conveyorDirection;
     public int y;
     public int x;
-    Sprite notUsedForConveyors;
-    int conveyorVelocity;
+    private Sprite notUsedForConveyors;
+    private int conveyorVelocity;
 
 
-    public BlueConveyorBelt(RectangleMapObject TiledBlueConveyor, GridOfTiles grid, int velocity) {
+    BlueConveyorBelt(RectangleMapObject TiledBlueConveyor, GridOfTiles grid, int velocity) {
         y = (int) TiledBlueConveyor.getRectangle().getY();
         x = (int) TiledBlueConveyor.getRectangle().getX();
 
@@ -33,7 +33,7 @@ public class BlueConveyorBelt implements IObject {
         tile.getObjOnTile().remove(this);
     }
 
-    public void handleConveyorTransport(MyActor actor, GridOfTiles grid) {
+    void handleConveyorTransport(MyActor actor, GridOfTiles grid) {
         int toMove = grid.pxSize;
         MyGame.Dir oldDirectionForActor = actor.getDir();
         actor.moveInDirection(toMove, conveyorDirection, grid);
@@ -73,10 +73,6 @@ public class BlueConveyorBelt implements IObject {
             case "EAST":
                 return MyGame.Dir.EAST;
         }
-        /*if (directionFromTile.contentEquals("NORTH")) return MyGame.Dir.NORTH;
-        if (directionFromTile.contentEquals("SOUTH")) return MyGame.Dir.SOUTH;
-        if (directionFromTile.contentEquals("WETS")) return MyGame.Dir.WEST;
-        if (directionFromTile.contentEquals("EAST")) return MyGame.Dir.EAST*/
         return null;
     }
 

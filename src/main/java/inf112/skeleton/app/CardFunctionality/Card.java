@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Card extends ApplicationAdapter {
     public float cardWidth;
     public float cardHeight;
-    public boolean isShowing;
+    private boolean isShowing;
     public boolean isChosen;
     private Turn turn;
     private int moves;
@@ -75,7 +75,6 @@ public class Card extends ApplicationAdapter {
     public void create() {
         cardWidth = Gdx.graphics.getWidth() / 15;
         cardHeight = Gdx.graphics.getHeight() / 6;
-        //y = Gdx.graphics.getHeight()/10;
 
         card = new SpriteBatch();
         String type = getType(this);
@@ -104,10 +103,6 @@ public class Card extends ApplicationAdapter {
             card.draw(cardTexture, x, y, cardWidth, cardHeight);
             card.end();
         }
-    }
-
-    public void draw(SpriteBatch sb) {
-
     }
 
     public float getHeight() {

@@ -25,7 +25,7 @@ public class WrenchesDouble implements IObject {
         tile.getObjOnTile().remove(this);
     }
 
-    public void handleWrench(MyActor actor, GridOfTiles grid) {
+    void handleWrench(MyActor actor, GridOfTiles grid) {
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
         if (wrenchTile.equals(actorTile)) {
             actor.restoreHealth(0.5);

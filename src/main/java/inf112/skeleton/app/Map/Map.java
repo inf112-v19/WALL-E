@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 public class Map {
-    TiledMap tiledMap;
+    private TiledMap tiledMap;
 
     public Map(String mapFile) {
         this.tiledMap = new TmxMapLoader().load(mapFile);
@@ -14,13 +14,11 @@ public class Map {
 
     //get map layer by it's name
     public MapLayer getMapLayer(String layerName) {
-        MapLayer layer = tiledMap.getLayers().get(layerName);
-        return layer;
+        return tiledMap.getLayers().get(layerName);
     }
 
     public MapLayer getMapLayer(int i) {
-        MapLayer layer = tiledMap.getLayers().get(i);
-        return layer;
+        return tiledMap.getLayers().get(i);
     }
 
     public TiledMap getTiledMap() {

@@ -16,27 +16,23 @@ import java.util.ArrayList;
 import static inf112.skeleton.app.CardFunctionality.Card.getType;
 
 public class Actor extends ApplicationAdapter implements InputProcessor {
-    public float actorLeft;
-    public float actorRight;
-    public float actorTop;
-    public float actorBottom;
+    private float actorLeft;
+    private float actorRight;
+    private float actorTop;
+    private float actorBottom;
     public boolean viewRender = false;
-    public Card view;
-    ArrayList<Card> handout = new ArrayList<>(9);
-    ArrayList<Card> chosen = new ArrayList<>(5);
+    private Card view;
+    private ArrayList<Card> handout = new ArrayList<>(9);
+    private ArrayList<Card> chosen = new ArrayList<>(5);
     private float actorBackupX;
     private float actorBackupY;
     private boolean hasBackup;
-    private float textPositionX;
-    private float textPositionY;
     private Deck deck = new Deck();
     private Batch batch;
     private Texture aTexture;
     private BitmapFont font;
     private String output;
     private String output2;
-    private String messageHandout;
-    private String messageNewHandout;
     private Directions dir;
     private com.badlogic.gdx.scenes.scene2d.Actor actor = new com.badlogic.gdx.scenes.scene2d.Actor();
     private boolean rendered = false;
@@ -49,7 +45,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         return actor.getY();
     }
 
-    void chooseCard(int i) {
+    private void chooseCard(int i) {
         Card card = handout.get(i);
         chosen.add(0, card);
         while (chosen.size() > 5) {
@@ -58,7 +54,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         }
     }
 
-    void handOut() {
+    private void handOut() {
         handout.clear();
         for (int i = 0; i < 9; i++) {
             handout.add(deck.handOut());
@@ -91,10 +87,10 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         actorLeft = actor.getX();
         actorTop = actor.getY() + 70;
         actorRight = actor.getX() + 100;
-        textPositionX = (Gdx.graphics.getWidth() / 2) - 300;
-        textPositionY = Gdx.graphics.getHeight() - 30;
-        messageHandout = "Press backspace to deal cards";
-        messageNewHandout = "Press Left ALT followed by backspace for new handout";
+        float textPositionX = (Gdx.graphics.getWidth() / 2) - 300;
+        float textPositionY = Gdx.graphics.getHeight() - 30;
+        String messageHandout = "Press backspace to deal cards";
+        String messageNewHandout = "Press Left ALT followed by backspace for new handout";
 
         batch.begin();
         font.draw(batch, messageHandout, textPositionX - 400, textPositionY + 15);
@@ -172,35 +168,40 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
                 float moveX = deltaX * action.getMoves();
                 float moveY = deltaY * action.getMoves();
 
-                if (type == "Move") {
-                    System.out.println("Actor should move " + dir + " by: " + action.getMoves());
+                assert type != null;
+                switch (type) {
+                    case "Move":
+                        System.out.println("Actor should move " + dir + " by: " + action.getMoves());
 
-                    if (dir == Directions.NORTH) {
-                        actor.moveBy(0, moveY);
-                    } else if (dir == Directions.EAST) {
-                        actor.moveBy(moveX, 0);
-                    } else if (dir == Directions.WEST) {
-                        actor.moveBy(-moveX, 0);
-                    } else if (dir == Directions.SOUTH) {
-                        actor.moveBy(0, -moveY);
-                    }
+                        if (dir == Directions.NORTH) {
+                            actor.moveBy(0, moveY);
+                        } else if (dir == Directions.EAST) {
+                            actor.moveBy(moveX, 0);
+                        } else if (dir == Directions.WEST) {
+                            actor.moveBy(-moveX, 0);
+                        } else if (dir == Directions.SOUTH) {
+                            actor.moveBy(0, -moveY);
+                        }
 
-                } else if (type.equals("Backup")) {
-                    actorBackupX = actor.getX();
-                    actorBackupY = actor.getY();
-                    hasBackup = true;
-                    System.out.println("New Backup position set as: [" + actorBackupX + ", " + actorBackupY + "]");
+                        break;
+                    case "Backup":
+                        actorBackupX = actor.getX();
+                        actorBackupY = actor.getY();
+                        hasBackup = true;
+                        System.out.println("New Backup position set as: [" + actorBackupX + ", " + actorBackupY + "]");
 
-                } else if (type == "Turn") {
-                    if (action.getTurn() == Card.Turn.LEFT) {
-                        turnLeft();
-                    } else if (action.getTurn() == Card.Turn.RIGHT) {
-                        turnRight();
-                    } else if (action.getTurn() == Card.Turn.UTURN) {
-                        turnRight();
-                        turnRight();
-                    }
-                    System.out.println("It was a turn card. Actor turned " + action.getTurn());
+                        break;
+                    case "Turn":
+                        if (action.getTurn() == Card.Turn.LEFT) {
+                            turnLeft();
+                        } else if (action.getTurn() == Card.Turn.RIGHT) {
+                            turnRight();
+                        } else if (action.getTurn() == Card.Turn.UTURN) {
+                            turnRight();
+                            turnRight();
+                        }
+                        System.out.println("It was a turn card. Actor turned " + action.getTurn());
+                        break;
                 }
             } else {
                 System.out.println("No cards left in chosen");
@@ -211,8 +212,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             StringBuilder s = new StringBuilder("Cards in handout: ");
             int num = 1;
             for (Card c : handout) {
-                s.append(num + ": ");
+                s.append(num).append(": ");
                 String type = getType(c);
+                assert type != null;
                 if (type.equals("Move"))
                     s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
                 else if (type.equals("Turn")) s.append(type).append(" ").append(c.getTurn()).append(", ");
@@ -251,7 +253,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         return false;
     }
 
-    public void turnLeft() {
+    private void turnLeft() {
         if (dir == Directions.NORTH) {
             dir = Directions.WEST;
         } else if (dir == Directions.WEST) {
@@ -263,7 +265,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         }
     }
 
-    public void turnRight() {
+    private void turnRight() {
         if (dir == Directions.NORTH) {
             dir = Directions.EAST;
         } else if (dir == Directions.EAST) {
@@ -314,10 +316,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
-    }
-
-    public void renderCard() {
-        view.render();
     }
 
     public enum Directions {

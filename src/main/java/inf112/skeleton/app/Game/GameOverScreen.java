@@ -10,12 +10,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class GameOverScreen implements Screen {
     private static final int HEIGHT = Gdx.graphics.getHeight();
     private static final int WIDTH = Gdx.graphics.getWidth();
-    RoboRally game;
-    BitmapFont font;
-    SpriteBatch batch;
+    private RoboRally game;
+    private BitmapFont font;
+    private SpriteBatch batch;
     private String winner;
 
-    public GameOverScreen(RoboRally game, String winner) {
+    GameOverScreen(RoboRally game, String winner) {
         this.game = game;
         font = new BitmapFont();
         batch = new SpriteBatch();

@@ -12,10 +12,10 @@ import static inf112.skeleton.app.Objects.ObjectMaker.tilesWithFlags;
 public class Flag implements IObject {
     public int y;
     public int x;
-    Sprite sprite;
+    private Sprite sprite;
     Tile flagTile;
 
-    public Flag(RectangleMapObject TiledFlag, GridOfTiles grid) {
+    Flag(RectangleMapObject TiledFlag, GridOfTiles grid) {
         y = (int) TiledFlag.getRectangle().getY();
         x = (int) TiledFlag.getRectangle().getX();
 
@@ -33,7 +33,7 @@ public class Flag implements IObject {
         tile.getObjOnTile().remove(this);
     }
 
-    public void handleFlag(MyActor actor, GridOfTiles grid) {
+    void handleFlag(MyActor actor, GridOfTiles grid) {
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
         if (flagTile.equals(actorTile)) {
             actor.setBackupTile(flagTile);
@@ -45,7 +45,7 @@ public class Flag implements IObject {
         }
     }
 
-    public boolean checkFlagsForActor(MyActor actor) {
+    private boolean checkFlagsForActor(MyActor actor) {
         for (Tile t : tilesWithFlags) {
             if (!actor.tilesVisited.contains(t)) {
                 return false;

@@ -17,12 +17,12 @@ public class Tile implements ITile, Comparable<Tile> {
 
     public int x;
     public int y;
-    public int xCoordFrom;
-    public int xCoordTo;
-    public int yCoordFrom;
-    public int yCoordTo;
+    private int xCoordFrom;
+    private int xCoordTo;
+    private int yCoordFrom;
+    private int yCoordTo;
     public boolean isConveyor;
-    ArrayList<IObject> ObjOnTile;
+    private ArrayList<IObject> ObjOnTile;
 
 
     //Constructor for the tile:

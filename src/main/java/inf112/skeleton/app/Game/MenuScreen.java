@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MenuScreen implements Screen {
 
     private static int MAP_CHOICE = 0;
-    RoboRally game;
+    private RoboRally game;
     private float WIDTH;
     private float HEIGHT;
     private float EXIT_BUTTON_X;
@@ -35,7 +35,7 @@ public class MenuScreen implements Screen {
     private float MAPCHOICE_BUTTON_WIDTH;
 
 
-    public MenuScreen(RoboRally game) {
+    MenuScreen(RoboRally game) {
         this.game = game;
 
         WIDTH = Gdx.graphics.getWidth();
@@ -127,13 +127,13 @@ public class MenuScreen implements Screen {
 
     }
 
-    public void setGameScreen() {
+    private void setGameScreen() {
         MyGame gameScreen = new MyGame(game);
         gameScreen.create();
         game.setScreen(gameScreen);
     }
 
-    public void setMapChoice() {
+    private void setMapChoice() {
         MAP_CHOICE++;
         if (MAP_CHOICE > POSSIBLE_MAPCHOICES) MAP_CHOICE = 0;
     }

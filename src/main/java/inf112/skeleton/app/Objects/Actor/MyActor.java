@@ -19,12 +19,12 @@ public class MyActor implements IObject, IActor {
     public float x;
     public float y;
     public ArrayList<Card> chosen;
-    public Tile currentTile;
+    private Tile currentTile;
     public ArrayList<Tile> tilesVisited = new ArrayList<>(11 * 11);
     public ArrayList<Explosion> explosions;
     public int actorIndex;
-    MyGame.Dir currentDir;
-    Tile backupTile;
+    private MyGame.Dir currentDir;
+    private Tile backupTile;
     Tile previousTile;
     Sprite actorSprite;
     String textureFile;
@@ -208,14 +208,12 @@ public class MyActor implements IObject, IActor {
     private void death(GridOfTiles grid) {
         if (backupTile != null) {
             explosions.add(new Explosion(getX(), getY()));
-            //System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
             chosen.clear();
             takeDamage(0.1);
             backToBackup(grid);
             deleteBackup();
         } else {
             explosions.add(new Explosion(getX(), getY()));
-            //System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
             chosen.clear();
             takeDamage(0.1);
             System.out.println(this.name + " took damage! Out of bounds.");
@@ -265,8 +263,6 @@ public class MyActor implements IObject, IActor {
         this.x = x;
     }
 
-    //public String getName(){return this.name;}
-
     public String getName() {
         return this.name;
     }
@@ -311,14 +307,6 @@ public class MyActor implements IObject, IActor {
     public void restoreHealth(double v) {
         if (health < 1) this.health += v;
         if (health > 1) this.health = 1;
-    }
-
-    public void moveToTile(Tile destination, GridOfTiles grid) {
-        int moveDist = grid.pxSize;
-        float moveX = moveDist * (destination.x - this.x);
-        float moveY = moveDist * (destination.y - this.y);
-        this.setPosition((int) (this.y + moveY), (int) (this.x + moveX), grid);
-
     }
 
     public void moveInDirection(int toMove, MyGame.Dir conveyorDirection, GridOfTiles grid) {

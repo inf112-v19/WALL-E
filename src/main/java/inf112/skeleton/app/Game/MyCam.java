@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
-public class MyCam extends OrthographicCamera {
+class MyCam extends OrthographicCamera {
 
-    public MyCam(TiledMap tiledMap) {
+    MyCam(TiledMap tiledMap) {
         super();
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
         int x = (int) layer.getTileWidth();

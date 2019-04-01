@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 
 public class HealthBar {
-    float health;
-    SpriteBatch batch;
+    private float health;
+    private SpriteBatch batch;
     private Texture healthTexture;
     private BitmapFont font;
     private String actorHealth;
