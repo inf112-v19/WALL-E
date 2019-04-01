@@ -40,6 +40,7 @@ public class MyActor implements IObject, IActor {
         this.isCPU = isCPU;
         this.name = name;
         this.actorIndex = actorIndex;
+        this.chosen = new ArrayList<>(5);
     }
 
     public void create() {
@@ -50,7 +51,7 @@ public class MyActor implements IObject, IActor {
         this.health = 1;
         this.previousTile = null;
         explosions = new ArrayList<>();
-        chosen = new ArrayList<>(5);
+        //chosen = new ArrayList<>(5);
         name = "";
     }
 
