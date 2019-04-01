@@ -1,6 +1,5 @@
 package inf112.skeleton.app.Objects.Actor;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
@@ -44,12 +43,6 @@ public class ActorTest {
 
         // Teardown
         testOut.clear();
-    }
-
-    @Test
-    public void handOut() {
-        game.handOut();
-        assertEquals("Actor should have 9 cards", 9, game.handout.size());
     }
 
     @Test
