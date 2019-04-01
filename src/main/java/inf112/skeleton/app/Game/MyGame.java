@@ -20,6 +20,7 @@ import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.HUD.HealthBar;
 import inf112.skeleton.app.Map.Map;
+import inf112.skeleton.app.Map.MapRenderer;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Animations.Explosion;
 import inf112.skeleton.app.Objects.IObject;
@@ -84,11 +85,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
     @Override
     public void create() {
-        map = new Map("map_v1.tmx");
+        map = new Map(MapRenderer.whatMapToCreateString());
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         this.PXSIZE = getTileSize();
         camera = new MyCam(map.getTiledMap());
-        tiledMap = new TmxMapLoader().load("map_v1.tmx");
+        tiledMap = MapRenderer.whatMapToCreate();
+
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         camera = new MyCam(tiledMap);
         camera.translate(-900, -1300);
