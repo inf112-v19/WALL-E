@@ -23,6 +23,7 @@ import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Animations.Explosion;
 import inf112.skeleton.app.Objects.IObject;
+import inf112.skeleton.app.Objects.Laser;
 import inf112.skeleton.app.Objects.ObjectMaker;
 
 import java.util.ArrayList;
@@ -44,7 +45,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Sprite BackBoard;
     private Batch batch;
     private Texture texture;
+    private Texture laserTexture;
     public ArrayList<Card> handout = new ArrayList<>(9);
+    public ArrayList<Laser> lasers;
     public static int amountOfFlags;
     private BitmapFont font;
     private float textPositionX;
@@ -170,6 +173,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             healthBar2.render();
 
             Sprites();
+            Laser(v);
             //drawHUD();
 
             createCards();
@@ -326,7 +330,55 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             sb.end();
         }
 
-        private GridOfTiles initGrid () {
+    private void Laser(float delta) {
+        float actorX;
+        float actorY;
+        lasers = new ArrayList<>();
+
+        MyGame.Dir dir = currentActor.getDir();
+        switch(dir){
+            case NORTH:
+                actorX = currentActor.getX()-currentActor.getSprite().getWidth()-180;
+                actorY = currentActor.getY()+currentActor.getSprite().getHeight();
+                lasers.add(new Laser(actorX , actorY));
+                break;
+
+            case EAST:
+                actorX = (currentActor.getX()+currentActor.getSprite().getWidth()-400);
+                actorY = currentActor.getY()+currentActor.getSprite().getHeight()/2;
+                lasers.add(new Laser(actorX, actorY));
+                break;
+
+            case WEST:
+                actorX = currentActor.getX()+currentActor.getSprite().getWidth()+200;
+                actorY = (currentActor.getY()+currentActor.getSprite().getHeight()/2);
+                lasers.add(new Laser(actorX, actorY));
+                break;
+
+            case SOUTH:
+                actorX = currentActor.getX()-currentActor.getSprite().getWidth()-180;
+                actorY = (currentActor.getY()+currentActor.getSprite().getHeight()-180);
+                lasers.add(new Laser(actorX, actorY));
+                break;
+        }
+
+        ArrayList<Laser> lasersToRemove = new ArrayList<>();
+        for(Laser laser : lasers) {
+            laser.update(delta);
+            if (laser.remove) {
+                lasersToRemove.add(laser);
+            }
+            lasers.removeAll(lasersToRemove);
+        }
+        sb.begin();
+        for(Laser laser : lasers) {
+            laser.render(sb);
+        }
+        sb.end();
+    }
+
+
+    private GridOfTiles initGrid () {
             TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
             int HeightNTiles = layer.getHeight();
             int WidthNTiles = layer.getWidth();
@@ -477,6 +529,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (keycode == Input.Keys.O) {
                 GameOverScreen gameOverScreen = new GameOverScreen(game, "Player 2");
                 game.setScreen(gameOverScreen);
+            }
+
+            if (keycode == Input.Keys.L) {
+
             }
 
             return false;
