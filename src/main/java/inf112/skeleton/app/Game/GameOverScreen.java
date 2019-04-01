@@ -17,6 +17,7 @@ public class GameOverScreen implements Screen {
     private String winner;
     private Texture tanks;
     private Texture victory;
+    private Texture defeat;
 
     public GameOverScreen(RoboRally game, String winner){
         this.game = game;
@@ -25,6 +26,7 @@ public class GameOverScreen implements Screen {
         this.winner = winner;
         tanks = new Texture(Gdx.files.internal("victory-tanks.png"));
         victory = new Texture(Gdx.files.internal("Victory.png"));
+        defeat = new Texture(Gdx.files.internal("defeat.png"));
     }
     @Override
     public void show() {
@@ -37,7 +39,11 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        batch.draw(victory,WIDTH/2-victory.getWidth()/2,HEIGHT/2+(HEIGHT/20)*6);
+        if(this.winner=="Computer"){
+            batch.draw(defeat,WIDTH/2-victory.getWidth()/2,HEIGHT/2+(HEIGHT/20)*6);
+        } else {
+            batch.draw(victory, WIDTH / 2 - victory.getWidth() / 2, HEIGHT / 2 + (HEIGHT / 20) * 6);
+        }
         batch.draw(tanks,WIDTH/2-tanks.getWidth()/2,HEIGHT/2-(HEIGHT/20)*1);
         font.getData().setScale(4);
         font.draw(batch,winner + " won!",WIDTH/2-(WIDTH/50)*5, HEIGHT /2-(HEIGHT/20)*2);
