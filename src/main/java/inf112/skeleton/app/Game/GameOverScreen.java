@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -14,12 +15,16 @@ public class GameOverScreen implements Screen {
     private static final int HEIGHT = Gdx.graphics.getHeight();
     private static final int WIDTH = Gdx.graphics.getWidth();
     private String winner;
+    private Texture tanks;
+    private Texture victory;
 
     public GameOverScreen(RoboRally game, String winner){
         this.game = game;
         font = new BitmapFont();
         batch = new SpriteBatch();
         this.winner = winner;
+        tanks = new Texture(Gdx.files.internal("victory-tanks.png"));
+        victory = new Texture(Gdx.files.internal("Victory.png"));
     }
     @Override
     public void show() {
@@ -32,10 +37,12 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+        batch.draw(victory,WIDTH/2-victory.getWidth()/2,HEIGHT/2+(HEIGHT/20)*6);
+        batch.draw(tanks,WIDTH/2-tanks.getWidth()/2,HEIGHT/2-(HEIGHT/20)*1);
         font.getData().setScale(4);
-        font.draw(batch,winner + " won!",WIDTH/2-(WIDTH/12), HEIGHT /2+(HEIGHT/7));
+        font.draw(batch,winner + " won!",WIDTH/2-(WIDTH/50)*5, HEIGHT /2-(HEIGHT/20)*2);
         font.getData().setScale(2);
-        font.draw(batch,"Press ENTER to play again or ESCAPE to exit",WIDTH/2-(WIDTH/7), HEIGHT /2);
+        font.draw(batch,"Press ENTER to play again or ESCAPE to exit",WIDTH/2-(WIDTH/7), HEIGHT /2-(HEIGHT/10)*3);
         batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
