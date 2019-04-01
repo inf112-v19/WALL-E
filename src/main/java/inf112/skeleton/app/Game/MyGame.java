@@ -338,26 +338,26 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         MyGame.Dir dir = currentActor.getDir();
         switch(dir){
             case NORTH:
-                actorX = currentActor.getX()-currentActor.getSprite().getWidth()-180;
+                actorX = currentActor.getX()-currentActor.getSprite().getWidth()-75;
                 actorY = currentActor.getY()+currentActor.getSprite().getHeight();
                 lasers.add(new Laser(actorX , actorY));
                 break;
 
             case EAST:
-                actorX = (currentActor.getX()+currentActor.getSprite().getWidth()-400);
-                actorY = currentActor.getY()+currentActor.getSprite().getHeight()/2;
+                actorX = currentActor.getX()+currentActor.getSprite().getWidth();
+                actorY = (currentActor.getY()+currentActor.getSprite().getHeight())/2;
                 lasers.add(new Laser(actorX, actorY));
                 break;
 
             case WEST:
-                actorX = currentActor.getX()+currentActor.getSprite().getWidth()+200;
-                actorY = (currentActor.getY()+currentActor.getSprite().getHeight()/2);
+                actorX = currentActor.getX()+currentActor.getSprite().getWidth();
+                actorY = (currentActor.getY()+currentActor.getSprite().getHeight())/2;
                 lasers.add(new Laser(actorX, actorY));
                 break;
 
             case SOUTH:
-                actorX = currentActor.getX()-currentActor.getSprite().getWidth()-180;
-                actorY = (currentActor.getY()+currentActor.getSprite().getHeight()-180);
+                actorX = currentActor.getX()-currentActor.getSprite().getWidth()-75;
+                actorY = (currentActor.getY()+currentActor.getSprite().getHeight());
                 lasers.add(new Laser(actorX, actorY));
                 break;
         }
