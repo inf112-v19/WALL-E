@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public interface IActor {
     Boolean isCPU();
-
     Sprite getSprite();
-
     boolean alive();
 }
