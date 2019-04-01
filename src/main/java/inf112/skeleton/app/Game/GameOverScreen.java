@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -14,12 +15,18 @@ public class GameOverScreen implements Screen {
     private BitmapFont font;
     private SpriteBatch batch;
     private String winner;
+    private Texture tanks;
+    private Texture victory;
+    private Texture defeat;
 
     GameOverScreen(RoboRally game, String winner) {
         this.game = game;
         font = new BitmapFont();
         batch = new SpriteBatch();
         this.winner = winner;
+        tanks = new Texture(Gdx.files.internal("victory-tanks.png"));
+        victory = new Texture(Gdx.files.internal("Victory.png"));
+        defeat = new Texture(Gdx.files.internal("defeat.png"));
     }
 
     @Override
@@ -33,6 +40,12 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+        if(this.winner=="Computer"){
+            batch.draw(defeat,WIDTH/2-victory.getWidth()/2,HEIGHT/2+(HEIGHT/20)*6);
+        } else {
+            batch.draw(victory, WIDTH / 2 - victory.getWidth() / 2, HEIGHT / 2 + (HEIGHT / 20) * 6);
+        }
+        batch.draw(tanks,WIDTH/2-tanks.getWidth()/2,HEIGHT/2-(HEIGHT/20)*1);
         font.getData().setScale(4);
         font.draw(batch, winner + " won!", WIDTH / 2 - (WIDTH / 12), HEIGHT / 2 + (HEIGHT / 7));
         font.getData().setScale(2);
