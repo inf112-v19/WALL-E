@@ -8,7 +8,7 @@ public interface IObject {
     /**
      * Returns the sprite of a certain object
      */
-    public Sprite getSprite();
+    Sprite getSprite();
 
     Tile getTile();
 }
