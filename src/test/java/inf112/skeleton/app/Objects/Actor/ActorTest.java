@@ -1,6 +1,5 @@
 package inf112.skeleton.app.Objects.Actor;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
@@ -47,12 +46,6 @@ public class ActorTest {
     }
 
     @Test
-    public void handOut() {
-        game.handOut();
-        assertEquals("Actor should have 9 cards", 9, game.handout.size());
-    }
-
-    @Test
     public void keyDown() {
         MyActor actor = new MyActor("redTanks1.png", MyGame.Dir.NORTH, false, "testbot", 0);
         float initX, initY, posX, posY;
@@ -61,7 +54,6 @@ public class ActorTest {
         initY = posY = 0;
 
         // Move player UP
-        //game.keyDown(Input.Keys.UP);
         actor.Forward(1, 78, grid);
         assertEquals("Move up 78px", posY+78, actor.getY());
         assertEquals("Remain on same x-level", posX, actor.getX());
@@ -74,8 +66,6 @@ public class ActorTest {
         posY = actor.getY();
 
         // Move player RIGHT
-       /* game.keyDown(Input.Keys.RIGHT);
-        game.keyDown(Input.Keys.UP);*/
        actor.setDir(MyGame.Dir.EAST);
        actor.Forward(1, 78, grid);
         assertEquals("Remain on same y-level", posY, actor.getY());
