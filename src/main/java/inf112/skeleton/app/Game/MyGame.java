@@ -358,14 +358,15 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         float actorHp = currentActor.getHealth();
         float hpStep = (float) 0.75;
 
-        while (hpStep>0){
-            if (actorHp<hpStep && !handout.get(cardIndex).isChosen){
+        while (hpStep>0) {
+            if (actorHp < hpStep && !handout.get(cardIndex).isChosen) {
                 chooseCard(cardIndex);
                 handout.get(cardIndex).isChosen = true;
             }
 
-            hpStep-=0.25;
+            hpStep -= 0.25;
             cardIndex--;
+        }
     }
 
     private void Sprites() {
@@ -381,13 +382,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         int HeightNTiles = layer.getHeight();
         int WidthNTiles = layer.getWidth();
         return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
-    }
-
-    public void handOut() {
-        handout.clear();
-        for (int i = 0; i < 9; i++) {
-            handout.add(deck.handOut());
-        }
     }
 
     public void chooseCard(int i) {
