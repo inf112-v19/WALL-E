@@ -10,44 +10,44 @@ public class Collision {
     MyActor actor;
     GridOfTiles grid;
 
-    public Collision(GridOfTiles grid, MyActor actor){
+    public Collision(GridOfTiles grid, MyActor actor) {
         this.actor = actor;
         this.grid = grid;
     }
 
-    public void collisionCheck(){
+    public void collisionCheck() {
         if (grid == null) return;
 
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
         List onTile = actorTile.getObjOnTile();
 
         System.out.println(actorTile);
-        for (int i = 0; i <onTile.size() ; i++) {
-            if (onTile.get(i).equals(actor)) continue;
-            if (onTile.get(i) instanceof Flag) {
-                ((Flag) onTile.get(i)).handleFlag(actor, grid);
+        for (Object o : onTile) {
+            if (o.equals(actor)) continue;
+            if (o instanceof Flag) {
+                ((Flag) o).handleFlag(actor, grid);
             }
-            if (onTile.get(i) instanceof BlueTeleport) {
-                ((BlueTeleport) onTile.get(i)).handleTeleportation(actor, grid);
+            if (o instanceof BlueTeleport) {
+                ((BlueTeleport) o).handleTeleportation(actor, grid);
             }
-            if (onTile.get(i) instanceof YellowTeleport) {
-                ((YellowTeleport) onTile.get(i)).handleTeleportation(actor, grid);
+            if (o instanceof YellowTeleport) {
+                ((YellowTeleport) o).handleTeleportation(actor, grid);
             }
-            if (onTile.get(i) instanceof Hole) {
-                ((Hole) onTile.get(i)).handleFallingIntoHoles(actor, grid);
+            if (o instanceof Hole) {
+                ((Hole) o).handleFallingIntoHoles(actor, grid);
                 actor.takeDamage(0.1);
             }
-            if (onTile.get(i) instanceof WrenchesSingle) {
-                ((WrenchesSingle) onTile.get(i)).handleWrench(actor, grid);
+            if (o instanceof WrenchesSingle) {
+                ((WrenchesSingle) o).handleWrench(actor, grid);
             }
-            if (onTile.get(i) instanceof WrenchesDouble) {
-                ((WrenchesDouble) onTile.get(i)).handleWrench(actor, grid);
+            if (o instanceof WrenchesDouble) {
+                ((WrenchesDouble) o).handleWrench(actor, grid);
             }
-            if (onTile.get(i) instanceof RedConveyorBelt) {
-                ((RedConveyorBelt) onTile.get(i)).handleConveyorTransport(actor, grid);
+            if (o instanceof RedConveyorBelt) {
+                ((RedConveyorBelt) o).handleConveyorTransport(actor, grid);
             }
-            if (onTile.get(i) instanceof  BlueConveyorBelt){
-                ((BlueConveyorBelt) onTile.get(i)).handleConveyorTransport(actor, grid);
+            if (o instanceof BlueConveyorBelt) {
+                ((BlueConveyorBelt) o).handleConveyorTransport(actor, grid);
             }
         }
     }
