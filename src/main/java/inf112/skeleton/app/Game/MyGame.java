@@ -85,6 +85,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
     @Override
     public void create() {
+        //hurray
         map = new Map(MapRenderer.whatMapToCreateString());
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         this.PXSIZE = getTileSize();
