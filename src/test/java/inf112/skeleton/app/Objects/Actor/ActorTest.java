@@ -2,9 +2,12 @@ package inf112.skeleton.app.Objects.Actor;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
+import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.Game.MyGame;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -21,11 +24,10 @@ public class ActorTest {
     public void chooseCard() {
         // Setup
         game.handOut();
-
         int i = 0;
         while (i++ < 9) game.chooseCard(0);
 
-        assertEquals("Should choose no more or less than 5 cards", 5, game.currentActor.chosen.size());
+        assertEquals("Should choose no more or less than 5 cards", 5, game.actor.chosen.size());
 
         // Teardown
         game.handout.clear();
@@ -40,6 +42,8 @@ public class ActorTest {
     @Test
     public void keyDown() {
         float initX, initY, posX, posY;
+       game.actor = game.currentActor;
+
         initX = posX = game.actor.getX();
         initY = posY = game.actor.getY();
 

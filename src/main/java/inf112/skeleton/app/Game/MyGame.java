@@ -59,6 +59,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private HealthBar healthBar2;
     private String activePlayer;
     private boolean hasSwappedActor;
+    public int phaseNum;
 
     public MyGame() {
         this(null);
@@ -137,6 +138,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         //chosen = new ArrayList<>();
         currentActor = actor;
+        phaseNum = 4;
     }
 
 
@@ -202,12 +204,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
 
 
-            if (currentActor.isCPU){
-                goToCPUActions(currentActor);
-            }
-            else if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 //kort 1
-                if (currentActor.chosen.size() >= 5) System.out.println(currentActor.getName() +" can't choose more cards");
+                if (currentActor.chosen.size() >= 5) {
+                    System.out.println(currentActor.getName() +" can't choose more cards");
+                }
                 else {
                     if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(0).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(0).getY() + handout.get(0).getHeight() && Gdx.input.getX() > handout.get(0).getX() && Gdx.input.getX() < handout.get(0).getX() + handout.get(0).getWidth()) {
                         if (!handout.get(0).isChosen) {
@@ -317,7 +318,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         }
                     }
                 }
-
+            }
+            if (currentActor.choseFiveCards){
+                    changeActor();
+                    if (currentActor.isCPU) goToCPUActions(currentActor);
             }
         }
 
@@ -325,15 +329,17 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         int max = 8;
         int min = 0;
         int range = max - min + 1;
-        int[] choicesForCPU = new int[4];
+        int[] choicesForCPU = new int[5];
         for (int choice : choicesForCPU) {
             choice = (int)(Math.random()*range)+min;
             /*System.out.println(choice);*/
             Card addForCPU = handout.get(choice);
             CPU.chosen.add(addForCPU);
-            System.out.println(CPU.getName() + " chose: " + getType(handout.get(8)) + " | Num :" + choice);
-            keyDown(Input.Keys.ENTER);
+            System.out.println(CPU.getName() + " chose: " + getType(handout.get(choice)) + " | Num :" + choice);
+            /*keyDown(Input.Keys.ENTER);*/
         }
+        CPU.choseFiveCards = true;
+        changeActor();
     }
 
     private int getTileSize () {
@@ -377,6 +383,32 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             currentActor.chosen.remove(card);
         }
 
+    public void useCard(Card toUseForCurrentActor, MyActor actor) {
+        int moveDist = PXSIZE;
+        String cardType = getType(toUseForCurrentActor);
+        switch (cardType){
+            case "Move":
+                System.out.println(currentActor.getName() + " should move " + currentActor.getDir() + " by: " + toUseForCurrentActor.getMoves());
+                for (int i = 0; i <toUseForCurrentActor.getMoves() ; i++) {
+                    actor.Forward(1, moveDist, grid);
+                }
+            case "Backup":
+                System.out.println(currentActor.getName() + " should move backwards by: " + toUseForCurrentActor.getMoves());
+                actor.backward(1, moveDist, grid);
+            case "Turn":
+                if (toUseForCurrentActor.getTurn() == Card.Turn.LEFT) {
+                    actor.turnLeft();
+                    System.out.println(currentActor.getName() + " turned left.");
+                } else if (toUseForCurrentActor.getTurn() == Card.Turn.RIGHT) {
+                    actor.turnRight();
+                    System.out.println(currentActor.getName() + " turned right.");
+                } else if (toUseForCurrentActor.getTurn() == Card.Turn.UTURN) {
+                    actor.uTurn();
+                    System.out.println(currentActor.getName() + " did a U-turn.");
+                }
+        }
+    }
+
 
         void createCards () {
             int cardX = 0;
@@ -414,8 +446,13 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
             int moveDist = PXSIZE;
 
+
             if (keycode == Input.Keys.RIGHT) {
                 currentActor.turnRight();
+            }
+            if (keycode== Input.Keys.A){
+                currentActor.choseFiveCards = true;
+                handOut();
             }
             if (keycode == Input.Keys.LEFT) {
                 currentActor.turnLeft();
@@ -438,6 +475,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
             if (keycode == Input.Keys.S) {
                 currentActor.takeDamage(0.1);
+            }
+            if (keycode == Input.Keys.R){
+                Phase phase = new Phase(this, actors, currentActor, phaseNum);
+                phase.playPhase();
+                this.render();
             }
 
             if (keycode == Input.Keys.ENTER) {
@@ -577,9 +619,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         public void changeActor(){
         if (currentActor.actorIndex >= actors.size()-1) {
             currentActor = actors.get(0);
+            currentActor.choseFiveCards = false;
             activePlayer = currentActor.getName() + ", you're up!";
         }else {
             currentActor = actors.get(currentActor.actorIndex + 1);
+            currentActor.choseFiveCards = false;
             activePlayer = currentActor.getName() + ", you're up!";
         }
         }

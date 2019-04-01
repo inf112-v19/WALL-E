@@ -13,6 +13,8 @@ import inf112.skeleton.app.Objects.IObject;
 
 import java.util.ArrayList;
 
+import static inf112.skeleton.app.CardFunctionality.Card.getType;
+
 public class MyActor implements IObject, IActor {
     public boolean gameOver;
     public boolean isDead;
@@ -31,9 +33,11 @@ public class MyActor implements IObject, IActor {
     public ArrayList<Explosion> explosions;
     private String name;
     public int actorIndex;
+    public boolean choseFiveCards;
 
     public MyActor(String textureFile, MyGame.Dir startDir, boolean isCPU, String name, int actorIndex){
         this.gameOver = false;
+        this.choseFiveCards = false;
         this.currentDir = startDir;
         this.textureFile = textureFile;
         this.backupTile = null;
@@ -329,4 +333,5 @@ public class MyActor implements IObject, IActor {
     public void visitedTile(Tile flagTile) {
         tilesVisited.add(flagTile);
     }
+
 }

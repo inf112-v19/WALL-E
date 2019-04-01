@@ -40,28 +40,6 @@ public class BlueConveyorBelt implements IObject {
         actor.setDir(oldDirectionForActor);
     }
 
-    public Tile checkForAdjacentConveyors(GridOfTiles grid){
-        Tile above = grid.getTileWfloats(blueConvTile.y+1, blueConvTile.x);
-        Tile below = grid.getTileWfloats(blueConvTile.y-1, blueConvTile.x);
-        Tile left = grid.getTileWfloats(blueConvTile.y, blueConvTile.x-1);
-        Tile right = grid.getTileWfloats(blueConvTile.y, blueConvTile.x+1);
-
-        if (above.isConveyor){
-            conveyorDirection = MyGame.Dir.NORTH;
-            return above;
-        }
-        else if (below.isConveyor){
-            conveyorDirection = MyGame.Dir.SOUTH;
-            return below;}
-        else if (left.isConveyor){
-            conveyorDirection = MyGame.Dir.WEST;
-            return left;}
-        else if (right.isConveyor){
-            conveyorDirection = MyGame.Dir.EAST;
-            return right;}
-        else return null;
-    }
-
     public MyGame.Dir getConveyorDirection(RectangleMapObject conveyor){
         String directionFromTile = (String) conveyor.getProperties().get("direction");
         switch (directionFromTile){
@@ -70,10 +48,6 @@ public class BlueConveyorBelt implements IObject {
             case "WEST" : return MyGame.Dir.WEST;
             case "EAST" : return MyGame.Dir.EAST;
         }
-        /*if (directionFromTile.contentEquals("NORTH")) return MyGame.Dir.NORTH;
-        if (directionFromTile.contentEquals("SOUTH")) return MyGame.Dir.SOUTH;
-        if (directionFromTile.contentEquals("WETS")) return MyGame.Dir.WEST;
-        if (directionFromTile.contentEquals("EAST")) return MyGame.Dir.EAST*/;
         return null;
     }
 
