@@ -10,7 +10,7 @@ public class RoboRally extends Game {
     }
 
     @Override
-    public void render() {
+    public void render () {
         super.render();
     }
 

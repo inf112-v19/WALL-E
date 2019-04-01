@@ -7,9 +7,9 @@ import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 
 public class BlueTeleport implements IObject {
+    Sprite notUsedForTeleports;
     public int y;
     public int x;
-    private Sprite notUsedForTeleports;
     Tile bTeleportTileFrom;
 
     public BlueTeleport(RectangleMapObject TiledBlueTeleport, GridOfTiles grid) {
@@ -20,20 +20,20 @@ public class BlueTeleport implements IObject {
         bTeleportTileFrom.addObjOnTile(this);
     }
 
-    public void remove(GridOfTiles grid) {
+    public void remove(GridOfTiles grid){
         this.notUsedForTeleports = null;
         Tile tile = grid.getTileWfloats(this.y, this.x);
         tile.getObjOnTile().remove(this);
     }
 
-    void handleTeleportation(MyActor actor, GridOfTiles grid) {
+    public void handleTeleportation(MyActor actor, GridOfTiles grid){
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
-        if (bTeleportTileFrom.equals(actorTile)) {
+        if (bTeleportTileFrom.equals(actorTile)){
             ObjectMaker.blueTeleports.remove(this);
             BlueTeleport to = (BlueTeleport) ObjectMaker.blueTeleports.get(0);
             actor.setX(to.x);
             actor.setY(to.y);
-            System.out.println("Actor teleported from " + bTeleportTileFrom + " to " + to.getTile());
+            System.out.println("Actor teleported from " + bTeleportTileFrom + " to " + to.getTile() );
             ObjectMaker.blueTeleports.add(this);
         }
     }
@@ -43,7 +43,7 @@ public class BlueTeleport implements IObject {
         return null;
     }
 
-    public Tile getTile() {
+    public Tile getTile(){
         return this.bTeleportTileFrom;
     }
 }

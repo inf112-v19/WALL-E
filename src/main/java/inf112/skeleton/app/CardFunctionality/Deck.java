@@ -14,6 +14,12 @@ public class Deck {
         createDeck();
     }
 
+    public void printDeck(){
+        int size = deck.size();
+        for (int i=0; i<size; i++)
+            System.out.println(deck.get(i));
+    }
+
     private void createDeck() {
         // Adds U-TURNs to the deck
         for (int p = 10; p <= 60; p += 10) {
