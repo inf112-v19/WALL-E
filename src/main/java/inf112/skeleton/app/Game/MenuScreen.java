@@ -2,28 +2,24 @@ package inf112.skeleton.app.Game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import inf112.skeleton.app.Map.Maps;
 
 public class MenuScreen implements Screen {
 
+    private static int MAP_CHOICE = 0;
+    private RoboRally game;
     private float WIDTH;
     private float HEIGHT;
-
     private float EXIT_BUTTON_X;
     private float EXIT_BUTTON_y;
     private float EXIT_BUTTON_HEIGHT;
     private float EXIT_BUTTON_WIDTH;
-
     private float PLAY_BUTTON_X;
     private float PLAY_BUTTON_y;
     private float PLAY_BUTTON_HEIGHT;
     private float PLAY_BUTTON_WIDTH;
-
-    RoboRally game;
     private SpriteBatch batch;
     private Texture playInAct;
     private Texture playAct;
@@ -32,17 +28,14 @@ public class MenuScreen implements Screen {
     private Texture mapInAct;
     private Texture mapAct;
     private Texture mapChoice;
-
-
     private int POSSIBLE_MAPCHOICES = 1;
-    private static int MAP_CHOICE = 0;
     private float MAPCHOICE_BUTTON_X;
     private float MAPCHOICE_BUTTON_y;
     private float MAPCHOICE_BUTTON_HEIGHT;
     private float MAPCHOICE_BUTTON_WIDTH;
 
 
-    public MenuScreen(RoboRally game) {
+    MenuScreen(RoboRally game) {
         this.game = game;
 
         WIDTH = Gdx.graphics.getWidth();
@@ -73,6 +66,9 @@ public class MenuScreen implements Screen {
         MAPCHOICE_BUTTON_WIDTH = mapAct.getWidth();
     }
 
+    public static int getMAP_CHOICE() {
+        return MAP_CHOICE;
+    }
 
     @Override
     public void show() {
@@ -131,21 +127,16 @@ public class MenuScreen implements Screen {
 
     }
 
-    public void setGameScreen() {
+    private void setGameScreen() {
         MyGame gameScreen = new MyGame(game);
         gameScreen.create();
         game.setScreen(gameScreen);
     }
 
-    public void setMapChoice() {
+    private void setMapChoice() {
         MAP_CHOICE++;
         if (MAP_CHOICE > POSSIBLE_MAPCHOICES) MAP_CHOICE = 0;
     }
-
-    public static int getMAP_CHOICE() {
-        return MAP_CHOICE;
-    }
-
 
     @Override
     public void resize(int i, int i1) {
