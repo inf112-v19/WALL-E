@@ -417,6 +417,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
             }
 
+            if(keycode==Input.Keys.L) {
+                //velge actor som skal skyte
+            }
+
 
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();
