@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MenuScreen implements Screen {
@@ -28,6 +29,7 @@ public class MenuScreen implements Screen {
     private Texture mapInAct;
     private Texture mapAct;
     private Texture mapChoice;
+    private BitmapFont font;
     private int POSSIBLE_MAPCHOICES = 1;
     private float MAPCHOICE_BUTTON_X;
     private float MAPCHOICE_BUTTON_y;
@@ -47,21 +49,22 @@ public class MenuScreen implements Screen {
         exitAct = new Texture(Gdx.files.internal("exit_active.png"));
         mapInAct = new Texture(Gdx.files.internal("map_inactive.png"));
         mapAct = new Texture(Gdx.files.internal("map_active.png"));
+        font = new BitmapFont();
         batch = new SpriteBatch();
 
 
         PLAY_BUTTON_X = (WIDTH / 2) - (playInAct.getWidth() / 2);
-        PLAY_BUTTON_y = HEIGHT - (HEIGHT / 4);
+        PLAY_BUTTON_y = HEIGHT - (HEIGHT / 10)*2;
         PLAY_BUTTON_HEIGHT = playAct.getHeight();
         PLAY_BUTTON_WIDTH = playAct.getWidth();
 
         EXIT_BUTTON_X = (WIDTH / 2) - (exitInAct.getWidth() / 2);
-        EXIT_BUTTON_y = HEIGHT - (HEIGHT / 4) * 2;
+        EXIT_BUTTON_y = HEIGHT - (HEIGHT / 10) * 6;
         EXIT_BUTTON_HEIGHT = exitAct.getHeight();
         EXIT_BUTTON_WIDTH = exitAct.getWidth();
 
         MAPCHOICE_BUTTON_X = (WIDTH / 2) - (mapInAct.getWidth() / 2);
-        MAPCHOICE_BUTTON_y = HEIGHT - (HEIGHT / 4) * 3;
+        MAPCHOICE_BUTTON_y = HEIGHT - (HEIGHT / 10) * 4;
         MAPCHOICE_BUTTON_HEIGHT = mapAct.getHeight();
         MAPCHOICE_BUTTON_WIDTH = mapAct.getWidth();
     }
@@ -80,6 +83,8 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+        font.getData().setScale(2);
+        font.draw(batch,"Current map: <"+getMAP_CHOICE()+">",MAPCHOICE_BUTTON_X-20,MAPCHOICE_BUTTON_y-20);
         // Play button
         if (Gdx.input.getX() > PLAY_BUTTON_X
                 && Gdx.input.getX() < PLAY_BUTTON_X + PLAY_BUTTON_WIDTH
