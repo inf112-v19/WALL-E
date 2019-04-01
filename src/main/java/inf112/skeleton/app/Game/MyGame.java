@@ -329,6 +329,46 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         return (int) layer.getTileWidth();
     }
 
+    public void handOut() {
+        if (handout.isEmpty())
+            for (int i = 0; i < 9; i++)
+                handout.add(deck.handOut());
+
+        else
+            lessHpLessCards();
+    }
+
+    public void lessHpLessCards() {
+        float actorHp = currentActor.getHealth();
+        float hpStep = (float) 0.75;
+        for (int i=8; i>=0; i--){
+            if (actorHp<hpStep){
+                handout.set(i, currentActor.getFromLastHandout(i));
+            }
+            else {
+                handout.set(i, deck.handOut());
+            }
+
+            hpStep-=0.25;
+        }
+    }
+
+    public void lessHpLockCards() {
+        int cardIndex = 8;
+        float actorHp = currentActor.getHealth();
+        float hpStep = (float) 0.75;
+
+        while (hpStep>0) {
+            if (actorHp < hpStep && !handout.get(cardIndex).isChosen) {
+                chooseCard(cardIndex);
+                handout.get(cardIndex).isChosen = true;
+            }
+
+            hpStep -= 0.25;
+            cardIndex--;
+        }
+    }
+
     private void Sprites() {
         sb.begin();
         for (IObject obj : grid.getAll()) {
@@ -342,13 +382,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         int HeightNTiles = layer.getHeight();
         int WidthNTiles = layer.getWidth();
         return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
-    }
-
-    public void handOut() {
-        handout.clear();
-        for (int i = 0; i < 9; i++) {
-            handout.add(deck.handOut());
-        }
     }
 
     public void chooseCard(int i) {
@@ -457,6 +490,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 }
 
                 System.out.println(currentActor.getName() + " has no cards left in chosen");
+
+                lessHpLockCards();
+                currentActor.setLastHandout(handout);
                 changeActor();
             }
             System.out.println(currentActor.getName() + " to choose cards.");
@@ -465,7 +501,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         if (keycode == Input.Keys.ALT_LEFT) {
             handOut();
-
         }
 
         if (keycode == Input.Keys.E) {
