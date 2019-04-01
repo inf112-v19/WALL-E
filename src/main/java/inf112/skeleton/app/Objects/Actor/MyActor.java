@@ -1,14 +1,13 @@
 package inf112.skeleton.app.Objects.Actor;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import inf112.skeleton.app.Animations.Explosion;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Collision;
-import inf112.skeleton.app.Animations.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 
 import java.util.ArrayList;
@@ -17,22 +16,22 @@ public class MyActor implements IObject, IActor {
     public boolean gameOver;
     public boolean isDead;
     public boolean isCPU;
-    MyGame.Dir currentDir;
-    Tile backupTile;
-    Tile previousTile;
-    Sprite actorSprite;
     public float x;
     public float y;
     public ArrayList<Card> chosen;
+    private Tile currentTile;
+    public ArrayList<Tile> tilesVisited = new ArrayList<>(11 * 11);
+    public ArrayList<Explosion> explosions;
+    public int actorIndex;
+    private MyGame.Dir currentDir;
+    private Tile backupTile;
+    Tile previousTile;
+    Sprite actorSprite;
     String textureFile;
     float health;
-    public Tile currentTile;
-    public ArrayList<Tile> tilesVisited = new ArrayList<>(11*11);
-    public ArrayList<Explosion> explosions;
     private String name;
-    public int actorIndex;
 
-    public MyActor(String textureFile, MyGame.Dir startDir, boolean isCPU, String name, int actorIndex){
+    public MyActor(String textureFile, MyGame.Dir startDir, boolean isCPU, String name, int actorIndex) {
         this.gameOver = false;
         this.currentDir = startDir;
         this.textureFile = textureFile;
@@ -40,6 +39,7 @@ public class MyActor implements IObject, IActor {
         this.isCPU = isCPU;
         this.name = name;
         this.actorIndex = actorIndex;
+        this.chosen = new ArrayList<>(5);
     }
 
     public void create() {
@@ -50,11 +50,11 @@ public class MyActor implements IObject, IActor {
         this.health = 1;
         this.previousTile = null;
         explosions = new ArrayList<>();
-        chosen = new ArrayList<>(5);
+        //chosen = new ArrayList<>(5);
         name = "";
     }
 
-    public void Forward(int steps, int moveDist, GridOfTiles grid){
+    public void Forward(int steps, int moveDist, GridOfTiles grid) {
         for (int i = 0; i < steps; i++) {
             moveForward(moveDist, grid);
             currentTile = grid.getTileWfloats(this.y, this.x);
@@ -68,15 +68,15 @@ public class MyActor implements IObject, IActor {
     }
 
     private void moveForward(int moveDist, GridOfTiles grid) {
-        switch (currentDir){
+        switch (currentDir) {
             case NORTH:
-                this.setPosition((int) getY()+moveDist, (int) getX(), grid);
+                this.setPosition((int) getY() + moveDist, (int) getX(), grid);
                 break;
             case EAST:
                 this.setPosition((int) getY(), (int) getX() + moveDist, grid);
                 break;
             case SOUTH:
-                this.setPosition((int) getY()- moveDist, (int) getX(), grid);
+                this.setPosition((int) getY() - moveDist, (int) getX(), grid);
                 break;
             case WEST:
                 this.setPosition((int) getY(), (int) getX() - moveDist, grid);
@@ -85,7 +85,7 @@ public class MyActor implements IObject, IActor {
     }
 
 
-    public void backward(int steps, int moveDist, GridOfTiles grid){
+    public void backward(int steps, int moveDist, GridOfTiles grid) {
         for (int i = 0; i < steps; i++) {
             moveBackward(moveDist, grid);
         }
@@ -93,15 +93,15 @@ public class MyActor implements IObject, IActor {
     }
 
     private void moveBackward(int moveDist, GridOfTiles grid) {
-        switch (currentDir){
+        switch (currentDir) {
             case NORTH:
-                this.setPosition((int) getY()-moveDist, (int) getX(), grid);
+                this.setPosition((int) getY() - moveDist, (int) getX(), grid);
                 break;
             case EAST:
                 this.setPosition((int) getY(), (int) getX() - moveDist, grid);
                 break;
             case SOUTH:
-                this.setPosition((int) getY()+ moveDist, (int) getX(), grid);
+                this.setPosition((int) getY() + moveDist, (int) getX(), grid);
                 break;
             case WEST:
                 this.setPosition((int) getY(), (int) getX() + moveDist, grid);
@@ -109,11 +109,11 @@ public class MyActor implements IObject, IActor {
         }
     }
 
-    public void turnRight(){
+    public void turnRight() {
         if (actorSprite != null)
             actorSprite.rotate(-90);
 
-        switch (currentDir){
+        switch (currentDir) {
             case NORTH:
                 currentDir = MyGame.Dir.EAST;
                 break;
@@ -129,11 +129,11 @@ public class MyActor implements IObject, IActor {
         }
     }
 
-    public void turnLeft(){
+    public void turnLeft() {
         if (actorSprite != null)
             actorSprite.rotate(90);
 
-        switch (currentDir){
+        switch (currentDir) {
             case NORTH:
                 currentDir = MyGame.Dir.WEST;
                 break;
@@ -149,11 +149,11 @@ public class MyActor implements IObject, IActor {
         }
     }
 
-    public void uTurn(){
+    public void uTurn() {
         if (actorSprite != null)
             actorSprite.rotate(180);
 
-        switch (currentDir){
+        switch (currentDir) {
             case NORTH:
                 currentDir = MyGame.Dir.SOUTH;
                 break;
@@ -169,23 +169,23 @@ public class MyActor implements IObject, IActor {
         }
     }
 
-    public Tile getBackupTile(){
+    public Tile getBackupTile() {
         return this.backupTile;
     }
 
-    public void setBackupTile(Tile backupTile){
+    public void setBackupTile(Tile backupTile) {
         this.backupTile = backupTile;
         System.out.println("New backup location: " + backupTile);
     }
 
-    public void deleteBackup(){
+    public void deleteBackup() {
         this.backupTile = null;
     }
 
-    public void backToBackup(GridOfTiles grid){
+    public void backToBackup(GridOfTiles grid) {
         int pxSize = grid.pxSize;
-        if (this.backupTile != null){
-            setPosition(backupTile.y*pxSize, backupTile.x*pxSize, grid);
+        if (this.backupTile != null) {
+            setPosition(backupTile.y * pxSize, backupTile.x * pxSize, grid);
             System.out.println(this.name + " to backup: " + grid.getTileWfloats(this.getY(), this.getX()) + ", Actor no longer has a backup");
         }
     }
@@ -207,16 +207,14 @@ public class MyActor implements IObject, IActor {
     }
 
     private void death(GridOfTiles grid) {
-        if(backupTile != null){
-            explosions.add(new Explosion(getX(),getY()));
-            //System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
+        if (backupTile != null) {
+            explosions.add(new Explosion(getX(), getY()));
             chosen.clear();
             takeDamage(0.1);
             backToBackup(grid);
             deleteBackup();
-        } else{
-            explosions.add(new Explosion(getX(),getY()));
-            //System.out.println("Explosion added to "+ grid.getTileWfloats(getX(),getY()));
+        } else {
+            explosions.add(new Explosion(getX(), getY()));
             chosen.clear();
             takeDamage(0.1);
             System.out.println(this.name + " took damage! Out of bounds.");
@@ -226,28 +224,19 @@ public class MyActor implements IObject, IActor {
 
     }
 
-    public void setX(float x) {
-       this.x = x;
-    }
-
-
-    public void setY(float y){
-        this.y = y;
-    }
-
-    public boolean checkOutOfBounds(int y, int x, GridOfTiles grid){
-        if (y<0||x<0) return true;
-        int TileY = y/grid.pxSize;
-        int TileX = x/grid.pxSize;
+    public boolean checkOutOfBounds(int y, int x, GridOfTiles grid) {
+        if (y < 0 || x < 0) return true;
+        int TileY = y / grid.pxSize;
+        int TileX = x / grid.pxSize;
         return TileY >= grid.Nrow || TileX >= grid.Ncol;
 
     }
 
-    public void takeDamage(double i){
+    public void takeDamage(double i) {
         this.health -= i;
     }
 
-    public float getHealth(){
+    public float getHealth() {
         return health;
     }
 
@@ -255,7 +244,7 @@ public class MyActor implements IObject, IActor {
         return this.previousTile;
     }
 
-    public void setPreviousTile(Tile tile){
+    public void setPreviousTile(Tile tile) {
         previousTile = tile;
     }
 
@@ -263,17 +252,25 @@ public class MyActor implements IObject, IActor {
         return this.y;
     }
 
+    public void setY(float y) {
+        this.y = y;
+    }
+
     public float getX() {
         return this.x;
     }
 
-    //public String getName(){return this.name;}
+    public void setX(float x) {
+        this.x = x;
+    }
 
     public String getName() {
         return this.name;
     }
 
-    public void setName(String name){ this.name = name;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public Boolean isCPU() {
@@ -304,21 +301,13 @@ public class MyActor implements IObject, IActor {
         return currentDir;
     }
 
-    public void restoreHealth(double v) {
-        if(health<1) this.health += v;
-        if(health>1) this.health = 1;
-    }
-
-    public void moveToTile(Tile destination, GridOfTiles grid){
-       int moveDist = grid.pxSize;
-       float moveX =  moveDist * (destination.x - this.x);
-       float moveY =  moveDist * (destination.y - this.y);
-       this.setPosition((int)(this.y + moveY), (int)(this.x + moveX), grid);
-
-    }
-
     public void setDir(MyGame.Dir conveyorDirection) {
         currentDir = conveyorDirection;
+    }
+
+    public void restoreHealth(double v) {
+        if (health < 1) this.health += v;
+        if (health > 1) this.health = 1;
     }
 
     public void moveInDirection(int toMove, MyGame.Dir conveyorDirection, GridOfTiles grid) {

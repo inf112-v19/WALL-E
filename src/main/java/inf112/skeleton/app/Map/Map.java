@@ -6,28 +6,26 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 public class Map {
-    TiledMap tiledMap;
+    private TiledMap tiledMap;
 
-    public Map(String mapFile){
+    public Map(String mapFile) {
         this.tiledMap = new TmxMapLoader().load(mapFile);
     }
 
     //get map layer by it's name
-    public MapLayer getMapLayer(String layerName){
-        MapLayer layer = tiledMap.getLayers().get(layerName);
-        return layer;
+    public MapLayer getMapLayer(String layerName) {
+        return tiledMap.getLayers().get(layerName);
     }
 
-    public MapLayer getMapLayer(int i){
-        MapLayer layer = tiledMap.getLayers().get(i);
-        return layer;
+    public MapLayer getMapLayer(int i) {
+        return tiledMap.getLayers().get(i);
     }
 
     public TiledMap getTiledMap() {
         return tiledMap;
     }
 
-    public int getTileSize(){
+    public int getTileSize() {
         TiledMapTileLayer layer = (TiledMapTileLayer) getMapLayer(0);
         return (int) layer.getTileWidth();
     }
