@@ -1,6 +1,7 @@
 package inf112.skeleton.app.CardFunctionality;
 
 import inf112.skeleton.app.CardFunctionality.Card.Turn;
+import inf112.skeleton.app.Objects.Actor.MyActor;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -61,6 +62,15 @@ public class Deck {
         Card randCard = deck.get(randIndex);
         deck.remove(randIndex);
         return randCard;
+    }
+
+    public void chooseCardFromHandout(int i, ArrayList<Card> handout, MyActor currentActor){
+        Card card = handout.get(i);
+        currentActor.chosen.add(i, card);
+        while (currentActor.chosen.size() > 5) {
+            Card deletedCard = currentActor.chosen.remove(currentActor.chosen.size() - 1);
+            handout.add(deletedCard);
+        }
     }
 
     boolean isEmpty() {
