@@ -195,8 +195,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }
             currentActor.explosions.removeAll(explosionsToRemove);
 
-            lessHpLockCards(currentActor);
-
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 //kort 1
                 if (currentActor.chosen.size() >= 5) System.out.println("You can't choose more cards");
@@ -334,36 +332,33 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
 
         public void handOut() {
-            if (false)
-                lessHpLessCards(currentActor);
-
-            else {
-                handout.clear();
-                for (int i = 0; i < 9; i++) {
+            if (handout.isEmpty())
+                for (int i = 0; i < 9; i++)
                     handout.add(deck.handOut());
-                }
-            }
+
+            else
+                lessHpLessCards();
         }
 
-        public void lessHpLessCards(MyActor actor) {
-            // Not working atm
-            int cardIndex = 8;
-            float actorHp = actor.getHealth();
+        public void lessHpLessCards() {
+            float actorHp = currentActor.getHealth();
             float hpStep = (float) 0.75;
-
-            while (hpStep>0){
-                if (!(actorHp<hpStep)){
-                    handout.set(cardIndex, deck.handOut());
+            for (int i=8; i>=0; i--){
+                if (actorHp<hpStep){
+                    handout.set(i, currentActor.getFromLastHandout(i));
+                    chooseCard(i);
+                }
+                else {
+                    handout.set(i, deck.handOut());
                 }
 
                 hpStep-=0.25;
-                cardIndex--;
             }
         }
 
-         public void lessHpLockCards(MyActor actor){
+         public void lessHpLockCards(){
             int cardIndex = 8;
-            float actorHp = actor.getHealth();
+            float actorHp = currentActor.getHealth();
             float hpStep = (float) 0.75;
 
             while (hpStep>0){
@@ -482,6 +477,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 }
 
                 System.out.println(currentActor + " has no cards left in chosen");
+
+                lessHpLockCards();
+                currentActor.setLastHandout(handout);
                 changeActor();
                 System.out.println(currentActor + " to choose cards.");
                 keyDown(Input.Keys.ALT_LEFT);
@@ -490,7 +488,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
             if (keycode == Input.Keys.ALT_LEFT) {
                 handOut();
-
             }
 
             if (keycode == Input.Keys.E){

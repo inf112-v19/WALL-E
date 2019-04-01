@@ -23,6 +23,7 @@ public class MyActor implements IObject, IActor {
     public float x;
     public float y;
     public ArrayList<Card> chosen;
+    public ArrayList<Card> lastHandout;
     String textureFile;
     float health;
     public Tile currentTile;
@@ -47,6 +48,7 @@ public class MyActor implements IObject, IActor {
         this.previousTile = null;
         explosions = new ArrayList<>();
         chosen = new ArrayList<>(5);
+        lastHandout = new ArrayList<>(9);
         name = "";
     }
 
@@ -200,6 +202,15 @@ public class MyActor implements IObject, IActor {
             grid.getTileWfloats(y, x).addObjOnTile(this);
         }
 
+    }
+
+    public Card getFromLastHandout(int index) {
+        return lastHandout.get(index);
+    }
+
+    public void setLastHandout(ArrayList<Card> lastHandout) {
+        this.lastHandout.clear();
+        this.lastHandout.addAll(lastHandout);
     }
 
     private void death(GridOfTiles grid) {
