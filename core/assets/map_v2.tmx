@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="12" nextobjectid="54">
+ <tileset firstgid="1" source="RoboTiles.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJx1kTEKwkAQRQf1AAu2CdisAbuYCwQrsVGbQDClIF7CxNZcyqN4FP+wI3yGWDz+zs6fzywbRWQNbqZP0wI0YANasAA5KMEWjKYVqfojzfdUq/8o8jlAlZ3I0FBeNeFfgmA8/uTzPuqfgTn5ff7ZZWRGS/ncv7uMjHpadyJvUP/6PBvdbJH8Q0d33A92DnQ3tY/ysl2upsH+rnSZ7Pfv5roGJ/Pu01+tOMfveklvkS/qyyRj
+  </data>
+ </layer>
+ <objectgroup id="2" name="BlueTeleport">
+  <object id="1" x="300" y="0" width="150" height="150"/>
+  <object id="2" x="1500" y="1500" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="3" name="YellowTeleport">
+  <object id="3" x="1200" y="0" width="150" height="150"/>
+  <object id="5" x="0" y="750" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="4" name="WrenchesSingle">
+  <object id="6" x="600" y="1350" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="5" name="WrenchesDouble">
+  <object id="7" x="1650" y="0" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="6" name="RedConv">
+  <object id="8" x="1650" y="150" width="150" height="150">
+   <properties>
+    <property name="direction" value="NORTH"/>
+   </properties>
+  </object>
+  <object id="9" x="1650" y="300" width="150" height="150">
+   <properties>
+    <property name="direction" value="NORTH"/>
+   </properties>
+  </object>
+  <object id="11" x="1650" y="450" width="150" height="150">
+   <properties>
+    <property name="direction" value="NORTH"/>
+   </properties>
+  </object>
+  <object id="12" x="1650" y="600" width="150" height="150">
+   <properties>
+    <property name="direction" value="NORTH"/>
+   </properties>
+  </object>
+  <object id="13" x="300" y="150" width="150" height="150">
+   <properties>
+    <property name="direction" value="NORTH"/>
+   </properties>
+  </object>
+  <object id="14" x="300" y="300" width="150" height="150">
+   <properties>
+    <property name="direction" value="NORTH"/>
+   </properties>
+  </object>
+  <object id="15" x="300" y="450" width="150" height="150">
+   <properties>
+    <property name="direction" value="NORTH"/>
+   </properties>
+  </object>
+  <object id="16" x="300" y="600" width="150" height="150">
+   <properties>
+    <property name="direction" value="NORTH"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="BlueConv">
+  <object id="17" x="450" y="600" width="150" height="150">
+   <properties>
+    <property name="direction" value="NORTH"/>
+   </properties>
+  </object>
+  <object id="18" x="450" y="450" width="150" height="150">
+   <properties>
+    <property name="direction" value="NORTH"/>
+   </properties>
+  </object>
+  <object id="19" x="450" y="300" width="150" height="150">
+   <properties>
+    <property name="direction" value="EAST"/>
+   </properties>
+  </object>
+  <object id="20" x="600" y="300" width="150" height="150">
+   <properties>
+    <property name="direction" value="EAST"/>
+   </properties>
+  </object>
+  <object id="21" x="750" y="300" width="150" height="150">
+   <properties>
+    <property name="direction" value="EAST"/>
+   </properties>
+  </object>
+  <object id="22" x="900" y="300" width="150" height="150">
+   <properties>
+    <property name="direction" value="SOUTH"/>
+   </properties>
+  </object>
+  <object id="23" x="900" y="450" width="150" height="150">
+   <properties>
+    <property name="direction" value="SOUTH"/>
+   </properties>
+  </object>
+  <object id="24" x="900" y="600" width="150" height="150">
+   <properties>
+    <property name="direction" value="SOUTH"/>
+   </properties>
+  </object>
+  <object id="25" x="300" y="1350" width="150" height="150">
+   <properties>
+    <property name="direction" value="SOUTH"/>
+   </properties>
+  </object>
+  <object id="26" x="300" y="1500" width="150" height="150">
+   <properties>
+    <property name="direction" value="SOUTH"/>
+   </properties>
+  </object>
+  <object id="27" x="300" y="1650" width="150" height="150">
+   <properties>
+    <property name="direction" value="WEST"/>
+   </properties>
+  </object>
+  <object id="28" x="150" y="1650" width="150" height="150">
+   <properties>
+    <property name="direction" value="SOUTH"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="Flags">
+  <object id="29" x="750" y="0" width="150" height="150"/>
+  <object id="30" x="1500" y="450" width="150" height="150"/>
+  <object id="31" x="900" y="1650" width="150" height="150"/>
+  <object id="32" x="0" y="150" width="150" height="150"/>
+  <object id="33" x="1050" y="1050" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="9" name="Holes">
+  <object id="34" x="1350" y="0" width="150" height="150"/>
+  <object id="35" x="900" y="750" width="150" height="150"/>
+  <object id="36" x="1650" y="1500" width="150" height="150"/>
+  <object id="37" x="1500" y="1650" width="150" height="150"/>
+  <object id="38" x="1650" y="1650" width="150" height="150"/>
+  <object id="39" x="1200" y="900" width="150" height="150"/>
+  <object id="40" x="1350" y="900" width="150" height="150"/>
+  <object id="41" x="1200" y="1050" width="150" height="150"/>
+  <object id="42" x="1350" y="1050" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="10" name="OnMapWalls">
+  <object id="45" x="1050" y="0" width="150" height="150"/>
+  <object id="46" x="1050" y="150" width="150" height="150"/>
+  <object id="47" x="1050" y="300" width="150" height="150"/>
+  <object id="48" x="1050" y="450" width="150" height="150"/>
+  <object id="49" x="1050" y="600" width="150" height="150"/>
+  <object id="50" x="1050" y="750" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="11" name="SnurreDings">
+  <object id="51" x="1050" y="1350" width="150" height="150"/>
+  <object id="52" x="600" y="0" width="150" height="150"/>
+ </objectgroup>
+</map>
