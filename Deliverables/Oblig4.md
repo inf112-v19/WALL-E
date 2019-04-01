@@ -5,6 +5,8 @@
 * Testrolle
   * Testansvarlig: Halvor og Jonas Hals
   * Manuelle tester: Selve applikasjonen må testes manuelt. Dette er grunnet hvor vanskelig og unødvendig det er å fange feilmeldinger ol. Istedenfor går vi over til å kjøre tester på klassene individuelt, og vi tester manuelt at klassene kjører inne i spillet (som de skal gjøre siden klassene blir testet automatisk).
+    - Under manuelle tester går det å undersøke ulike elementer av spillet, slik som bevegelse, cpu-funksjonalitet og kartvalg. 
+    - De manuelle testene blir gjort ved å implementere ulike metoder og aspekter av programmet
 
 * Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på?
   * Project-boardet viser seg fortsatt å være svært nyttig. Det samme gjelder branching. Pga. bruken av ulike branches er sjeldent det dukker opp konflikterende kode, samt som det gjør det ryddig og oversiktlig å se hvem som har gjort hva. Samtidig kan vi likevel bli flinkere på å kommunisere hvem som holder på med hva / fordele oppgaver, da det noen ganger kan være vanskelig å vite hva folk gjør akkurat for øyeblikket. En evt. løsning på dette er å fordele oppgaver på møtene og kanskje også si ifra på Facebook når man arbeider på noe. Vi har gått noe bort fra parprogrammering, da de fleste trives best med å programmere på egenhånd. Isteden har vi vist og forklart hva vi har kodet underveis, noe som har fungert bra.  
@@ -64,13 +66,19 @@
     Oppmøte: alle utenom Jonas Hals
     Jonas Haneborg:
     Kristian:
-    Halvor:
     Karen: jobbet videre med laser til robotene
+    Halvor: Jobbet med CPU og valg av kart
 
 #### 1. April
     Oppmøte: alle
     Jonas Hals: Jobbet med deliverable, tester.
     Jonas Haneborg:
     Kristian:
-    Halvor:
+    Halvor: Ferdigstilt CPU og prøvd å hjelpe Karen med laser
     Karen: fikk hjelp og jobbet videre med laser. Laget nytt klassediagram til innleveringen. 
+
+
+## Klassediagram
+
+![Klassediagram](https://raw.githubusercontent.com/inf112-v19/WALL-E/master/Deliverables/klassediagram_utkast2.png)
+  
