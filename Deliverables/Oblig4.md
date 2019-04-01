@@ -76,3 +76,9 @@
     Kristian:
     Halvor: Ferdigstilt CPU og prøvd å hjelpe Karen med laser
     Karen:
+    Halvor:
+    Karen:
+
+## Klassediagram
+
+![Klassediagram](https://raw.githubusercontent.com/inf112-v19/WALL-E/master/Deliverables/klassediagram_utkast2.png)

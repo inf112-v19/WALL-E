@@ -47,9 +47,9 @@ public class GameOverScreen implements Screen {
         }
         batch.draw(tanks,WIDTH/2-tanks.getWidth()/2,HEIGHT/2-(HEIGHT/20)*1);
         font.getData().setScale(4);
-        font.draw(batch, winner + " won!", WIDTH / 2 - (WIDTH / 12), HEIGHT / 2 + (HEIGHT / 7));
+        font.draw(batch, winner + " won!", WIDTH / 2 - (WIDTH / 10), HEIGHT / 2- (HEIGHT/30)*2);
         font.getData().setScale(2);
-        font.draw(batch, "Press ENTER to play again or ESCAPE to exit", WIDTH / 2 - (WIDTH / 7), HEIGHT / 2);
+        font.draw(batch, "Press ENTER to play again or ESCAPE to exit", WIDTH / 2 - (WIDTH / 7), HEIGHT / 2-(HEIGHT/10)*2);
         batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
