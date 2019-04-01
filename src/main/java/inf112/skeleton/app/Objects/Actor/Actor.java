@@ -16,18 +16,19 @@ import java.util.ArrayList;
 import static inf112.skeleton.app.CardFunctionality.Card.getType;
 
 public class Actor extends ApplicationAdapter implements InputProcessor {
-    ArrayList<Card> handout = new ArrayList<>(9);
     public float actorLeft;
     public float actorRight;
     public float actorTop;
     public float actorBottom;
+    public boolean viewRender = false;
+    public Card view;
+    ArrayList<Card> handout = new ArrayList<>(9);
+    ArrayList<Card> chosen = new ArrayList<>(5);
     private float actorBackupX;
     private float actorBackupY;
     private boolean hasBackup;
     private float textPositionX;
     private float textPositionY;
-
-    ArrayList<Card> chosen = new ArrayList<>(5);
     private Deck deck = new Deck();
     private Batch batch;
     private Texture aTexture;
@@ -39,8 +40,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     private Directions dir;
     private com.badlogic.gdx.scenes.scene2d.Actor actor = new com.badlogic.gdx.scenes.scene2d.Actor();
     private boolean rendered = false;
-    public boolean viewRender = false;
-    public Card view;
 
     float getX() {
         return actor.getX();
@@ -52,9 +51,9 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     void chooseCard(int i) {
         Card card = handout.get(i);
-        chosen.add(0,card);
+        chosen.add(0, card);
         while (chosen.size() > 5) {
-            Card deletedCard = chosen.remove(chosen.size()-1);
+            Card deletedCard = chosen.remove(chosen.size() - 1);
             handout.add(deletedCard);
         }
     }
@@ -65,14 +64,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             handout.add(deck.handOut());
         }
     }
-
-    public enum Directions {
-        NORTH,
-        EAST,
-        WEST,
-        SOUTH
-    }
-
 
     @Override
     public void create() {
@@ -100,16 +91,16 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         actorLeft = actor.getX();
         actorTop = actor.getY() + 70;
         actorRight = actor.getX() + 100;
-        textPositionX = (Gdx.graphics.getWidth()/2) - 300;
-        textPositionY = Gdx.graphics.getHeight()-30;
+        textPositionX = (Gdx.graphics.getWidth() / 2) - 300;
+        textPositionY = Gdx.graphics.getHeight() - 30;
         messageHandout = "Press backspace to deal cards";
         messageNewHandout = "Press Left ALT followed by backspace for new handout";
 
         batch.begin();
-        font.draw(batch,messageHandout,textPositionX-400,textPositionY+15);
-        font.draw(batch,messageNewHandout,textPositionX-400,textPositionY);
-        font.draw(batch, output,textPositionX, textPositionY);
-        font.draw(batch, output2, textPositionX, textPositionY+15);
+        font.draw(batch, messageHandout, textPositionX - 400, textPositionY + 15);
+        font.draw(batch, messageNewHandout, textPositionX - 400, textPositionY);
+        font.draw(batch, output, textPositionX, textPositionY);
+        font.draw(batch, output2, textPositionX, textPositionY + 15);
         batch.draw(aTexture, middleWidth + actor.getX(), middleHeight + actor.getY(), 100, 80);
         actor.draw(batch, 1);
         batch.end();
@@ -139,7 +130,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         if (keycode == Input.Keys.LEFT) {
             actorXpos -= deltaX;
             if (actorXpos + actorLeft < 0) {
-                if(hasBackup) {
+                if (hasBackup) {
                     actor.setPosition(actorBackupX, actorBackupY);
                     System.out.println("Returned to backup");
                 }
@@ -148,7 +139,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             }
         }
 
-        if(keycode == Input.Keys.B){
+        if (keycode == Input.Keys.B) {
             actorBackupX = actor.getX();
             actorBackupY = actor.getY();
             hasBackup = true;
@@ -158,7 +149,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         if (keycode == Input.Keys.RIGHT) {
             actorXpos += deltaX;
             if (actorXpos + actorRight > width) {
-                if(hasBackup) {
+                if (hasBackup) {
                     actor.setPosition(actorBackupX, actorBackupY);
                     System.out.println("Returned to backup");
                 }
@@ -167,7 +158,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             }
         }
 
-        if (keycode == Input.Keys.ALT_LEFT){
+        if (keycode == Input.Keys.ALT_LEFT) {
             handOut();
 
         }
@@ -198,7 +189,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
                     actorBackupX = actor.getX();
                     actorBackupY = actor.getY();
                     hasBackup = true;
-                    System.out.println("New Backup position set as: [" + actorBackupX +", " + actorBackupY +"]");
+                    System.out.println("New Backup position set as: [" + actorBackupX + ", " + actorBackupY + "]");
 
                 } else if (type == "Turn") {
                     if (action.getTurn() == Card.Turn.LEFT) {
@@ -220,9 +211,10 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
             StringBuilder s = new StringBuilder("Cards in handout: ");
             int num = 1;
             for (Card c : handout) {
-                s.append(num +": ");
+                s.append(num + ": ");
                 String type = getType(c);
-                if(type.equals("Move")) s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
+                if (type.equals("Move"))
+                    s.append(type).append(" ").append(c.getMoves()).append(" step(s)").append(", ");
                 else if (type.equals("Turn")) s.append(type).append(" ").append(c.getTurn()).append(", ");
                 else s.append(type).append(", ");
                 num++;
@@ -235,7 +227,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         if (keycode == Input.Keys.UP) {
             actorYpos += deltaY;
             if (actorYpos + actorTop > height) {
-                if(hasBackup) {
+                if (hasBackup) {
                     actor.setPosition(actorBackupX, actorBackupY);
                     System.out.println("Returned to backup");
                 }
@@ -247,7 +239,7 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
         if (keycode == Input.Keys.DOWN) {
             actorYpos -= deltaY;
             if (actorYpos + actorBottom < 0) {
-                if(hasBackup) {
+                if (hasBackup) {
                     actor.setPosition(actorBackupX, actorBackupY);
                     System.out.println("Returned to backup");
                 }
@@ -326,5 +318,12 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
 
     public void renderCard() {
         view.render();
+    }
+
+    public enum Directions {
+        NORTH,
+        EAST,
+        WEST,
+        SOUTH
     }
 }

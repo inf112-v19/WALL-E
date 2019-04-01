@@ -1,10 +1,6 @@
 package inf112.skeleton.app.Map;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Objects extends ApplicationAdapter {
    /* //Flags

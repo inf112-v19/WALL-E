@@ -8,17 +8,17 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 public class Map {
     TiledMap tiledMap;
 
-    public Map(String mapFile){
+    public Map(String mapFile) {
         this.tiledMap = new TmxMapLoader().load(mapFile);
     }
 
     //get map layer by it's name
-    public MapLayer getMapLayer(String layerName){
+    public MapLayer getMapLayer(String layerName) {
         MapLayer layer = tiledMap.getLayers().get(layerName);
         return layer;
     }
 
-    public MapLayer getMapLayer(int i){
+    public MapLayer getMapLayer(int i) {
         MapLayer layer = tiledMap.getLayers().get(i);
         return layer;
     }
@@ -27,7 +27,7 @@ public class Map {
         return tiledMap;
     }
 
-    public int getTileSize(){
+    public int getTileSize() {
         TiledMapTileLayer layer = (TiledMapTileLayer) getMapLayer(0);
         return (int) layer.getTileWidth();
     }

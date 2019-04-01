@@ -13,9 +13,9 @@ public class Deck {
         createDeck();
     }
 
-    public void printDeck(){
+    public void printDeck() {
         int size = deck.size();
-        for (int i=0; i<size; i++)
+        for (int i = 0; i < size; i++)
             System.out.println(deck.get(i));
     }
 

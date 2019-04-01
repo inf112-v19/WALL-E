@@ -10,19 +10,19 @@ public class Collision {
     MyActor actor;
     GridOfTiles grid;
 
-    public Collision(GridOfTiles grid, MyActor actor){
+    public Collision(GridOfTiles grid, MyActor actor) {
         this.actor = actor;
         this.grid = grid;
     }
 
-    public void collisionCheck(){
+    public void collisionCheck() {
         if (grid == null) return;
 
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
         List onTile = actorTile.getObjOnTile();
 
         System.out.println(actorTile);
-        for (int i = 0; i <onTile.size() ; i++) {
+        for (int i = 0; i < onTile.size(); i++) {
             if (onTile.get(i).equals(actor)) continue;
             if (onTile.get(i) instanceof Flag) {
                 ((Flag) onTile.get(i)).handleFlag(actor, grid);
@@ -46,7 +46,7 @@ public class Collision {
             if (onTile.get(i) instanceof RedConveyorBelt) {
                 ((RedConveyorBelt) onTile.get(i)).handleConveyorTransport(actor, grid);
             }
-            if (onTile.get(i) instanceof  BlueConveyorBelt){
+            if (onTile.get(i) instanceof BlueConveyorBelt) {
                 ((BlueConveyorBelt) onTile.get(i)).handleConveyorTransport(actor, grid);
             }
         }

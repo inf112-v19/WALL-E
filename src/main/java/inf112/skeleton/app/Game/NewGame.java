@@ -6,10 +6,10 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import inf112.skeleton.app.Objects.Actor.Actor;
 import inf112.skeleton.app.CardFunctionality.Deck;
 import inf112.skeleton.app.Map.MapRenderer;
 import inf112.skeleton.app.Map.Objects;
+import inf112.skeleton.app.Objects.Actor.Actor;
 
 import java.util.ArrayList;
 
@@ -51,8 +51,6 @@ public class NewGame extends ApplicationAdapter implements InputProcessor {
         //actor.create();
 
         flag.create();
-
-
 
 
     }

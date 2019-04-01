@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class MyCam extends OrthographicCamera {
 
-    public MyCam(TiledMap tiledMap){
+    public MyCam(TiledMap tiledMap) {
         super();
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
         int x = (int) layer.getTileWidth();
@@ -18,7 +18,7 @@ public class MyCam extends OrthographicCamera {
         float pxHeight = HeightByTiles * y;
         float pxWidth = WidthByTiles * x;
 
-        this.setToOrtho(false, pxWidth*2, pxHeight*2);
+        this.setToOrtho(false, pxWidth * 2, pxHeight * 2);
         this.update();
     }
 }

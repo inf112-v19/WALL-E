@@ -13,16 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectMaker {
-    public Map map;
-    public GridOfTiles grid;
-    public MyActor actor;
-    public MyActor actor2;
-    public List<IObject> flags;
     public static ArrayList<Tile> tilesWithFlags;
     public static List<IObject> blueTeleports;
     public static List<IObject> yellowTeleports;
     public static List<IObject> blueConveyors;
     public static List<IObject> redConveyors;
+    public Map map;
+    public GridOfTiles grid;
+    public MyActor actor;
+    public MyActor actor2;
+    public List<IObject> flags;
     public List<IObject> holes;
     public List<IObject> singleWrenches;
     public List<IObject> doubleWrenches;
@@ -35,6 +35,10 @@ public class ObjectMaker {
         createActor2();
     }
 
+    public static ArrayList<Tile> getTilesWithFlags() {
+        return tilesWithFlags;
+    }
+
     public void create() {
         createFlags();
         createBlueTeleports();
@@ -44,10 +48,6 @@ public class ObjectMaker {
         createRedConveyors();
         createWrenchesSingle();
         createWrenchesDouble();
-    }
-
-    public static ArrayList<Tile> getTilesWithFlags(){
-        return tilesWithFlags;
     }
 
     private void createFlags() {
@@ -128,7 +128,7 @@ public class ObjectMaker {
         }
     }
 
-    private void createWrenchesSingle(){
+    private void createWrenchesSingle() {
         singleWrenches = new ArrayList<>();
         MapLayer layer = map.getMapLayer("WrenchesSingle");
         int i = 0;
@@ -136,12 +136,12 @@ public class ObjectMaker {
             RectangleMapObject wrenchRect = (RectangleMapObject) wrench;
             WrenchesSingle addThisWrenchToMap = new WrenchesSingle(wrenchRect, grid);
             singleWrenches.add(addThisWrenchToMap);
-            System.out.println("Single wrench at: " +addThisWrenchToMap.wrenchTile);
+            System.out.println("Single wrench at: " + addThisWrenchToMap.wrenchTile);
             i++;
         }
     }
 
-    private void createWrenchesDouble(){
+    private void createWrenchesDouble() {
         doubleWrenches = new ArrayList<>();
         MapLayer layer = map.getMapLayer("WrenchesDouble");
         int i = 0;
@@ -149,7 +149,7 @@ public class ObjectMaker {
             RectangleMapObject wrenchRect = (RectangleMapObject) wrench;
             WrenchesDouble addThisWrenchToMap = new WrenchesDouble(wrenchRect, grid);
             doubleWrenches.add(addThisWrenchToMap);
-            System.out.println("Double wrench at: " +addThisWrenchToMap.wrenchTile);
+            System.out.println("Double wrench at: " + addThisWrenchToMap.wrenchTile);
             i++;
         }
     }

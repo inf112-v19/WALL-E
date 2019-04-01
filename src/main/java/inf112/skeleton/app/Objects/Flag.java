@@ -3,7 +3,6 @@ package inf112.skeleton.app.Objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Actor.MyActor;
@@ -11,45 +10,44 @@ import inf112.skeleton.app.Objects.Actor.MyActor;
 import static inf112.skeleton.app.Objects.ObjectMaker.tilesWithFlags;
 
 public class Flag implements IObject {
-    Sprite sprite;
     public int y;
     public int x;
+    Sprite sprite;
     Tile flagTile;
 
-    public Flag(RectangleMapObject TiledFlag, GridOfTiles grid){
-        y = (int)TiledFlag.getRectangle().getY();
-        x = (int)TiledFlag.getRectangle().getX();
+    public Flag(RectangleMapObject TiledFlag, GridOfTiles grid) {
+        y = (int) TiledFlag.getRectangle().getY();
+        x = (int) TiledFlag.getRectangle().getX();
 
         Texture texture = new Texture("Flag.png");
         sprite = new Sprite(texture);
         sprite.setSize(100, 100);
 
-        flagTile = grid.getTileWfloats(y ,x);
+        flagTile = grid.getTileWfloats(y, x);
         flagTile.addObjOnTile(this);
     }
 
-    public void remove(GridOfTiles grid){
+    public void remove(GridOfTiles grid) {
         this.sprite = null;
         Tile tile = grid.getTileWfloats(this.y, this.x);
         tile.getObjOnTile().remove(this);
     }
 
-    public void handleFlag(MyActor actor, GridOfTiles grid){
+    public void handleFlag(MyActor actor, GridOfTiles grid) {
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
-        if (flagTile.equals(actorTile)){
+        if (flagTile.equals(actorTile)) {
             actor.setBackupTile(flagTile);
             actor.visitedTile(flagTile);
-            if(checkFlagsForActor(actor)){
+            if (checkFlagsForActor(actor)) {
                 actor.gameOver = true;
                 System.out.println("Actor visited all flags");
-            }
-            else System.out.println("More flags remaining!");
+            } else System.out.println("More flags remaining!");
         }
     }
 
-    public boolean checkFlagsForActor(MyActor actor){
+    public boolean checkFlagsForActor(MyActor actor) {
         for (Tile t : tilesWithFlags) {
-            if (!actor.tilesVisited.contains(t)){
+            if (!actor.tilesVisited.contains(t)) {
                 return false;
             }
         }
@@ -63,7 +61,7 @@ public class Flag implements IObject {
         return sprite;
     }
 
-    public Tile getTile(){
+    public Tile getTile() {
         return this.flagTile;
     }
 }
