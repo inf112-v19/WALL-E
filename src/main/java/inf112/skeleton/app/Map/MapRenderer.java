@@ -13,17 +13,11 @@ import inf112.skeleton.app.Game.NewGame;
 public class MapRenderer extends ApplicationAdapter {
     public static TiledMap map;
     public static TiledMapRenderer renderer;
-    public static TiledMap map1 = new TmxMapLoader().load("map_v1.tmx");
-    public static TiledMap map2 = new TmxMapLoader().load("map_v2.tmx");
-
+    public static String map1Name = "map_v1.tmx";
+    public static String map2Name = "map_v2.tmx";
 
     public static void setMap(TiledMap selectedMap) {
         map = selectedMap;
-    }
-
-    @Override
-    public void create() {
-       whatMapToCreate();
     }
 
     public static TiledMap whatMapToCreate(){
@@ -31,15 +25,20 @@ public class MapRenderer extends ApplicationAdapter {
         TiledMap returnMap = null;
         switch (whatMapToCreate){
             case 0:
-                returnMap = map1;
-                renderer = new OrthogonalTiledMapRenderer(map1);
+                returnMap = new TmxMapLoader().load(map1Name);
+                renderer = new OrthogonalTiledMapRenderer(new TmxMapLoader().load(map1Name));
                 break;
             case 1:
-                returnMap = map2;
-                renderer = new OrthogonalTiledMapRenderer(map2);
+                returnMap = new TmxMapLoader().load(map2Name);
+                renderer = new OrthogonalTiledMapRenderer(new TmxMapLoader().load(map2Name));
                 break;
         }
         return returnMap ;
+    }
+
+    @Override
+    public void create() {
+        whatMapToCreate();
     }
 
     public static String whatMapToCreateString(){
