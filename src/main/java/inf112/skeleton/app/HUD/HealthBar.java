@@ -40,6 +40,9 @@ public class HealthBar {
     public void render() {
         health = actor.getHealth();
         batch.begin();
+        if(WIDTH<=1280){
+            font.getData().setScale(1);
+        }
         font.draw(batch, actorHealth, textPositionX, textPositionY - (HEIGHT / 100) * (3 * yPos));
 
         // Health-bar

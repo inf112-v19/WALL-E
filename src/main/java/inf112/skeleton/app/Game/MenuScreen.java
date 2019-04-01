@@ -84,7 +84,7 @@ public class MenuScreen implements Screen {
 
         batch.begin();
         font.getData().setScale(2);
-        font.draw(batch,"Current map: <"+getMAP_CHOICE()+">",MAPCHOICE_BUTTON_X-20,MAPCHOICE_BUTTON_y-20);
+        font.draw(batch,"Current map: <"+getMAP_CHOICE()+">",MAPCHOICE_BUTTON_X-(WIDTH/50),MAPCHOICE_BUTTON_y-(WIDTH/50));
         // Play button
         if (Gdx.input.getX() > PLAY_BUTTON_X
                 && Gdx.input.getX() < PLAY_BUTTON_X + PLAY_BUTTON_WIDTH
