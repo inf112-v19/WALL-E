@@ -87,9 +87,9 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        // Play button
         font.getData().setScale(2);
         font.draw(batch,"Current map: <"+getMAP_CHOICE()+">",MAPCHOICE_BUTTON_X-20,MAPCHOICE_BUTTON_y-20);
+        // Play button
         if (Gdx.input.getX() > PLAY_BUTTON_X
                 && Gdx.input.getX() < PLAY_BUTTON_X + PLAY_BUTTON_WIDTH
                 && HEIGHT - Gdx.input.getY() < PLAY_BUTTON_y + PLAY_BUTTON_HEIGHT
