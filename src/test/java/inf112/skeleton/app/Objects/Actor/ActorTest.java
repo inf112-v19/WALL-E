@@ -54,7 +54,6 @@ public class ActorTest {
         initY = posY = 0;
 
         // Move player UP
-        //game.keyDown(Input.Keys.UP);
         actor.Forward(1, 78, grid);
         assertEquals("Move up 78px", posY+78, actor.getY());
         assertEquals("Remain on same x-level", posX, actor.getX());
@@ -67,8 +66,6 @@ public class ActorTest {
         posY = actor.getY();
 
         // Move player RIGHT
-       /* game.keyDown(Input.Keys.RIGHT);
-        game.keyDown(Input.Keys.UP);*/
        actor.setDir(MyGame.Dir.EAST);
        actor.Forward(1, 78, grid);
         assertEquals("Remain on same y-level", posY, actor.getY());
