@@ -346,7 +346,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             for (int i=8; i>=0; i--){
                 if (actorHp<hpStep){
                     handout.set(i, currentActor.getFromLastHandout(i));
-                    chooseCard(i);
                 }
                 else {
                     handout.set(i, deck.handOut());
