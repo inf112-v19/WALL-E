@@ -74,3 +74,7 @@
     Kristian:
     Halvor:
     Karen:
+
+## Klassediagram
+
+![Klassediagram](https://raw.githubusercontent.com/inf112-v19/WALL-E/master/Deliverables/klassediagram_utkast2.png)
