@@ -60,7 +60,7 @@ public class MyLaser implements IObject {
         Sprite toStore = new Sprite(texture);
         toStore.setY(y);
         toStore.setX(x);
-        this.renderArray.add(this.sprite);
+        this.renderArray.add(toStore);
     }
 
     public ArrayList<Tile> getTilesInDirection(MyGame.Dir dir){
@@ -107,5 +107,9 @@ public class MyLaser implements IObject {
         laserBatch.begin();
         laserBatch.draw(texture, x, y);
         laserBatch.end();
+    }
+
+    public ArrayList<Sprite> getRenderArray() {
+        return this.renderArray;
     }
 }

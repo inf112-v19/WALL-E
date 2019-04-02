@@ -140,45 +140,44 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         currentActor = actor;
 
         //Laser
-        renderLaser = new MyLaser(grid, currentActor,  currentActor.getTile(), 0, 3);
-        laserTexture = renderLaser.getSprite();
     }
 
-        @Override
-        public void render ( float v){
-            Gdx.gl.glClearColor(0, 0, 0, 1);
-            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    @Override
+    public void render(float v) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            camera.update();
-            tiledMapRenderer.setView(camera);
-            tiledMapRenderer.render();
-            sb.setProjectionMatrix(camera.combined);
+        camera.update();
+        tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
+        sb.setProjectionMatrix(camera.combined);
 
-            if(actor.getHealth()<=0){
-                actor.isDead = true;
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
-                game.setScreen(gameOverScreen);
-            } else if(actor2.getHealth()<=0){
-                actor2.isDead=true;
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
-                game.setScreen(gameOverScreen);
-            }else if (actor.gameOver){
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
-                game.setScreen(gameOverScreen);
-            }else if(actor2.gameOver){
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
-                game.setScreen(gameOverScreen);
-            }
+        if (actor.getHealth() <= 0) {
+            actor.isDead = true;
+            GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
+            game.setScreen(gameOverScreen);
+        } else if (actor2.getHealth() <= 0) {
+            actor2.isDead = true;
+            GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+            game.setScreen(gameOverScreen);
+        } else if (actor.gameOver) {
+            GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+            game.setScreen(gameOverScreen);
+        } else if (actor2.gameOver) {
+            GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
+            game.setScreen(gameOverScreen);
+        }
 
 
-            // Health-bar
-            healthBar.render();
-            healthBar2.render();
+        // Health-bar
+        healthBar.render();
+        healthBar2.render();
 
-            Sprites();
+        Sprites();
 
-      
+        //lazzzzer
+
         createCards();
 
         batch.begin();
@@ -335,13 +334,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
     }
 
-    public void shootLaserWithActor(){
+    public void shootLaserWithActor() {
         MyLaser laser = new MyLaser(grid, currentActor, currentActor.getTile(), 0, 3);
         laser.shootLaser();
         sb.begin();
-        for (Sprite sprite : laser.renderArray) {
-            System.out.println("Should render: " );
-            sb.draw(sprite, sprite.getX(), sprite.getY());
+        for (Sprite sprite : laser.getRenderArray()) {
+            System.out.println("Should render " + sprite.getTexture() + " at tile: " + (int)sprite.getX() +", " + (int)sprite.getY());
+            sb.draw(sprite.getTexture(), sprite.getX(), sprite.getY());
+            this.render();
         }
         sb.end();
     }
@@ -369,15 +369,14 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     public void lessHpLessCards() {
         float actorHp = currentActor.getHealth();
         float hpStep = (float) 0.75;
-        for (int i=8; i>=0; i--){
-            if (actorHp<hpStep){
+        for (int i = 8; i >= 0; i--) {
+            if (actorHp < hpStep) {
                 handout.set(i, currentActor.getFromLastHandout(i));
-            }
-            else {
+            } else {
                 handout.set(i, deck.handOut());
             }
 
-            hpStep-=0.25;
+            hpStep -= 0.25;
         }
     }
 
@@ -386,7 +385,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         float actorHp = currentActor.getHealth();
         float hpStep = (float) 0.75;
 
-        while (hpStep>0) {
+        while (hpStep > 0) {
             if (actorHp < hpStep && !handout.get(cardIndex).isChosen) {
                 chooseCard(cardIndex);
                 handout.get(cardIndex).isChosen = true;
@@ -478,12 +477,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             currentActor.takeDamage(0.1);
         }
 
-            if (keycode == Input.Keys.S) {
-                actor2.takeDamage(0.1);
-            }
-            if (keycode==Input.Keys.L){
-                shootLaserWithActor();
-            }
+        if (keycode == Input.Keys.S) {
+            actor2.takeDamage(0.1);
+        }
+        if (keycode == Input.Keys.L) {
+            shootLaserWithActor();
+        }
 
         if (keycode == Input.Keys.ENTER) {
             if (currentActor.chosen.size() == 5) {
