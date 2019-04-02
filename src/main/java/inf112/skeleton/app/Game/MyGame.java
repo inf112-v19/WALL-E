@@ -24,6 +24,7 @@ import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Animations.Explosion;
 import inf112.skeleton.app.Objects.IObject;
 import inf112.skeleton.app.Objects.Laser;
+import inf112.skeleton.app.Objects.MyLaser;
 import inf112.skeleton.app.Objects.ObjectMaker;
 
 import java.util.ArrayList;
@@ -45,9 +46,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Sprite BackBoard;
     private Batch batch;
     private Texture texture;
-    private Texture laserTexture;
+    private MyLaser renderLaser;
+    private Sprite laserTexture;
     public ArrayList<Card> handout = new ArrayList<>(9);
-    public ArrayList<Laser> lasers;
     public static int amountOfFlags;
     private BitmapFont font;
     private float textPositionX;
@@ -125,8 +126,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         actor2 = objectMaker.actor2;
         actor.create();
         actor2.create();
-        actor.setName("Player 1");
-        actor2.setName("Player 2");
+        actor.setName("Player one");
+        actor2.setName("computer");
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
@@ -135,6 +136,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         //chosen = new ArrayList<>();
         currentActor = actor;
+
+        //Laser
+        renderLaser = new MyLaser(grid, currentActor,  currentActor.getTile(), 0, 3);
+        laserTexture = renderLaser.getSprite();
     }
 
 
@@ -167,13 +172,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }
 
 
-
             // Health-bar
             healthBar.render();
             healthBar2.render();
 
             Sprites();
-            Laser(v);
+
             //drawHUD();
 
             createCards();
@@ -330,54 +334,17 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             sb.end();
         }
 
-    private void Laser(float delta) {
-        float laserX;
-        float laserY;
-        lasers = new ArrayList<>();
 
-        MyGame.Dir dir = currentActor.getDir();
-        laserX = currentActor.getX()+(currentActor.getSprite().getWidth()/2);
-        laserY = currentActor.getY()+(currentActor.getSprite().getHeight()/2);
-        Laser actorLaser = new Laser(currentActor, laserX, laserY);
-        lasers.add(actorLaser);
-
-        switch(dir){
-            case NORTH:
-                actorLaser.rotateAroundActor(currentActor.getX(), currentActor.getY()+1, +90);
-                actorLaser.render();
-                break;
-
-            case EAST:
-                actorLaser.rotateAroundActor(currentActor.getX()+1, currentActor.getY(), +90);
-                actorLaser.render();
-                break;
-
-            case WEST:
-                actorLaser.rotateAroundActor(currentActor.getX()-1, currentActor.getY(), +90);
-                actorLaser.render();
-                break;
-
-            case SOUTH:
-                actorLaser.rotateAroundActor(currentActor.getX(), currentActor.getY()-1, +90);
-                actorLaser.render();
-                break;
+    public void shootLaserWithActor(){
+        MyLaser laser = new MyLaser(grid, currentActor, currentActor.getTile(), 0, 3);
+        laser.shootLaser();
+        sb.begin();
+        for (Sprite sprite : laser.renderArray) {
+            System.out.println("Should render: " );
+            sb.draw(sprite, sprite.getX(), sprite.getY());
         }
-
-        ArrayList<Laser> lasersToRemove = new ArrayList<>();
-        for(Laser laser : lasers) {
-            laser.update(delta);
-            if (laser.remove) {
-                lasersToRemove.add(laser);
-            }
-            lasers.removeAll(lasersToRemove);
-        }
-        //sb.begin();
-        for(Laser laser : lasers) {
-            laser.render();
-        }
-        //sb.end();
+        sb.end();
     }
-
 
     private GridOfTiles initGrid () {
             TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
@@ -468,6 +435,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
             if (keycode == Input.Keys.S) {
                 actor2.takeDamage(0.1);
+            }
+            if (keycode==Input.Keys.L){
+                shootLaserWithActor();
             }
 
             if (keycode == Input.Keys.ENTER) {

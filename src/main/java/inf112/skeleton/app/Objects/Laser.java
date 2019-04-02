@@ -57,11 +57,4 @@ public class Laser {
         }
     }
 
-    public void render() {
-        laserBatch.begin();
-        laserBatch.draw(texture, x, y);
-        laserBatch.end();
-    }
-
-
 }
