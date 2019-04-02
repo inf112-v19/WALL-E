@@ -103,9 +103,9 @@ public class MyLaser implements IObject {
         return this.laserTile;
     }
 
-    public void render(float x, float y) {
+    public void render(Sprite sprite, float x, float y) {
         laserBatch.begin();
-        laserBatch.draw(texture, x, y);
+        laserBatch.draw(sprite.getTexture(), x, y);
         laserBatch.end();
     }
 

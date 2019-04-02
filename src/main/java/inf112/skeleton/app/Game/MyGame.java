@@ -341,7 +341,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         for (Sprite sprite : laser.getRenderArray()) {
             System.out.println("Should render " + sprite.getTexture() + " at tile: " + (int)sprite.getX() +", " + (int)sprite.getY());
             sb.draw(sprite.getTexture(), sprite.getX(), sprite.getY());
-            this.render();
+            laser.render(sprite, sprite.getX(), sprite.getY());
         }
         sb.end();
     }
