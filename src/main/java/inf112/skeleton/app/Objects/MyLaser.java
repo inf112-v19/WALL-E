@@ -29,7 +29,7 @@ public class MyLaser implements IObject {
 
         this.renderArray = new ArrayList<>();
         this.texture = new Texture("greenLaser.png");
-        this.sprite = new Sprite(texture);
+        this.sprite = new Sprite(new Texture("greenLaser.png"));
         this.laserBatch = new SpriteBatch();
     }
 
@@ -57,7 +57,7 @@ public class MyLaser implements IObject {
     }
 
     private void storeToRenderArray(float y, float x) {
-        Sprite toStore = new Sprite(texture);
+        Sprite toStore = this.sprite;
         toStore.setY(y);
         toStore.setX(x);
         this.renderArray.add(toStore);
