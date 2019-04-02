@@ -49,11 +49,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Sprite laserTexture;
     private MyActor actor2;
     public ArrayList<Card> handout = new ArrayList<>(9);
-    private Deck deck;
     private TiledMapRenderer tiledMapRenderer;
     private SpriteBatch sb;
     private RoboRally game;
-    private Batch batch;
     private BitmapFont font;
     private float textPositionX;
     private float textPositionY;
@@ -145,33 +143,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         renderLaser = new MyLaser(grid, currentActor,  currentActor.getTile(), 0, 3);
         laserTexture = renderLaser.getSprite();
     }
-
-    @Override
-    public void render(float v) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        camera.update();
-        tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
-        sb.setProjectionMatrix(camera.combined);
-
-        if (actor.getHealth() <= 0) {
-            actor.isDead = true;
-            GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
-            game.setScreen(gameOverScreen);
-        } else if (actor2.getHealth() <= 0) {
-            actor2.isDead = true;
-            GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
-            game.setScreen(gameOverScreen);
-        } else if (actor.gameOver) {
-            GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
-            game.setScreen(gameOverScreen);
-        } else if (actor2.gameOver) {
-            GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
-            game.setScreen(gameOverScreen);
-        }
 
         @Override
         public void render ( float v){
@@ -375,12 +346,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         sb.end();
     }
 
-    private GridOfTiles initGrid () {
+    /*private GridOfTiles initGrid () {
             TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
             int HeightNTiles = layer.getHeight();
             int WidthNTiles = layer.getWidth();
             return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
-        }
+        }*/
     private int getTileSize() {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
         return (int) layer.getTileWidth();
