@@ -9,6 +9,7 @@ import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Collision;
 import inf112.skeleton.app.Objects.IObject;
+import inf112.skeleton.app.Objects.MyLaser;
 
 import java.util.ArrayList;
 
@@ -196,14 +197,16 @@ public class MyActor implements IObject, IActor {
             death(grid);
             return;
         }
-        setX(x);
-        setY(y);
+        /*setX(x);
+        setY(y);*/
 
         if (grid != null) {
             Tile current = grid.getTileWfloats(getY(), getX());
             current.getObjOnTile().remove(this);
             grid.getTileWfloats(y, x).addObjOnTile(this);
         }
+        setX(x);
+        setY(y);
 
     }
 
@@ -328,4 +331,5 @@ public class MyActor implements IObject, IActor {
     public void visitedTile(Tile flagTile) {
         tilesVisited.add(flagTile);
     }
+
 }

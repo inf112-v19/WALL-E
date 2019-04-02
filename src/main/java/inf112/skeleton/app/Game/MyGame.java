@@ -23,6 +23,8 @@ import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Map.MapRenderer;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Objects.IObject;
+import inf112.skeleton.app.Objects.Laser;
+import inf112.skeleton.app.Objects.MyLaser;
 import inf112.skeleton.app.Objects.ObjectMaker;
 
 import java.util.ArrayList;
@@ -39,6 +41,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private ArrayList<MyActor> actors;
     public MyActor currentActor;
     public Map map;
+    public Deck deck;
+    private Sprite BackBoard;
+    private Batch batch;
+    private Texture texture;
+    private MyLaser renderLaser;
+    private Sprite laserTexture;
     private MyActor actor2;
     public ArrayList<Card> handout = new ArrayList<>(9);
     private Deck deck;
@@ -132,6 +140,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         healthBar2 = new HealthBar(actor2, actor2.getName(), 2);
 
         currentActor = actor;
+
+        //Laser
+        renderLaser = new MyLaser(grid, currentActor,  currentActor.getTile(), 0, 3);
+        laserTexture = renderLaser.getSprite();
     }
 
     @Override
@@ -161,13 +173,41 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             game.setScreen(gameOverScreen);
         }
 
+        @Override
+        public void render ( float v){
+            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Health-bar
-        healthBar.render();
-        healthBar2.render();
+            camera.update();
+            tiledMapRenderer.setView(camera);
+            tiledMapRenderer.render();
+            sb.setProjectionMatrix(camera.combined);
 
-        Sprites();
+            if(actor.getHealth()<=0){
+                actor.isDead = true;
+                GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
+                game.setScreen(gameOverScreen);
+            } else if(actor2.getHealth()<=0){
+                actor2.isDead=true;
+                GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+                game.setScreen(gameOverScreen);
+            }else if (actor.gameOver){
+                GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+                game.setScreen(gameOverScreen);
+            }else if(actor2.gameOver){
+                GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
+                game.setScreen(gameOverScreen);
+            }
 
+
+            // Health-bar
+            healthBar.render();
+            healthBar2.render();
+
+            Sprites();
+
+      
         createCards();
 
         batch.begin();
@@ -324,6 +364,23 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
     }
 
+    public void shootLaserWithActor(){
+        MyLaser laser = new MyLaser(grid, currentActor, currentActor.getTile(), 0, 3);
+        laser.shootLaser();
+        sb.begin();
+        for (Sprite sprite : laser.renderArray) {
+            System.out.println("Should render: " );
+            sb.draw(sprite, sprite.getX(), sprite.getY());
+        }
+        sb.end();
+    }
+
+    private GridOfTiles initGrid () {
+            TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
+            int HeightNTiles = layer.getHeight();
+            int WidthNTiles = layer.getWidth();
+            return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
+        }
     private int getTileSize() {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
         return (int) layer.getTileWidth();
@@ -450,9 +507,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             currentActor.takeDamage(0.1);
         }
 
-        if (keycode == Input.Keys.S) {
-            currentActor.takeDamage(0.1);
-        }
+            if (keycode == Input.Keys.S) {
+                actor2.takeDamage(0.1);
+            }
+            if (keycode==Input.Keys.L){
+                shootLaserWithActor();
+            }
 
         if (keycode == Input.Keys.ENTER) {
             if (currentActor.chosen.size() == 5) {
