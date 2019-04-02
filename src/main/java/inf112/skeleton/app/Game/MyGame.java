@@ -331,34 +331,35 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
 
     private void Laser(float delta) {
-        float actorX;
-        float actorY;
+        float laserX;
+        float laserY;
         lasers = new ArrayList<>();
 
         MyGame.Dir dir = currentActor.getDir();
+        laserX = currentActor.getX()+(currentActor.getSprite().getWidth()/2);
+        laserY = currentActor.getY()+(currentActor.getSprite().getHeight()/2);
+        Laser actorLaser = new Laser(currentActor, laserX, laserY);
+        lasers.add(actorLaser);
+
         switch(dir){
             case NORTH:
-                actorX = currentActor.getX()-currentActor.getSprite().getWidth()-75;
-                actorY = currentActor.getY()+currentActor.getSprite().getHeight();
-                lasers.add(new Laser(actorX , actorY));
+                actorLaser.rotateAroundActor(currentActor.getX(), currentActor.getY()+1, +90);
+                actorLaser.render();
                 break;
 
             case EAST:
-                actorX = currentActor.getX()+currentActor.getSprite().getWidth();
-                actorY = (currentActor.getY()+currentActor.getSprite().getHeight())/2;
-                lasers.add(new Laser(actorX, actorY));
+                actorLaser.rotateAroundActor(currentActor.getX()+1, currentActor.getY(), +90);
+                actorLaser.render();
                 break;
 
             case WEST:
-                actorX = currentActor.getX()+currentActor.getSprite().getWidth();
-                actorY = (currentActor.getY()+currentActor.getSprite().getHeight())/2;
-                lasers.add(new Laser(actorX, actorY));
+                actorLaser.rotateAroundActor(currentActor.getX()-1, currentActor.getY(), +90);
+                actorLaser.render();
                 break;
 
             case SOUTH:
-                actorX = currentActor.getX()-currentActor.getSprite().getWidth()-75;
-                actorY = (currentActor.getY()+currentActor.getSprite().getHeight());
-                lasers.add(new Laser(actorX, actorY));
+                actorLaser.rotateAroundActor(currentActor.getX(), currentActor.getY()-1, +90);
+                actorLaser.render();
                 break;
         }
 
@@ -370,11 +371,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }
             lasers.removeAll(lasersToRemove);
         }
-        sb.begin();
+        //sb.begin();
         for(Laser laser : lasers) {
-            laser.render(sb);
+            laser.render();
         }
-        sb.end();
+        //sb.end();
     }
 
 
