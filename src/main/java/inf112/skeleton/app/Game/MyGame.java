@@ -58,12 +58,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private HealthBar healthBar;
     private HealthBar healthBar2;
     private String activePlayer;
-    private boolean hasSwappedActor;
     public int phaseNum;
 
     public MyGame() {
         this(null);
-
         objectMaker = new ObjectMaker(null, null);
         actor = objectMaker.actor;
         actor2 = objectMaker.actor2;
@@ -71,16 +69,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
     MyGame(RoboRally game) {
         this.game = game;
-
-        /*
-         * Add hp
-         * add dmg
-         * add sprites for hearts
-         */
-
         deck = new Deck();
         handOut();
-        //amountOfFlags = objectMaker.flags.size();
     }
 
     @Override
@@ -105,7 +95,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         BackBoard.setPosition(-140, 700);
 
         //Text
-        activePlayer = "Player 1, you're up!";
+        activePlayer = "Player One, you're up!";
 
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -133,8 +123,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
 
-        healthBar = new HealthBar(actor,actor.getName(),1);
-        healthBar2 = new HealthBar(actor2,actor2.getName(),2);
+        healthBar = new HealthBar(actor, actor.getName(), 1);
+        healthBar2 = new HealthBar(actor2, actor2.getName(), 2);
 
         //chosen = new ArrayList<>();
         currentActor = actor;
@@ -142,188 +132,184 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     }
 
 
+    @Override
+    public void render(float v) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        @Override
-        public void render ( float v){
-            Gdx.gl.glClearColor(0, 0, 0, 1);
-            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.update();
+        tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
+        sb.setProjectionMatrix(camera.combined);
 
-            camera.update();
-            tiledMapRenderer.setView(camera);
-            tiledMapRenderer.render();
-            sb.setProjectionMatrix(camera.combined);
-
-            if(actor.getHealth()<=0){
-                actor.isDead = true;
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
-                game.setScreen(gameOverScreen);
-            } else if(actor2.getHealth()<=0){
-                actor2.isDead=true;
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
-                game.setScreen(gameOverScreen);
-            }else if (actor.gameOver){
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
-                game.setScreen(gameOverScreen);
-            }else if(actor2.gameOver){
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
-                game.setScreen(gameOverScreen);
-            }
-
+        if (actor.getHealth() <= 0) {
+            actor.isDead = true;
+            GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
+            game.setScreen(gameOverScreen);
+        } else if (actor2.getHealth() <= 0) {
+            actor2.isDead = true;
+            GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+            game.setScreen(gameOverScreen);
+        } else if (actor.gameOver) {
+            GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+            game.setScreen(gameOverScreen);
+        } else if (actor2.gameOver) {
+            GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
+            game.setScreen(gameOverScreen);
+        }
 
 
-            // Health-bar
-            healthBar.render();
-            healthBar2.render();
+        // Health-bar
+        healthBar.render();
+        healthBar2.render();
 
-            Sprites();
-            //drawHUD();
+        Sprites();
+        //drawHUD();
 
-            createCards();
+        createCards();
 
-            batch.begin();
-            font.getData().setScale(2);
-            font.draw(batch, activePlayer,textPositionX,textPositionY);
-            batch.end();
+        batch.begin();
+        font.getData().setScale(2);
+        font.draw(batch, activePlayer, textPositionX, textPositionY);
+        batch.end();
 
-            //Explosion
+        //Explosion
 
-            for(Explosion explosion : currentActor.explosions){
-                sb.begin();
-                explosion.render(sb);
-                sb.end();
-            }
+        for (Explosion explosion : currentActor.explosions) {
+            sb.begin();
+            explosion.render(sb);
+            sb.end();
+        }
 
-            ArrayList<Explosion> explosionsToRemove = new ArrayList<>();
-            for (Explosion explosion :currentActor.explosions) {
-                explosion.update(v);
-                if (explosion.remove)
-                    explosionsToRemove.add(explosion);
-            }
-            currentActor.explosions.removeAll(explosionsToRemove);
+        ArrayList<Explosion> explosionsToRemove = new ArrayList<>();
+        for (Explosion explosion : currentActor.explosions) {
+            explosion.update(v);
+            if (explosion.remove)
+                explosionsToRemove.add(explosion);
+        }
+        currentActor.explosions.removeAll(explosionsToRemove);
 
 
-
-             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                //kort 1
-                if (currentActor.chosen.size() >= 5) {
-                    System.out.println(currentActor.getName() +" can't choose more cards");
-                }
-                else {
-                    if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(0).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(0).getY() + handout.get(0).getHeight() && Gdx.input.getX() > handout.get(0).getX() && Gdx.input.getX() < handout.get(0).getX() + handout.get(0).getWidth()) {
-                        if (!handout.get(0).isChosen) {
-                            chooseCard(0);
-                            System.out.println(currentActor.getName() + " chose: " + getType(handout.get(0)) + " | Num :" + (1));
-                            handout.get(0).isChosen = true;
-                        }else if(handout.get(0).isChosen){
-                            deselectCard(0);
-                            System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(0)) + " | Num :" + (1));
-                            handout.get(0).isChosen = false;
-                        }
-                    }
-                    //kort 2
-                    else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(1).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(1).getY() + handout.get(1).getHeight() && Gdx.input.getX() > handout.get(1).getX() && Gdx.input.getX() < handout.get(1).getX() + handout.get(1).getWidth()) {
-                        if (!handout.get(1).isChosen) {
-                            chooseCard(1);
-                            System.out.println(currentActor.getName() + " chose: " + getType(handout.get(1)) + " | Num :" + (2));
-                            handout.get(1).isChosen = true;
-                        }else if(handout.get(1).isChosen){
-                            deselectCard(1);
-                            System.out.println(currentActor.getName() +" deselected: " + getType(handout.get(1)) + " | Num :" + (2));
-                            handout.get(1).isChosen = false;
-                        }
-                    }
-                    //kort 3
-                    else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(2).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(2).getY() + handout.get(2).getHeight() && Gdx.input.getX() > handout.get(2).getX() && Gdx.input.getX() < handout.get(2).getX() + handout.get(2).getWidth()) {
-                        if (!handout.get(2).isChosen) {
-                            chooseCard(2);
-                            System.out.println(currentActor.getName() + " chose: " + getType(handout.get(2)) + " | Num :" + (3));
-                            handout.get(2).isChosen = true;
-                        }else if(handout.get(2).isChosen){
-                            deselectCard(2);
-                            System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(2)) + " | Num :" + (3));
-                            handout.get(2).isChosen = false;
-                        }
-                    }
-                    //kort 4
-                    else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(3).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(3).getY() + handout.get(3).getHeight() && Gdx.input.getX() > handout.get(3).getX() && Gdx.input.getX() < handout.get(3).getX() + handout.get(3).getWidth()) {
-                        if (!handout.get(3).isChosen) {
-                            chooseCard(3);
-                            System.out.println(currentActor.getName() + " chose: " + getType(handout.get(3)) + " | Num :" + (4));
-                            handout.get(3).isChosen = true;
-                        }else if(handout.get(3).isChosen){
-                            deselectCard(3);
-                            System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(3)) + " | Num :" + (4));
-                            handout.get(3).isChosen = false;
-                        }
-                    }
-                    //kort 5
-                    else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(4).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(4).getY() + handout.get(4).getHeight() && Gdx.input.getX() > handout.get(4).getX() && Gdx.input.getX() < handout.get(4).getX() + handout.get(4).getWidth()) {
-                        if (!handout.get(4).isChosen) {
-                            chooseCard(4);
-                            System.out.println(currentActor.getName() + " chose: " + getType(handout.get(4)) + " | Num :" + (5));
-                            handout.get(4).isChosen = true;
-                        }else if(handout.get(4).isChosen){
-                            deselectCard(4);
-                            System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(4)) + " | Num :" + (5));
-                            handout.get(4).isChosen = false;
-                        }
-                    }
-                    //kort 6
-                    else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(5).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(5).getY() + handout.get(5).getHeight() && Gdx.input.getX() > handout.get(5).getX() && Gdx.input.getX() < handout.get(5).getX() + handout.get(5).getWidth()) {
-                        if (!handout.get(5).isChosen) {
-                            chooseCard(5);
-                            System.out.println(currentActor.getName() + " chose: " + getType(handout.get(5)) + " | Num :" + (6));
-                            handout.get(5).isChosen = true;
-                        }else if(handout.get(5).isChosen){
-                            deselectCard(5);
-                            System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(5)) + " | Num :" + (6));
-                            handout.get(5).isChosen = false;
-                        }
-                    }
-                    //kort 7
-                    else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(6).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(6).getY() + handout.get(6).getHeight() && Gdx.input.getX() > handout.get(6).getX() && Gdx.input.getX() < handout.get(6).getX() + handout.get(6).getWidth()) {
-                        if (!handout.get(6).isChosen) {
-                            chooseCard(6);
-                            System.out.println(currentActor.getName() + " chose: " + getType(handout.get(6)) + " | Num :" + (7));
-                            handout.get(6).isChosen = true;
-                        }else if(handout.get(6).isChosen){
-                            deselectCard(6);
-                            System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(6)) + " | Num :" + (7));
-                            handout.get(6).isChosen = false;
-                        }
-                    }
-                    //kort 8
-                    else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(7).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(7).getY() + handout.get(7).getHeight() && Gdx.input.getX() > handout.get(7).getX() && Gdx.input.getX() < handout.get(7).getX() + handout.get(7).getWidth()) {
-                        if (!handout.get(7).isChosen) {
-                            chooseCard(7);
-                            System.out.println(currentActor.getName() + " chose: " + getType(handout.get(7)) + " | Num :" + (8));
-                            handout.get(7).isChosen = true;
-                        }else if(handout.get(7).isChosen){
-                            deselectCard(7);
-                            System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(7)) + " | Num :" + (8));
-                            handout.get(7).isChosen = false;
-                        }
-                    }
-                    //kort 9
-                    else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(8).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(8).getY() + handout.get(8).getHeight() && Gdx.input.getX() > handout.get(8).getX() && Gdx.input.getX() < handout.get(8).getX() + handout.get(8).getWidth()) {
-                        if (!handout.get(8).isChosen) {
-                            chooseCard(8);
-                            System.out.println(currentActor.getName() + " chose: " + getType(handout.get(8)) + " | Num :" + (9));
-                            handout.get(8).isChosen = true;
-                        }else if(handout.get(8).isChosen){
-                            deselectCard(8);
-                            System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(8)) + " | Num :" + (9));
-                            handout.get(8).isChosen = false;
-                        }
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            //kort 1
+            if (currentActor.chosen.size() >= 5) {
+                System.out.println(currentActor.getName() + " can't choose more cards");
+            } else {
+                if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(0).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(0).getY() + handout.get(0).getHeight() && Gdx.input.getX() > handout.get(0).getX() && Gdx.input.getX() < handout.get(0).getX() + handout.get(0).getWidth()) {
+                    if (!handout.get(0).isChosen) {
+                        chooseCard(0);
+                        System.out.println(currentActor.getName() + " chose: " + getType(handout.get(0)) + " | Num :" + (1));
+                        handout.get(0).isChosen = true;
+                    } else if (handout.get(0).isChosen) {
+                        deselectCard(0);
+                        System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(0)) + " | Num :" + (1));
+                        handout.get(0).isChosen = false;
                     }
                 }
-            }
-            if (currentActor.choseFiveCards){
-                    changeActor();
-                    if (currentActor.isCPU) goToCPUActions(currentActor);
+                //kort 2
+                else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(1).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(1).getY() + handout.get(1).getHeight() && Gdx.input.getX() > handout.get(1).getX() && Gdx.input.getX() < handout.get(1).getX() + handout.get(1).getWidth()) {
+                    if (!handout.get(1).isChosen) {
+                        chooseCard(1);
+                        System.out.println(currentActor.getName() + " chose: " + getType(handout.get(1)) + " | Num :" + (2));
+                        handout.get(1).isChosen = true;
+                    } else if (handout.get(1).isChosen) {
+                        deselectCard(1);
+                        System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(1)) + " | Num :" + (2));
+                        handout.get(1).isChosen = false;
+                    }
+                }
+                //kort 3
+                else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(2).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(2).getY() + handout.get(2).getHeight() && Gdx.input.getX() > handout.get(2).getX() && Gdx.input.getX() < handout.get(2).getX() + handout.get(2).getWidth()) {
+                    if (!handout.get(2).isChosen) {
+                        chooseCard(2);
+                        System.out.println(currentActor.getName() + " chose: " + getType(handout.get(2)) + " | Num :" + (3));
+                        handout.get(2).isChosen = true;
+                    } else if (handout.get(2).isChosen) {
+                        deselectCard(2);
+                        System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(2)) + " | Num :" + (3));
+                        handout.get(2).isChosen = false;
+                    }
+                }
+                //kort 4
+                else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(3).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(3).getY() + handout.get(3).getHeight() && Gdx.input.getX() > handout.get(3).getX() && Gdx.input.getX() < handout.get(3).getX() + handout.get(3).getWidth()) {
+                    if (!handout.get(3).isChosen) {
+                        chooseCard(3);
+                        System.out.println(currentActor.getName() + " chose: " + getType(handout.get(3)) + " | Num :" + (4));
+                        handout.get(3).isChosen = true;
+                    } else if (handout.get(3).isChosen) {
+                        deselectCard(3);
+                        System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(3)) + " | Num :" + (4));
+                        handout.get(3).isChosen = false;
+                    }
+                }
+                //kort 5
+                else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(4).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(4).getY() + handout.get(4).getHeight() && Gdx.input.getX() > handout.get(4).getX() && Gdx.input.getX() < handout.get(4).getX() + handout.get(4).getWidth()) {
+                    if (!handout.get(4).isChosen) {
+                        chooseCard(4);
+                        System.out.println(currentActor.getName() + " chose: " + getType(handout.get(4)) + " | Num :" + (5));
+                        handout.get(4).isChosen = true;
+                    } else if (handout.get(4).isChosen) {
+                        deselectCard(4);
+                        System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(4)) + " | Num :" + (5));
+                        handout.get(4).isChosen = false;
+                    }
+                }
+                //kort 6
+                else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(5).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(5).getY() + handout.get(5).getHeight() && Gdx.input.getX() > handout.get(5).getX() && Gdx.input.getX() < handout.get(5).getX() + handout.get(5).getWidth()) {
+                    if (!handout.get(5).isChosen) {
+                        chooseCard(5);
+                        System.out.println(currentActor.getName() + " chose: " + getType(handout.get(5)) + " | Num :" + (6));
+                        handout.get(5).isChosen = true;
+                    } else if (handout.get(5).isChosen) {
+                        deselectCard(5);
+                        System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(5)) + " | Num :" + (6));
+                        handout.get(5).isChosen = false;
+                    }
+                }
+                //kort 7
+                else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(6).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(6).getY() + handout.get(6).getHeight() && Gdx.input.getX() > handout.get(6).getX() && Gdx.input.getX() < handout.get(6).getX() + handout.get(6).getWidth()) {
+                    if (!handout.get(6).isChosen) {
+                        chooseCard(6);
+                        System.out.println(currentActor.getName() + " chose: " + getType(handout.get(6)) + " | Num :" + (7));
+                        handout.get(6).isChosen = true;
+                    } else if (handout.get(6).isChosen) {
+                        deselectCard(6);
+                        System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(6)) + " | Num :" + (7));
+                        handout.get(6).isChosen = false;
+                    }
+                }
+                //kort 8
+                else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(7).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(7).getY() + handout.get(7).getHeight() && Gdx.input.getX() > handout.get(7).getX() && Gdx.input.getX() < handout.get(7).getX() + handout.get(7).getWidth()) {
+                    if (!handout.get(7).isChosen) {
+                        chooseCard(7);
+                        System.out.println(currentActor.getName() + " chose: " + getType(handout.get(7)) + " | Num :" + (8));
+                        handout.get(7).isChosen = true;
+                    } else if (handout.get(7).isChosen) {
+                        deselectCard(7);
+                        System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(7)) + " | Num :" + (8));
+                        handout.get(7).isChosen = false;
+                    }
+                }
+                //kort 9
+                else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(8).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(8).getY() + handout.get(8).getHeight() && Gdx.input.getX() > handout.get(8).getX() && Gdx.input.getX() < handout.get(8).getX() + handout.get(8).getWidth()) {
+                    if (!handout.get(8).isChosen) {
+                        chooseCard(8);
+                        System.out.println(currentActor.getName() + " chose: " + getType(handout.get(8)) + " | Num :" + (9));
+                        handout.get(8).isChosen = true;
+                    } else if (handout.get(8).isChosen) {
+                        deselectCard(8);
+                        System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(8)) + " | Num :" + (9));
+                        handout.get(8).isChosen = false;
+                    }
+                }
             }
         }
+        if (currentActor.choseFiveCards) {
+            changeActor();
+            if (currentActor.isCPU) goToCPUActions(currentActor);
+        }
+    }
 
     private void goToCPUActions(MyActor CPU) {
         int max = 8;
@@ -331,7 +317,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         int range = max - min + 1;
         int[] choicesForCPU = new int[5];
         for (int choice : choicesForCPU) {
-            choice = (int)(Math.random()*range)+min;
+            choice = (int) (Math.random() * range) + min;
             /*System.out.println(choice);*/
             Card addForCPU = handout.get(choice);
             CPU.chosen.add(addForCPU);
@@ -342,147 +328,150 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         changeActor();
     }
 
-    private int getTileSize () {
-            TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
-            return (int) layer.getTileWidth();
-        }
+    private int getTileSize() {
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
+        return (int) layer.getTileWidth();
+    }
 
-        private void Sprites () {
-            sb.begin();
-            for (IObject obj : grid.getAll()) {
-                if (obj.getSprite() != null) obj.getSprite().draw(sb);
-            }
-            sb.end();
+    private void Sprites() {
+        sb.begin();
+        for (IObject obj : grid.getAll()) {
+            if (obj.getSprite() != null) obj.getSprite().draw(sb);
         }
+        sb.end();
+    }
 
-        private GridOfTiles initGrid () {
-            TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
-            int HeightNTiles = layer.getHeight();
-            int WidthNTiles = layer.getWidth();
-            return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
-        }
+    private GridOfTiles initGrid() {
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
+        int HeightNTiles = layer.getHeight();
+        int WidthNTiles = layer.getWidth();
+        return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
+    }
 
-        public void handOut() {
-            handout.clear();
-            for (int i = 0; i < 9; i++) {
-                handout.add(deck.handOut());
-            }
+    public void handOut() {
+        handout.clear();
+        for (int i = 0; i < 9; i++) {
+            handout.add(deck.handOut());
         }
+    }
 
-        public void chooseCard(int i){
-            Card card = handout.get(i);
-            currentActor.chosen.add(0, card);
-            while (currentActor.chosen.size() > 5) {
-                Card deletedCard = currentActor.chosen.remove(currentActor.chosen.size() - 1);
-                handout.add(deletedCard);
-            }
+    public void chooseCard(int i) {
+        Card card = handout.get(i);
+        currentActor.chosen.add(0, card);
+        while (currentActor.chosen.size() > 5) {
+            Card deletedCard = currentActor.chosen.remove(currentActor.chosen.size() - 1);
+            handout.add(deletedCard);
         }
+    }
 
-        void deselectCard(int i){
-            Card card = handout.get(i);
-            currentActor.chosen.remove(card);
-        }
+    void deselectCard(int i) {
+        Card card = handout.get(i);
+        currentActor.chosen.remove(card);
+    }
 
     public void useCard(Card toUseForCurrentActor, MyActor actor) {
         int moveDist = PXSIZE;
         String cardType = getType(toUseForCurrentActor);
-        switch (cardType){
+        switch (cardType) {
             case "Move":
-                System.out.println(currentActor.getName() + " should move " + currentActor.getDir() + " by: " + toUseForCurrentActor.getMoves());
-                for (int i = 0; i <toUseForCurrentActor.getMoves() ; i++) {
+                System.out.println(actor.getName() + " should move " + actor.getDir() + " by: " + toUseForCurrentActor.getMoves());
+                for (int i = 0; i < toUseForCurrentActor.getMoves(); i++) {
                     actor.Forward(1, moveDist, grid);
                 }
             case "Backup":
-                System.out.println(currentActor.getName() + " should move backwards by: " + toUseForCurrentActor.getMoves());
+                System.out.println(actor.getName() + " should move backwards by: " + toUseForCurrentActor.getMoves());
                 actor.backward(1, moveDist, grid);
             case "Turn":
                 if (toUseForCurrentActor.getTurn() == Card.Turn.LEFT) {
                     actor.turnLeft();
-                    System.out.println(currentActor.getName() + " turned left.");
+                    System.out.println(actor.getName() + " turned left.");
                 } else if (toUseForCurrentActor.getTurn() == Card.Turn.RIGHT) {
                     actor.turnRight();
-                    System.out.println(currentActor.getName() + " turned right.");
+                    System.out.println(actor.getName() + " turned right.");
                 } else if (toUseForCurrentActor.getTurn() == Card.Turn.UTURN) {
                     actor.uTurn();
-                    System.out.println(currentActor.getName() + " did a U-turn.");
+                    System.out.println(actor.getName() + " did a U-turn.");
                 }
         }
+        this.render();
     }
 
 
-        void createCards () {
-            int cardX = 0;
-            int cardY = 100;
-            for (int i = 0; i < handout.size(); i++) {
-                Card c = handout.get(i);
-                if(c.isChosen){
-                    c.setY(cardY+Gdx.graphics.getHeight() / 20);
-                } else {
-                    c.setY(cardY);
-                }
-                c.setX(cardStartX + cardX);
-                cardX += c.cardWidth + Gdx.graphics.getWidth() / 128;
-                c.create();
-                c.render();
+    void createCards() {
+        int cardX = 0;
+        int cardY = 100;
+        for (int i = 0; i < handout.size(); i++) {
+            Card c = handout.get(i);
+            if (c.isChosen) {
+                c.setY(cardY + Gdx.graphics.getHeight() / 20);
+            } else {
+                c.setY(cardY);
             }
+            c.setX(cardStartX + cardX);
+            cardX += c.cardWidth + Gdx.graphics.getWidth() / 128;
+            c.create();
+            c.render();
         }
+    }
 
     public static int getAmountOfFlags() {
         return amountOfFlags;
     }
 
 
-        @Override
-        public boolean keyDown ( int keycode){
-            float x = currentActor.getX();
-            float y = currentActor.getY();
-            Tile current = new Tile(0, 0, 0);
-            try {
-                current = grid.getTileWfloats(y, x);
-                currentActor.setPreviousTile(current);
-            } catch (NullPointerException e) {
+    @Override
+    public boolean keyDown(int keycode) {
+        float x = currentActor.getX();
+        float y = currentActor.getY();
+        Tile current = new Tile(0, 0, 0);
+        try {
+            current = grid.getTileWfloats(y, x);
+            currentActor.setPreviousTile(current);
+        } catch (NullPointerException e) {
 
-            }
+        }
 
-            int moveDist = PXSIZE;
+        int moveDist = PXSIZE;
 
 
-            if (keycode == Input.Keys.RIGHT) {
-                currentActor.turnRight();
-            }
-            if (keycode== Input.Keys.A){
-                currentActor.choseFiveCards = true;
-                handOut();
-            }
-            if (keycode == Input.Keys.LEFT) {
-                currentActor.turnLeft();
-            }
+        if (keycode == Input.Keys.RIGHT) {
+            currentActor.turnRight();
+        }
+        if (keycode == Input.Keys.A) {
+            currentActor.choseFiveCards = true;
+            handOut();
+        }
+        if (keycode == Input.Keys.LEFT) {
+            currentActor.turnLeft();
+        }
 
-            if (keycode == Input.Keys.UP) {
-                currentActor.Forward(1, moveDist, grid);
-                if (grid != null)
-                    currentActor.setPreviousTile(currentActor.getTile());
-            }
-            if (keycode == Input.Keys.DOWN) {
-                currentActor.Forward(1, moveDist * (-1), grid);
-                if (grid != null)
-                    currentActor.setPreviousTile(currentActor.getTile());
-            }
+        if (keycode == Input.Keys.UP) {
+            currentActor.Forward(1, moveDist, grid);
+            if (grid != null)
+                currentActor.setPreviousTile(currentActor.getTile());
+        }
+        if (keycode == Input.Keys.DOWN) {
+            currentActor.Forward(1, moveDist * (-1), grid);
+            if (grid != null)
+                currentActor.setPreviousTile(currentActor.getTile());
+        }
 
-            if (keycode == Input.Keys.D) {
-                currentActor.takeDamage(0.1);
-            }
+        if (keycode == Input.Keys.D) {
+            currentActor.takeDamage(0.1);
+        }
 
-            if (keycode == Input.Keys.S) {
-                currentActor.takeDamage(0.1);
-            }
-            if (keycode == Input.Keys.R){
-                Phase phase = new Phase(this, actors, currentActor, phaseNum);
+        if (keycode == Input.Keys.S) {
+            currentActor.takeDamage(0.1);
+        }
+        if (keycode == Input.Keys.R) {
+            Phase phase = new Phase(this, actors, currentActor, phaseNum);
+            for (int i = 0; i<=1; i++) {
                 phase.playPhase();
                 this.render();
             }
+        }
 
-            if (keycode == Input.Keys.ENTER) {
+            /*if (keycode == Input.Keys.ENTER) {
                 if(currentActor.chosen.size()==5){
                 while (currentActor.chosen.size() > 0) {
                         Card action = currentActor.chosen.get(currentActor.chosen.size() - 1);
@@ -514,117 +503,117 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
                 System.out.println(currentActor.getName() + " has no cards left in chosen");
                 changeActor();
-                /*System.out.println(currentActor.getName() + " to choose cards.");
-                keyDown(Input.Keys.ALT_LEFT);*/
+                *//*System.out.println(currentActor.getName() + " to choose cards.");
+                keyDown(Input.Keys.ALT_LEFT);*//*
                 }
                 System.out.println(currentActor.getName() + " to choose cards.");
                 keyDown(Input.Keys.ALT_LEFT);
-            }
+            }*/
 
-            if (keycode == Input.Keys.ALT_LEFT) {
-                handOut();
+        if (keycode == Input.Keys.ALT_LEFT) {
+            handOut();
 
-            }
-
-            if (keycode == Input.Keys.E){
-                currentActor.explosions.add(new Explosion(currentActor.getX(),currentActor.getY()));
-            }
-
-
-            if (Gdx.input.isTouched()) {
-                Gdx.app.exit();
-            }
-
-            if (keycode == Input.Keys.ESCAPE) {
-                Gdx.app.exit();
-            }
-
-            if (keycode == Input.Keys.B) {
-                currentActor.setBackupTile(current);
-                System.out.println("Backup set to: " + current);
-            }
-
-            if (keycode == Input.Keys.O) {
-                GameOverScreen gameOverScreen = new GameOverScreen(game, currentActor.getName());
-                game.setScreen(gameOverScreen);
-            }
-
-            return false;
         }
 
-        @Override
-        public boolean keyUp ( int keycode){
-            if (currentActor.chosen.size() >= 5) System.out.println("You can't choose more cards");
+        if (keycode == Input.Keys.E) {
+            currentActor.explosions.add(new Explosion(currentActor.getX(), currentActor.getY()));
+        }
+
+
+        if (Gdx.input.isTouched()) {
+            Gdx.app.exit();
+        }
+
+        if (keycode == Input.Keys.ESCAPE) {
+            Gdx.app.exit();
+        }
+
+        if (keycode == Input.Keys.B) {
+            currentActor.setBackupTile(current);
+            System.out.println("Backup set to: " + current);
+        }
+
+        if (keycode == Input.Keys.O) {
+            GameOverScreen gameOverScreen = new GameOverScreen(game, currentActor.getName());
+            game.setScreen(gameOverScreen);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+            /*if (currentActor.chosen.size() >= 5) System.out.println("You can't choose more cards");
 
             else if (keycode >= Input.Keys.NUM_1 && keycode <= Input.Keys.NUM_9) {
                 chooseCard(keycode - 8);
                 System.out.println("You chose: " + getType(handout.get(keycode - 8)) + " | Num :" + (keycode - 8));
-            }
-            return false;
-        }
+            }*/
+        return false;
+    }
 
 
-        @Override
-        public boolean keyTyped ( char character){
-            return false;
-        }
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
 
-        @Override
-        public boolean touchDown ( int screenX, int screenY, int pointer, int button){
-            return false;
-        }
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
 
-        @Override
-        public boolean touchUp ( int screenX, int screenY, int pointer, int button){
-            return false;
-        }
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
 
-        @Override
-        public boolean touchDragged ( int screenX, int screenY, int pointer){
-            return false;
-        }
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
 
-        @Override
-        public boolean mouseMoved ( int screenX, int screenY){
-            return false;
-        }
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
 
-        @Override
-        public boolean scrolled ( int amount){
-            return false;
-        }
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
 
-        @Override
-        public void show () {
+    @Override
+    public void show() {
 
-        }
+    }
 
-        @Override
-        public void render () {
+    @Override
+    public void render() {
 
-        }
+    }
 
-        @Override
-        public void hide () {
+    @Override
+    public void hide() {
 
-        }
+    }
 
-        public enum Dir {
-            NORTH,
-            EAST,
-            WEST,
-            SOUTH
-        }
+    public enum Dir {
+        NORTH,
+        EAST,
+        WEST,
+        SOUTH
+    }
 
-        public void changeActor(){
-        if (currentActor.actorIndex >= actors.size()-1) {
+    public void changeActor() {
+        if (currentActor.actorIndex >= actors.size() - 1) {
             currentActor = actors.get(0);
             currentActor.choseFiveCards = false;
             activePlayer = currentActor.getName() + ", you're up!";
-        }else {
+        } else {
             currentActor = actors.get(currentActor.actorIndex + 1);
             currentActor.choseFiveCards = false;
             activePlayer = currentActor.getName() + ", you're up!";
         }
-        }
     }
+}

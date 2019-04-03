@@ -4,6 +4,7 @@ import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Phase {
 
@@ -27,6 +28,7 @@ public class Phase {
     public void playPhase(){
         MyActor actor = currentActor;
         Card toUseForActor = actor.chosen.get(cardIndex);
+
         game.useCard(toUseForActor, actor);
         if (game.phaseNum>0){
             game.phaseNum -=1;
