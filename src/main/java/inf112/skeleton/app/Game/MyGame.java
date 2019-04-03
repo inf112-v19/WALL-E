@@ -106,7 +106,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         backBoard.setPosition(-140, 700);
 
         //Text
-        activePlayer = "Player 1, you're up!";
+        activePlayer = currentActor.getName() + ", you're up!";
 
         batch = new SpriteBatch();
         font = new BitmapFont();
