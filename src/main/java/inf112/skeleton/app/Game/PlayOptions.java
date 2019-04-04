@@ -47,9 +47,15 @@ public class PlayOptions implements Screen {
         table.setDebug(false);
         stage.addActor(table);
 
-        playersX = (int) (HEIGHT-(HEIGHT*0.458));
-        mapX = (int) (HEIGHT-(HEIGHT*0.509));
-        textX = (int) (WIDTH-(WIDTH*0.442));
+        if(WIDTH>1280){
+            playersX = (int) (HEIGHT-(HEIGHT*0.471));
+            mapX = (int) (HEIGHT-(HEIGHT*0.507));
+            textX = (int) (WIDTH-(WIDTH*0.461));
+        } else{
+            playersX = (int) (HEIGHT-(HEIGHT*0.458));
+            mapX = (int) (HEIGHT-(HEIGHT*0.509));
+            textX = (int) (WIDTH-(WIDTH*0.442));
+        }
 
         batch = new SpriteBatch();
         font = new BitmapFont();
