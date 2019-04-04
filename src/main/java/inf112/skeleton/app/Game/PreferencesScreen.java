@@ -92,7 +92,8 @@ public class PreferencesScreen implements Screen {
         musicOnOffLabel = new Label( null, skin );
         soundOnOffLabel = new Label( null, skin );
 
-        table.add(titleLabel);
+
+        table.add(titleLabel).colspan(2).center();
         table.row();
         table.add(volumeMusicLabel);
         table.add(volumeMusicSlider);
@@ -106,7 +107,7 @@ public class PreferencesScreen implements Screen {
         table.add(soundOnOffLabel);
         table.add(soundEffectsCheckbox);
         table.row();
-        table.add(backButton);
+        table.add(backButton).colspan(2).bottom().center();
     }
 
     @Override
