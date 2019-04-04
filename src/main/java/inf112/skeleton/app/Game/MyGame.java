@@ -105,8 +105,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         backBoard.setSize(300, 150);
         backBoard.setPosition(-140, 700);
 
-        //Text
-        activePlayer = currentActor.getName() + ", you're up!";
 
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -138,6 +136,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         healthBar2 = new HealthBar(actor2, actor2.getName(), 2);
 
         currentActor = actor;
+        activePlayer = currentActor.getName() + ", you're up!";
 
         //Laser
         renderLaser = new MyLaser(grid, currentActor,  currentActor.getTile(), 0, 3);
