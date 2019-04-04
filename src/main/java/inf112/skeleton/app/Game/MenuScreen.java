@@ -3,9 +3,15 @@ package inf112.skeleton.app.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuScreen implements Screen {
 
@@ -13,60 +19,18 @@ public class MenuScreen implements Screen {
     private RoboRally game;
     private float WIDTH;
     private float HEIGHT;
-    private float EXIT_BUTTON_X;
-    private float EXIT_BUTTON_y;
-    private float EXIT_BUTTON_HEIGHT;
-    private float EXIT_BUTTON_WIDTH;
-    private float PLAY_BUTTON_X;
-    private float PLAY_BUTTON_y;
-    private float PLAY_BUTTON_HEIGHT;
-    private float PLAY_BUTTON_WIDTH;
-    private SpriteBatch batch;
-    private Texture playInAct;
-    private Texture playAct;
-    private Texture exitInAct;
-    private Texture exitAct;
-    private Texture mapInAct;
-    private Texture mapAct;
-    private Texture mapChoice;
-    private BitmapFont font;
     private int POSSIBLE_MAPCHOICES = 1;
-    private float MAPCHOICE_BUTTON_X;
-    private float MAPCHOICE_BUTTON_y;
-    private float MAPCHOICE_BUTTON_HEIGHT;
-    private float MAPCHOICE_BUTTON_WIDTH;
+    private Stage stage;
+    private Skin skin;
 
 
     MenuScreen(RoboRally game) {
         this.game = game;
-
+        stage = new Stage(new ScreenViewport());
         WIDTH = Gdx.graphics.getWidth();
         HEIGHT = Gdx.graphics.getHeight();
 
-        playInAct = new Texture(Gdx.files.internal("play_inactive.png"));
-        playAct = new Texture(Gdx.files.internal("play_active.png"));
-        exitInAct = new Texture(Gdx.files.internal("exit_inactive.png"));
-        exitAct = new Texture(Gdx.files.internal("exit_active.png"));
-        mapInAct = new Texture(Gdx.files.internal("map_inactive.png"));
-        mapAct = new Texture(Gdx.files.internal("map_active.png"));
-        font = new BitmapFont();
-        batch = new SpriteBatch();
-
-
-        PLAY_BUTTON_X = (WIDTH / 2) - (playInAct.getWidth() / 2);
-        PLAY_BUTTON_y = HEIGHT - (HEIGHT / 10)*2;
-        PLAY_BUTTON_HEIGHT = playAct.getHeight();
-        PLAY_BUTTON_WIDTH = playAct.getWidth();
-
-        EXIT_BUTTON_X = (WIDTH / 2) - (exitInAct.getWidth() / 2);
-        EXIT_BUTTON_y = HEIGHT - (HEIGHT / 10) * 6;
-        EXIT_BUTTON_HEIGHT = exitAct.getHeight();
-        EXIT_BUTTON_WIDTH = exitAct.getWidth();
-
-        MAPCHOICE_BUTTON_X = (WIDTH / 2) - (mapInAct.getWidth() / 2);
-        MAPCHOICE_BUTTON_y = HEIGHT - (HEIGHT / 10) * 4;
-        MAPCHOICE_BUTTON_HEIGHT = mapAct.getHeight();
-        MAPCHOICE_BUTTON_WIDTH = mapAct.getWidth();
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
     }
 
     public static int getMAP_CHOICE() {
@@ -75,61 +39,65 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.setDebug(true);
+        stage.addActor(table);
+
+        TextButton play = new TextButton("Play" ,skin);
+        TextButton multiplayer = new TextButton("Multiplayer", skin);
+        TextButton preferences = new TextButton("Preferences", skin);
+        TextButton exit = new TextButton("Exit", skin);
+
+        table.add(play).fillX().uniformX();
+        table.row().pad(10,0,10,0);
+        table.add(multiplayer).fillX().uniformX();
+        table.row();
+        table.add(preferences).fillX().uniformX();
+        table.row().pad(10,0,10,0);
+        table.add(exit).fillX().uniformX();
+
+
+
+        play.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.changeScreen(game.GAME);
+            }
+        });
+
+        multiplayer.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.changeScreen(game.MULTIPLAYER);
+            }
+        });
+
+        preferences.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.changeScreen(game.PREFERENCES);
+            }
+        });
+
+        exit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
     }
+
 
     @Override
     public void render(float v) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
-        font.getData().setScale(2);
-        font.draw(batch,"Current map: <"+getMAP_CHOICE()+">",MAPCHOICE_BUTTON_X-(WIDTH/50),MAPCHOICE_BUTTON_y-(WIDTH/50));
-        // Play button
-        if (Gdx.input.getX() > PLAY_BUTTON_X
-                && Gdx.input.getX() < PLAY_BUTTON_X + PLAY_BUTTON_WIDTH
-                && HEIGHT - Gdx.input.getY() < PLAY_BUTTON_y + PLAY_BUTTON_HEIGHT
-                && HEIGHT - Gdx.input.getY() > PLAY_BUTTON_y) {
-            batch.draw(playAct, PLAY_BUTTON_X, PLAY_BUTTON_y - 1);
-            batch.draw(exitInAct, EXIT_BUTTON_X, EXIT_BUTTON_y);
-            batch.draw(mapInAct, MAPCHOICE_BUTTON_X, MAPCHOICE_BUTTON_y);
-            if (Gdx.input.isTouched()) {
-                setGameScreen();
-            }
-
-            //Exit button
-        } else if (Gdx.input.getX() > EXIT_BUTTON_X
-                && Gdx.input.getX() < EXIT_BUTTON_X + EXIT_BUTTON_WIDTH
-                && HEIGHT - Gdx.input.getY() < EXIT_BUTTON_y + EXIT_BUTTON_HEIGHT
-                && HEIGHT - Gdx.input.getY() > EXIT_BUTTON_y) {
-            batch.draw(playInAct, PLAY_BUTTON_X, PLAY_BUTTON_y);
-            batch.draw(exitAct, EXIT_BUTTON_X, EXIT_BUTTON_y - 1);
-            batch.draw(mapInAct, MAPCHOICE_BUTTON_X, MAPCHOICE_BUTTON_y);
-            if (Gdx.input.isTouched()) {
-                this.dispose();
-                Gdx.app.exit();
-            }
-            //MapChoice
-        } else if (Gdx.input.getX() > MAPCHOICE_BUTTON_X
-                && Gdx.input.getX() < MAPCHOICE_BUTTON_X + MAPCHOICE_BUTTON_WIDTH
-                && HEIGHT - Gdx.input.getY() < MAPCHOICE_BUTTON_y + MAPCHOICE_BUTTON_HEIGHT
-                && HEIGHT - Gdx.input.getY() > MAPCHOICE_BUTTON_y) {
-            batch.draw(playInAct, PLAY_BUTTON_X, PLAY_BUTTON_y);
-            batch.draw(exitInAct, EXIT_BUTTON_X, EXIT_BUTTON_y);
-            batch.draw(mapAct, MAPCHOICE_BUTTON_X, MAPCHOICE_BUTTON_y - 1);
-            if (Gdx.input.justTouched()) {
-                this.setMapChoice();
-                System.out.println("Should load map: " + getMAP_CHOICE());
-            }
-        } else {
-            batch.draw(playInAct, PLAY_BUTTON_X, PLAY_BUTTON_y);
-            batch.draw(exitInAct, EXIT_BUTTON_X, EXIT_BUTTON_y);
-            batch.draw(mapInAct, MAPCHOICE_BUTTON_X, MAPCHOICE_BUTTON_y);
-        }
-
-
-        batch.end();
-
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
     }
 
     private void setGameScreen() {
