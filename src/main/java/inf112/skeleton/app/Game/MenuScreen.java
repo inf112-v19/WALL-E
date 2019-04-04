@@ -102,7 +102,7 @@ public class MenuScreen implements Screen {
         gameScreen.create();
         game.setScreen(gameScreen);
     }
-
+/**
     private void setMapChoice() {
         MAP_CHOICE++;
         if (MAP_CHOICE > POSSIBLE_MAPCHOICES) MAP_CHOICE = 0;
@@ -111,7 +111,7 @@ public class MenuScreen implements Screen {
     public static int getMAP_CHOICE() {
         return MAP_CHOICE;
     }
-
+**/
 
     @Override
     public void resize(int i, int i1) {

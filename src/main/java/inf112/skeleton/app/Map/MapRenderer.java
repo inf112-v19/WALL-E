@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Game.MenuScreen;
 import inf112.skeleton.app.Game.MyGame;
+import inf112.skeleton.app.Game.PlayOptions;
 
 public class MapRenderer extends ApplicationAdapter {
     public static TiledMap map;
@@ -19,7 +20,7 @@ public class MapRenderer extends ApplicationAdapter {
     }
 
     public static TiledMap whatMapToCreate() {
-        int whatMapToCreate = MenuScreen.getMAP_CHOICE();
+        int whatMapToCreate = PlayOptions.getMAP_CHOICE();
         TiledMap returnMap = null;
         String map1Name = "map_v1.tmx";
         String map2Name = "map_v2.tmx";
@@ -37,7 +38,7 @@ public class MapRenderer extends ApplicationAdapter {
     }
 
     public static String whatMapToCreateString() {
-        int whatMapToCreate = MenuScreen.getMAP_CHOICE();
+        int whatMapToCreate = PlayOptions.getMAP_CHOICE();
         String returnMap = null;
         switch (whatMapToCreate) {
             case 0:

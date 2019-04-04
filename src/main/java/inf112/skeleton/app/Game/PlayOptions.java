@@ -11,23 +11,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import java.nio.channels.spi.SelectorProvider;
-
 public class PlayOptions implements Screen {
-    private static int MAP_CHOICE = 0;
     private RoboRally game;
     private float WIDTH;
     private float HEIGHT;
+
+    private static int MAP_CHOICE = 0;
     private int POSSIBLE_MAPCHOICES = 1;
+    private static int PLAYERS = 1;
+    private  int POSSIBLE_PLAYERS = 4;
     private Stage stage;
     private Skin skin;
-    private List<String> maps;
-    private String[] list;
-    private ScrollPane scrollPane;
     private Label mapSelect;
-    private String currentMap;
+    private Label playersSelect;
     private BitmapFont font;
     private SpriteBatch batch;
+    private int playersX;
+    private int mapX;
+    private int textX;
 
     public PlayOptions(RoboRally game){
         this.game = game;
@@ -43,28 +44,36 @@ public class PlayOptions implements Screen {
 
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(true);
+        table.setDebug(false);
         stage.addActor(table);
 
-        list = new String[]{"0,1"};
-        maps = new List<String>(skin);
-        maps.setItems(list);
-        scrollPane = new ScrollPane(maps);
-        scrollPane.setSmoothScrolling(false);
-        scrollPane.setTransform(true);
-        currentMap = Integer.toString(getMAP_CHOICE());
+        playersX = (int) (HEIGHT-(HEIGHT*0.458));
+        mapX = (int) (HEIGHT-(HEIGHT*0.509));
+        textX = (int) (WIDTH-(WIDTH*0.442));
+
         batch = new SpriteBatch();
         font = new BitmapFont();
 
-        TextButton vsCPU = new TextButton("Play vs CPU" ,skin);
-        TextButton map = new TextButton("Select map",skin);
+        TextButton play = new TextButton("Play" ,skin);
+        TextButton players = new TextButton("How many players:",skin);
+        TextButton map = new TextButton("Select map:",skin);
         TextButton back = new TextButton("Back", skin);
-        mapSelect = new Label("<"+currentMap+">",skin);
+        mapSelect = new Label("<    >",skin);
+        playersSelect = new Label("<    >",skin);
 
-        vsCPU.addListener(new ClickListener(){
+
+        play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.changeScreen(game.GAME);
+            }
+        });
+
+        players.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setPlayers();
+                Gdx.app.log("Players:", Integer.toString(getPlayers()));
             }
         });
 
@@ -72,6 +81,7 @@ public class PlayOptions implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 setMapChoice();
+                Gdx.app.log("Map:", Integer.toString(getMAP_CHOICE()));
             }
         });
 
@@ -82,12 +92,13 @@ public class PlayOptions implements Screen {
             }
         });
 
+        table.add(play).colspan(2).fillX().uniformX();
         table.row().pad(10,0,10,0);
-        table.add(vsCPU).colspan(2).fillX().uniformX();
+        table.add(players).fillX().uniformX();
+        table.add(playersSelect);
         table.row();
-        table.add(map);
+        table.add(map).fillX().uniformX();
         table.add(mapSelect);
-        table.row().pad(10,0,10,0);
         table.row().pad(10,0,10,0);
         table.add(back).colspan(2).fillX().uniformX();
     }
@@ -99,13 +110,12 @@ public class PlayOptions implements Screen {
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        /**
-        currentMap = Integer.toString(getMAP_CHOICE());
-        mapSelect = new Label("<"+currentMap+">",skin);
+
+        //currentMap = Integer.toString(getMAP_CHOICE());
         batch.begin();
-        font.draw(batch,""+ getMAP_CHOICE(),WIDTH/2,HEIGHT/2);
+        font.draw(batch,""+ MAP_CHOICE, textX, mapX);
+        font.draw(batch,""+ PLAYERS, textX, playersX);
         batch.end();
-         **/
     }
     private void setMapChoice() {
         MAP_CHOICE++;
@@ -113,6 +123,13 @@ public class PlayOptions implements Screen {
     }
     public static int getMAP_CHOICE() {
         return MAP_CHOICE;
+    }
+    private void setPlayers() {
+        PLAYERS++;
+        if (PLAYERS > POSSIBLE_PLAYERS) PLAYERS = 1;
+    }
+    public static int getPlayers() {
+        return PLAYERS;
     }
 
     @Override
