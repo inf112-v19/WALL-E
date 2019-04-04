@@ -19,10 +19,12 @@ public class PreferencesScreen implements Screen {
     private Label volumeSoundLabel;
     private Label musicOnOffLabel;
     private Label soundOnOffLabel;
+    private Skin skin;
 
     public PreferencesScreen(RoboRally game){
         this.game = game;
         stage = new Stage(new ScreenViewport());
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
     }
     @Override
     public void show() {
@@ -34,7 +36,6 @@ public class PreferencesScreen implements Screen {
         table.setDebug(false);
         stage.addActor(table);
 
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
         volumeMusicSlider.setValue( game.getPreferences().getMusicVolume() );
@@ -86,11 +87,11 @@ public class PreferencesScreen implements Screen {
             }
         });
 
-        titleLabel = new Label( "Preferences", skin );
+        titleLabel = new Label( "Settings", skin );
         volumeMusicLabel = new Label( "Muisc Volume", skin );
         volumeSoundLabel = new Label( "Sound Volume", skin );
-        musicOnOffLabel = new Label( null, skin );
-        soundOnOffLabel = new Label( null, skin );
+        musicOnOffLabel = new Label( "Music enabled", skin );
+        soundOnOffLabel = new Label( "Sound enabled", skin );
 
 
         table.add(titleLabel).colspan(2).center();
@@ -141,6 +142,7 @@ public class PreferencesScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        skin.dispose();
     }
 }

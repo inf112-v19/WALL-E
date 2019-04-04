@@ -24,6 +24,7 @@ public class MultiplayerScreen implements Screen, Input.TextInputListener {
     public MultiplayerScreen(RoboRally game){
         this.game = game;
         stage = new Stage(new ScreenViewport());
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
     }
     @Override
     public void show() {
@@ -35,7 +36,6 @@ public class MultiplayerScreen implements Screen, Input.TextInputListener {
         table.setDebug(false);
         stage.addActor(table);
 
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         TextButton host = new TextButton("Host game",skin);
         TextButton join = new TextButton("Join game",skin);
@@ -73,6 +73,7 @@ public class MultiplayerScreen implements Screen, Input.TextInputListener {
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //Join game with IP adress
                 game.changeScreen(game.GAME);
             }
         });
@@ -84,12 +85,12 @@ public class MultiplayerScreen implements Screen, Input.TextInputListener {
             }
         });
 
-        table.add(host).colspan(2).center();
+        table.add(host).colspan(2).center().fillX().uniformX();
         table.row().pad(10,0,10,0);
         table.add(join);
         table.add(play);
         table.row();
-        table.add(back).colspan(2).bottom().center();
+        table.add(back).colspan(2).bottom().center().fillX().uniformX();
     }
 
     @Override
@@ -124,7 +125,8 @@ public class MultiplayerScreen implements Screen, Input.TextInputListener {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        skin.dispose();
     }
 
     @Override

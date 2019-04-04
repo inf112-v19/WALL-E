@@ -3,18 +3,17 @@ package inf112.skeleton.app.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class MenuScreen implements Screen {
+import java.nio.channels.spi.SelectorProvider;
 
+public class PlayOptions implements Screen {
     private static int MAP_CHOICE = 0;
     private RoboRally game;
     private float WIDTH;
@@ -22,9 +21,15 @@ public class MenuScreen implements Screen {
     private int POSSIBLE_MAPCHOICES = 1;
     private Stage stage;
     private Skin skin;
+    private List<String> maps;
+    private String[] list;
+    private ScrollPane scrollPane;
+    private Label mapSelect;
+    private String currentMap;
+    private BitmapFont font;
+    private SpriteBatch batch;
 
-
-    MenuScreen(RoboRally game) {
+    public PlayOptions(RoboRally game){
         this.game = game;
         stage = new Stage(new ScreenViewport());
         WIDTH = Gdx.graphics.getWidth();
@@ -32,61 +37,60 @@ public class MenuScreen implements Screen {
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
     }
-
-
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(false);
+        table.setDebug(true);
         stage.addActor(table);
 
-        TextButton play = new TextButton("Play" ,skin);
-        TextButton multiplayer = new TextButton("Multiplayer", skin);
-        TextButton preferences = new TextButton("Settings", skin);
-        TextButton exit = new TextButton("Exit", skin);
+        list = new String[]{"0,1"};
+        maps = new List<String>(skin);
+        maps.setItems(list);
+        scrollPane = new ScrollPane(maps);
+        scrollPane.setSmoothScrolling(false);
+        scrollPane.setTransform(true);
+        currentMap = Integer.toString(getMAP_CHOICE());
+        batch = new SpriteBatch();
+        font = new BitmapFont();
 
-        table.add(play).fillX().uniformX();
+        TextButton vsCPU = new TextButton("Play vs CPU" ,skin);
+        TextButton map = new TextButton("Select map",skin);
+        TextButton back = new TextButton("Back", skin);
+        mapSelect = new Label("<"+currentMap+">",skin);
+
+        vsCPU.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.changeScreen(game.GAME);
+            }
+        });
+
+        map.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setMapChoice();
+            }
+        });
+
+        back.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.changeScreen(game.MENU);
+            }
+        });
+
         table.row().pad(10,0,10,0);
-        table.add(multiplayer).fillX().uniformX();
+        table.add(vsCPU).colspan(2).fillX().uniformX();
         table.row();
-        table.add(preferences).fillX().uniformX();
+        table.add(map);
+        table.add(mapSelect);
         table.row().pad(10,0,10,0);
-        table.add(exit).fillX().uniformX();
-
-
-
-        play.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.changeScreen(game.PLAYOPTIONS);
-            }
-        });
-
-        multiplayer.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.changeScreen(game.MULTIPLAYER);
-            }
-        });
-
-        preferences.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.changeScreen(game.PREFERENCES);
-            }
-        });
-
-        exit.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
+        table.row().pad(10,0,10,0);
+        table.add(back).colspan(2).fillX().uniformX();
     }
-
 
     @Override
     public void render(float v) {
@@ -95,23 +99,21 @@ public class MenuScreen implements Screen {
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+        /**
+        currentMap = Integer.toString(getMAP_CHOICE());
+        mapSelect = new Label("<"+currentMap+">",skin);
+        batch.begin();
+        font.draw(batch,""+ getMAP_CHOICE(),WIDTH/2,HEIGHT/2);
+        batch.end();
+         **/
     }
-
-    private void setGameScreen() {
-        MyGame gameScreen = new MyGame(game);
-        gameScreen.create();
-        game.setScreen(gameScreen);
-    }
-
     private void setMapChoice() {
         MAP_CHOICE++;
         if (MAP_CHOICE > POSSIBLE_MAPCHOICES) MAP_CHOICE = 0;
     }
-
     public static int getMAP_CHOICE() {
         return MAP_CHOICE;
     }
-
 
     @Override
     public void resize(int i, int i1) {
@@ -135,7 +137,6 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
-        skin.dispose();
+
     }
 }
