@@ -29,7 +29,7 @@ public class MyLaser implements IObject {
 
         this.renderArray = new ArrayList<>();
         this.texture = new Texture("greenLaser.png");
-        this.sprite = new Sprite(texture);
+        this.sprite = new Sprite(new Texture("greenLaser.png"));
         this.laserBatch = new SpriteBatch();
     }
 
@@ -57,10 +57,10 @@ public class MyLaser implements IObject {
     }
 
     private void storeToRenderArray(float y, float x) {
-        Sprite toStore = new Sprite(texture);
+        Sprite toStore = this.sprite;
         toStore.setY(y);
         toStore.setX(x);
-        this.renderArray.add(this.sprite);
+        this.renderArray.add(toStore);
     }
 
     public ArrayList<Tile> getTilesInDirection(MyGame.Dir dir){
@@ -103,9 +103,13 @@ public class MyLaser implements IObject {
         return this.laserTile;
     }
 
-    public void render(float x, float y) {
+    public void render(Sprite sprite, float x, float y) {
         laserBatch.begin();
-        laserBatch.draw(texture, x, y);
+        laserBatch.draw(sprite.getTexture(), x, y);
         laserBatch.end();
+    }
+
+    public ArrayList<Sprite> getRenderArray() {
+        return this.renderArray;
     }
 }

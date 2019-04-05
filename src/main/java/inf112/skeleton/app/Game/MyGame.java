@@ -106,6 +106,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         backBoard.setPosition(-140, 700);
 
 
+        //Text
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
@@ -543,7 +544,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
 
         if (keycode == Input.Keys.ESCAPE) {
-            Gdx.app.exit();
+            game.changeScreen(game.MENU);
         }
 
         if (keycode == Input.Keys.B) {
