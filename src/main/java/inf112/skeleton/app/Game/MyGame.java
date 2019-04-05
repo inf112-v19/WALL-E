@@ -105,8 +105,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         backBoard.setSize(300, 150);
         backBoard.setPosition(-140, 700);
 
-        //Text
 
+        //Text
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
