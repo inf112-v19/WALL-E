@@ -24,24 +24,6 @@ public class Phase {
     }
 
     public void playPhase() {
-      /* MyActor actor = currentActor;
-       Card toUseForActor = actor.chosen.get(cardIndex);
-*/
-       /* if (cardIndex >= 0) {
-            for (MyActor actor: actors) {
-                Card toUse = actor.chosen.get(cardIndex);
-                game.useCard(toUse, actor);
-            }
-            game.phaseNum -= 1;
-        } *//*else {
-            System.out.println("Ready for next round!");
-            for (MyActor a : actors) {
-                a.chosen.clear();
-            }
-            game.phaseNum = 4;
-            game.handOut();
-        }*/
-
         if (game.phaseNum < 0){
             System.out.println("Ready for next round!");
             for (MyActor a : actors) {
