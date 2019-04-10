@@ -370,6 +370,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     }
 
     public void useCard(Card toUseForCurrentActor, MyActor actor) {
+        if (toUseForCurrentActor == null) System.out.println("Please choose cards!");
         int moveDist = PXSIZE;
         String cardType = getType(toUseForCurrentActor);
         switch (cardType) {
@@ -467,9 +468,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             currentActor.takeDamage(0.1);
         }
         if (keycode == Input.Keys.R) {
-            Phase phase = new Phase(this, actors, currentActor, phaseNum);
-            phase.playPhase();
-            this.render();
+            if (!currentActor.chosen.isEmpty()) {
+                Phase phase = new Phase(this, actors, currentActor, phaseNum);
+                phase.playPhase();
+                this.render();
+            }
+            System.out.println("You need to choose more cards to initiate next round!");
         }
 
             /*if (keycode == Input.Keys.ENTER) {
