@@ -40,11 +40,11 @@ public class Hole implements IObject {
             if(actor.getBackupTile() != null){
                 actor.backToBackup(grid);
             }else{
-                System.out.println("This doesn't work, would like it to tho..");
-                System.out.println("Actor had no backup, started from previous tile: " +actorFellFrom);
+                //System.out.println("This doesn't work, would like it to tho..");
+                //System.out.println("Actor had no backup, started from previous tile: " +actorFellFrom);
                 /*actor.setX(actorFellFrom.getX());
                 actor.setY(actorFellFrom.getY());*/
-                actor.setPosition(actorFellFrom.y, actorFellFrom.x, grid);
+                actor.setPosition(0,0,grid);
             }
         }
     }

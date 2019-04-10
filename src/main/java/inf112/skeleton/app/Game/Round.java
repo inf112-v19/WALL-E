@@ -16,11 +16,11 @@ public class Round {
         this.currentActor = currentActor;
     }
     public void playRound(){
-        int phaseNum=0;
+       /* int phaseNum=0;
             Phase phase = new Phase(game, actors, currentActor, phaseNum);
             phase.playPhase();
             game.render();
             if (phaseNum<=5) phaseNum++;
-            else phaseNum = 0;
+            else phaseNum = 0;*/
         }
 }

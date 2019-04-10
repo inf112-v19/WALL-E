@@ -378,9 +378,11 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 for (int i = 0; i < toUseForCurrentActor.getMoves(); i++) {
                     actor.Forward(1, moveDist, grid);
                 }
+                break;
             case "Backup":
                 System.out.println(actor.getName() + " should move backwards by: " + toUseForCurrentActor.getMoves());
                 actor.backward(1, moveDist, grid);
+                break;
             case "Turn":
                 if (toUseForCurrentActor.getTurn() == Card.Turn.LEFT) {
                     actor.turnLeft();
@@ -392,6 +394,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                     actor.uTurn();
                     System.out.println(actor.getName() + " did a U-turn.");
                 }
+                break;
         }
         this.render();
     }
@@ -465,10 +468,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
         if (keycode == Input.Keys.R) {
             Phase phase = new Phase(this, actors, currentActor, phaseNum);
-            for (int i = 0; i<=1; i++) {
-                phase.playPhase();
-                this.render();
-            }
+            phase.playPhase();
+            this.render();
         }
 
             /*if (keycode == Input.Keys.ENTER) {

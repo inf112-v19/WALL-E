@@ -24,14 +24,17 @@ public class Phase {
     }
 
     public void playPhase() {
-       MyActor actor = currentActor;
+      /* MyActor actor = currentActor;
        Card toUseForActor = actor.chosen.get(cardIndex);
-
-        if (game.phaseNum > 0) {
-            game.useCard(toUseForActor, actors.get(currentActor.actorIndex));
-            game.useCard(toUseForActor, actors.get(currentActor.actorIndex+1));
+*/
+        if (cardIndex >= 0) {
+            for (MyActor actor: actors) {
+                Card toUse = actor.chosen.get(cardIndex);
+                game.useCard(toUse, actor);
+            }
             game.phaseNum -= 1;
         } else {
+            System.out.println("Ready for next round!");
             game.phaseNum = 4;
             game.handOut();
         }
