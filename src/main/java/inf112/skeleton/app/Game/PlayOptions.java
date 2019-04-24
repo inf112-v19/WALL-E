@@ -19,7 +19,7 @@ public class PlayOptions implements Screen {
     private static int MAP_CHOICE = 0;
     private int POSSIBLE_MAPCHOICES = 1;
     private static int PLAYERS = 1;
-    private  int POSSIBLE_PLAYERS = 4;
+    private  int POSSIBLE_PLAYERS = 8;
     private Stage stage;
     private Skin skin;
     private Label mapSelect;

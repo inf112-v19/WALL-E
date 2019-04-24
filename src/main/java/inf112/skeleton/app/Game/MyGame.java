@@ -38,7 +38,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private int PXSIZE = 78;
     private TiledMap tiledMap;
     public MyActor actor;
+    private MyActor actor2;
+    private MyActor actor3;
     private ArrayList<MyActor> actors;
+    private ArrayList<HealthBar> healthbars;
     public MyActor currentActor;
     public Map map;
     public Deck deck;
@@ -47,7 +50,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Texture texture;
     private MyLaser renderLaser;
     private Sprite laserTexture;
-    private MyActor actor2;
     public ArrayList<Card> handout = new ArrayList<>(9);
     private TiledMapRenderer tiledMapRenderer;
     private SpriteBatch sb;
@@ -65,8 +67,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         this(null);
 
         ObjectMaker objectMaker = new ObjectMaker(null, null);
-        actor = objectMaker.actor;
-        actor2 = objectMaker.actor2;
+        //actor = objectMaker.createActorBlue();
+        //actor2 = objectMaker.createActorRed2();
     }
 
     MyGame(RoboRally game) {
@@ -121,22 +123,65 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         objectMaker = new ObjectMaker(map, grid);
         objectMaker.create();
         amountOfFlags = objectMaker.flags.size();
-        actor = objectMaker.actor;
-        actor2 = objectMaker.actor2;
+        actors = new ArrayList<>();
+        healthbars = new ArrayList<>();
+        if(PlayOptions.getPlayers()==1){
+            MyActor actor = objectMaker.createActorCPU();
+            actor.create();
+            actors.add(actor);
+        }
+        for(int i=0;i<PlayOptions.getPlayers();i++){
+            MyGame.Dir startDir = MyGame.Dir.NORTH;
+            MyActor actor = new MyActor("blaTanks1.png", startDir, false, "Player One", 0);
+
+            if(i == 0){
+                actor = objectMaker.createActorBlue();
+            } else if(i == 1){
+                actor = objectMaker.createActorRed();
+            }else if(i == 2){
+                actor = objectMaker.createActorBlue2();
+            }else if(i == 3){
+                actor = objectMaker.createActorRed2();
+            }else if(i == 4){
+                actor = objectMaker.createActorBlue3();
+            }else if(i == 5){
+                actor = objectMaker.createActorRed3();
+            }else if(i == 6){
+                actor = objectMaker.createActorBlue4();
+            }else if(i == 7){
+                actor = objectMaker.createActorRed4();
+            }
+            actor.create();
+            actors.add(actor);
+        }
+        /**
+        actor = objectMaker.createActorBlue();
+        actor2 = objectMaker.createActorRed2();
+        actor3 = objectMaker.createActorRed();
         actor.create();
         actor2.create();
-        actor.setName("Player One");
-        actor2.setName("Computer");
-        actors = new ArrayList<>();
+        actor3.create();
         actors.add(actor);
         actors.add(actor2);
+        actors.add(actor3);
+         **/
+        for(int i=0;i<actors.size();i++){
+            grid.getTileWfloats(0, 0).addObjOnTile(actors.get(i));
+        }
+        /**
         grid.getTileWfloats(0, 0).addObjOnTile(actor);
         grid.getTileWfloats(0, 0).addObjOnTile(actor2);
+        grid.getTileWfloats(0, 0).addObjOnTile(actor3);
+         **/
 
-        healthBar = new HealthBar(actor, actor.getName(), 1);
-        healthBar2 = new HealthBar(actor2, actor2.getName(), 2);
+        for(int i = 0; i<actors.size();i++){
+            HealthBar healthBar = new HealthBar(actors.get(i),actors.get(i).getName(),i+1);
+            healthbars.add(healthBar);
+        }
+        //healthBar = new HealthBar(actor, actor.getName(), 1);
+        //healthBar2 = new HealthBar(actor2, actor2.getName(), 2);
 
-        currentActor = actor;
+        currentActor = actors.get(0);
         activePlayer = currentActor.getName() + ", you're up!";
 
         //Laser
@@ -154,27 +199,19 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             tiledMapRenderer.setView(camera);
             tiledMapRenderer.render();
             sb.setProjectionMatrix(camera.combined);
-
-            if(actor.getHealth()<=0){
-                actor.isDead = true;
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
-                game.setScreen(gameOverScreen);
-            } else if(actor2.getHealth()<=0){
-                actor2.isDead=true;
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
-                game.setScreen(gameOverScreen);
-            }else if (actor.gameOver){
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
-                game.setScreen(gameOverScreen);
-            }else if(actor2.gameOver){
-                GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
-                game.setScreen(gameOverScreen);
+            if(currentActor.isDead){
+                grid.getTileWfloats(currentActor.y,currentActor.x).removeObject(currentActor);
             }
+            checkWinner();
+
 
 
             // Health-bar
-            healthBar.render();
-            healthBar2.render();
+            for(HealthBar health : healthbars){
+                health.render();
+            }
+            //healthBar.render();
+            //healthBar2.render();
 
             Sprites();
 
@@ -200,6 +237,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 explosionsToRemove.add(explosion);
         }
         currentActor.explosions.removeAll(explosionsToRemove);
+
+        isDead();
 
 
         if (currentActor.isCPU) {
@@ -320,6 +359,37 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         }
     }
+
+    private void checkWinner() {
+        for(MyActor act : actors){
+            if(act.gameOver){
+                GameOverScreen gameOverScreen = new GameOverScreen(game, act.getName());
+                game.setScreen(gameOverScreen);
+            }
+            if(nextAlive() == currentActor){
+                GameOverScreen gameOverScreen = new GameOverScreen(game, act.getName());
+                game.setScreen(gameOverScreen);
+            }
+        }
+    }
+
+    /**
+     if(currentActor.getHealth()<=0){
+     currentActor.isDead = true;
+     GameOverScreen gameOverScreen = new GameOverScreen(game, actors.get(1).getName());
+     game.setScreen(gameOverScreen);
+     } else if(actor2.getHealth()<=0){
+     actor2.isDead=true;
+     GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+     game.setScreen(gameOverScreen);
+     }else if (actor.gameOver){
+     GameOverScreen gameOverScreen = new GameOverScreen(game, actor.getName());
+     game.setScreen(gameOverScreen);
+     }else if(actor2.gameOver){
+     GameOverScreen gameOverScreen = new GameOverScreen(game, actor2.getName());
+     game.setScreen(gameOverScreen);
+     }
+     **/
 
     private void goToCPUActions(MyActor CPU) {
         int max = 8;
@@ -477,6 +547,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         if (keycode == Input.Keys.D) {
             currentActor.takeDamage(0.1);
         }
+        if (keycode == Input.Keys.V) {
+            changeActor();
+        }
 
             if (keycode == Input.Keys.S) {
                 actor2.takeDamage(0.1);
@@ -484,6 +557,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (keycode==Input.Keys.L){
                 shootLaserWithActor();
             }
+
 
         if (keycode == Input.Keys.ENTER) {
             if (currentActor.chosen.size() == 5) {
@@ -617,14 +691,42 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
     }
 
+    private void isDead(){
+        for(MyActor actor : actors){
+            if(actor.getHealth()<=0){
+                actor.isDead = true;
+            }
+        }
+    }
+
     private void changeActor() {
+        currentActor = nextAlive();
+        activePlayer = currentActor.getName() + " you're up!";
+        /**
         if (currentActor.actorIndex >= actors.size() - 1) {
             currentActor = actors.get(0);
             activePlayer = currentActor.getName() + ", you're up!";
         } else {
-            currentActor = actors.get(currentActor.actorIndex + 1);
-            activePlayer = currentActor.getName() + ", you're up!";
+            if(!actors.get(currentActor.actorIndex + 1).isDead) {
+                currentActor = actors.get(currentActor.actorIndex + 1);
+                activePlayer = currentActor.getName() + ", you're up!";
+            }
         }
+         **/
+    }
+    private MyActor nextAlive(){
+        int index = currentActor.actorIndex;
+        for(int i=1;i<actors.size();i++){
+            int newIndex = index+i%(actors.size());
+            System.out.println(newIndex);
+            if(newIndex >= actors.size()){
+                newIndex =0;
+            }
+            if(!actors.get(newIndex).isDead){
+                return actors.get(newIndex);
+            }
+        }
+        return currentActor;
     }
 
     public enum Dir {

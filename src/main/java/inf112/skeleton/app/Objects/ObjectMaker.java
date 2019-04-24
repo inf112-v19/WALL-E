@@ -27,8 +27,8 @@ public class ObjectMaker {
         this.map = map;
         this.grid = grid;
 
-        createActor();
-        createActor2();
+        //createActor();
+        //createActor2();
     }
 
     public void create() {
@@ -130,13 +130,50 @@ public class ObjectMaker {
         }
     }
 
-    private void createActor() {
+    public MyActor createActorBlue() {
         MyGame.Dir startDir = MyGame.Dir.NORTH;
-        actor = new MyActor("blaTanks1.png", startDir, false, "Player One", 0);
+        MyActor actor = new MyActor("blaTanks1.png", startDir, false, "Player 1", 0);
+        return actor;
+    }
+    public MyActor createActorRed() {
+        MyGame.Dir startDir = MyGame.Dir.NORTH;
+        MyActor actor = new MyActor("redTanks1.png", startDir, false, "Player 2", 1);
+        return actor;
+    }
+    public MyActor createActorBlue2() {
+        MyGame.Dir startDir = MyGame.Dir.NORTH;
+        MyActor actor = new MyActor("blaTanks2.png", startDir, false, "Player 3", 2);
+        return actor;
+    }
+    public MyActor createActorRed2() {
+        MyGame.Dir startDir = MyGame.Dir.NORTH;
+        MyActor actor = new MyActor("redTanks2.png", startDir, false, "Player 4", 3);
+        return actor;
+    }
+    public MyActor createActorBlue3() {
+        MyGame.Dir startDir = MyGame.Dir.NORTH;
+        MyActor actor = new MyActor("blaTanks3.png", startDir, false, "Player 5", 4);
+        return actor;
+    }
+    public MyActor createActorRed3() {
+        MyGame.Dir startDir = MyGame.Dir.NORTH;
+        MyActor actor = new MyActor("redTanks3.png", startDir, false, "Player 6", 5);
+        return actor;
+    }
+    public MyActor createActorBlue4() {
+        MyGame.Dir startDir = MyGame.Dir.NORTH;
+        MyActor actor = new MyActor("blaTanks4.png", startDir, false, "Player 7", 6);
+        return actor;
+    }
+    public MyActor createActorRed4() {
+        MyGame.Dir startDir = MyGame.Dir.NORTH;
+        MyActor actor = new MyActor("redTanks4.png", startDir, false, "Player 8", 7);
+        return actor;
     }
 
-    private void createActor2() {
+    public MyActor createActorCPU() {
         MyGame.Dir startDir = MyGame.Dir.NORTH;
-        actor2 = new MyActor("redTanks1.png", startDir, true, "Computer Player", 1);
+        MyActor actor = new MyActor("redTanks1.png", startDir, true, "Computer Player", 8);
+        return actor;
     }
 }

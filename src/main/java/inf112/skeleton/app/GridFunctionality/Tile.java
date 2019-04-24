@@ -67,6 +67,9 @@ public class Tile implements ITile, Comparable<Tile> {
     public void addObjOnTile(IObject obj) {
         ObjOnTile.add(obj);
     }
+    public void removeObject(IObject obj){
+        ObjOnTile.remove(obj);
+    }
 
     @Override
     public String toString() {
