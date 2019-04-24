@@ -290,6 +290,10 @@ public class MyActor implements IObject, IActor {
         return null;
     }
 
+    public void removeSpriteFromMap(){
+        actorSprite.set(null);
+    }
+
     @Override
     public Sprite getSprite() {
         actorSprite.setX(this.x);

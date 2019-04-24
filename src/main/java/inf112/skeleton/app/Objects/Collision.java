@@ -49,6 +49,9 @@ public class Collision {
             if (o instanceof BlueConveyorBelt) {
                 ((BlueConveyorBelt) o).handleConveyorTransport(actor, grid);
             }
+            if (o instanceof Turner){
+                ((Turner) o).handleTurner(actor, grid);
+            }
         }
     }
 }
