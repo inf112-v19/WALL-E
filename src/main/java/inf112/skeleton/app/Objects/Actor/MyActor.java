@@ -332,4 +332,7 @@ public class MyActor implements IObject, IActor {
         tilesVisited.add(flagTile);
     }
 
+    public void powerDown() {
+        health = 1;
+    }
 }
