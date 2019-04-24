@@ -146,9 +146,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         @Override
         public void render ( float v){
-            for (MyActor a : actors) {
-                if (a.isDead) a.removeSpriteFromMap();
-            }
             Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
