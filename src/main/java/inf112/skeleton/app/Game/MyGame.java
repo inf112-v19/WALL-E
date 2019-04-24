@@ -317,7 +317,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                     }
                 }
             }
-
         }
     }
 

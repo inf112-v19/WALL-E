@@ -22,6 +22,7 @@ public class ObjectMaker {
     public MyActor actor;
     public MyActor actor2;
     public List<IObject> flags;
+    private ArrayList<Object> turners;
 
     public ObjectMaker(Map map, GridOfTiles grid) {
         this.map = map;
@@ -40,6 +41,18 @@ public class ObjectMaker {
         createRedConveyors();
         createWrenchesSingle();
         createWrenchesDouble();
+        createTurners();
+    }
+
+    private void createTurners() {
+        turners = new ArrayList<>();
+        MapLayer layer = map.getMapLayer("SnurreDings");
+        for (MapObject turner : layer.getObjects()) {
+            RectangleMapObject turnRect = (RectangleMapObject) turner;
+            Turner addThisTurnerToMap = new Turner(turnRect, grid);
+            turners.add(addThisTurnerToMap);
+            System.out.println("Turner placed at: "+addThisTurnerToMap.turnerTile);
+        }
     }
 
     private void createFlags() {
