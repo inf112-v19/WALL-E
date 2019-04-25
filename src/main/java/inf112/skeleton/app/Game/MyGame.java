@@ -484,6 +484,16 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 shootLaserWithActor();
             }
 
+        if (keycode == Input.Keys.P) {
+            currentActor.powerDown();
+            for (int i=0; i<handout.size(); i++)
+                deselectCard(i);
+
+            currentActor.setLastHandout(handout);
+            System.out.println(currentActor.getName() + " powered down.");
+            changeActor();
+        }
+
         if (keycode == Input.Keys.ENTER) {
             if (currentActor.chosen.size() == 5) {
                 while (currentActor.chosen.size() > 0) {
@@ -521,8 +531,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
                 System.out.println(currentActor.getName() + " has no cards left in chosen");
 
-                lessHpLockCards();
                 currentActor.setLastHandout(handout);
+                lessHpLockCards();
                 changeActor();
             }
             System.out.println(currentActor.getName() + " to choose cards.");
