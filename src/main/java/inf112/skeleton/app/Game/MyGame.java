@@ -371,6 +371,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         for (int i=8; i>=0; i--){
             if (actorHp<hpStep){
                 handout.set(i, currentActor.getFromLastHandout(i));
+                handout.get(i).isChosen=false;
+                deselectCard(i);
             }
             else {
                 handout.set(i, deck.handOut());
@@ -541,6 +543,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         if (keycode == Input.Keys.ALT_LEFT) {
             handOut();
+            lessHpLockCards();
         }
 
         if (keycode == Input.Keys.E) {
