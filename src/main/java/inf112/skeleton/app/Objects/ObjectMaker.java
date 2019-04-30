@@ -173,7 +173,7 @@ public class ObjectMaker {
 
     public MyActor createActorCPU() {
         MyGame.Dir startDir = MyGame.Dir.NORTH;
-        MyActor actor = new MyActor("redTanks1.png", startDir, true, "Computer Player", 8);
+        MyActor actor = new MyActor("cpuTanks.png", startDir, true, "Computer Player", 8);
         return actor;
     }
 }

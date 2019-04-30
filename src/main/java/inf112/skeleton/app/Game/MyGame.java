@@ -148,6 +148,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             actor.create();
             actors.add(actor);
         }
+        for(int i=0;i<PlayOptions.getCPUPlayers();i++) {
+            MyActor actor = objectMaker.createActorCPU();
+            actor.setName("CPU " + (i+1));
+            actor.create();
+            actors.add(actor);
+        }
 
         for(int i=0;i<actors.size();i++){
             grid.getTileWfloats(0, 0).addObjOnTile(actors.get(i));
