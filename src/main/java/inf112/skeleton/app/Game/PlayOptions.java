@@ -19,14 +19,17 @@ public class PlayOptions implements Screen {
     private static int MAP_CHOICE = 0;
     private int POSSIBLE_MAPCHOICES = 1;
     private static int PLAYERS = 1;
+    private static int CPUPLAYERS = 0;
     private  int POSSIBLE_PLAYERS = 8;
     private Stage stage;
     private Skin skin;
     private Label mapSelect;
     private Label playersSelect;
+    private Label cpuPlayersSelect;
     private BitmapFont font;
     private SpriteBatch batch;
-    private int playersX;
+    private int playersY;
+    private int cpuPlayersY;
     private int mapX;
     private int textX;
 
@@ -48,13 +51,15 @@ public class PlayOptions implements Screen {
         stage.addActor(table);
 
         if(WIDTH>1280){
-            playersX = (int) (HEIGHT-(HEIGHT*0.471));
+            playersY = (int) (HEIGHT-(HEIGHT*0.471));
+            cpuPlayersY = (int) (HEIGHT-(HEIGHT*0.49));
             mapX = (int) (HEIGHT-(HEIGHT*0.507));
             textX = (int) (WIDTH-(WIDTH*0.461));
         } else{
-            playersX = (int) (HEIGHT-(HEIGHT*0.458));
-            mapX = (int) (HEIGHT-(HEIGHT*0.509));
-            textX = (int) (WIDTH-(WIDTH*0.442));
+            playersY = (int) (HEIGHT-(HEIGHT*0.441));
+            cpuPlayersY = (int) (HEIGHT-(HEIGHT*0.493));
+            mapX = (int) (HEIGHT-(HEIGHT*0.543));
+            textX = (int) (WIDTH-(WIDTH*0.4294));
         }
 
         batch = new SpriteBatch();
@@ -62,10 +67,12 @@ public class PlayOptions implements Screen {
 
         TextButton play = new TextButton("Play" ,skin);
         TextButton players = new TextButton("How many players:",skin);
+        TextButton cpuPlayers = new TextButton("How many CPU players:",skin);
         TextButton map = new TextButton("Select map:",skin);
         TextButton back = new TextButton("Back", skin);
         mapSelect = new Label("<    >",skin);
         playersSelect = new Label("<    >",skin);
+        cpuPlayersSelect = new Label("<    >",skin);
 
 
         play.addListener(new ClickListener(){
@@ -80,6 +87,12 @@ public class PlayOptions implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 setPlayers();
                 Gdx.app.log("Players:", Integer.toString(getPlayers()));
+            }
+        });
+
+        cpuPlayers.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+                setCpuPlayers();
             }
         });
 
@@ -103,9 +116,12 @@ public class PlayOptions implements Screen {
         table.add(players).fillX().uniformX();
         table.add(playersSelect);
         table.row();
+        table.add(cpuPlayers);
+        table.add(cpuPlayersSelect);
+        table.row().pad(10,0,10,0);
         table.add(map).fillX().uniformX();
         table.add(mapSelect);
-        table.row().pad(10,0,10,0);
+        table.row();
         table.add(back).colspan(2).fillX().uniformX();
     }
 
@@ -120,7 +136,8 @@ public class PlayOptions implements Screen {
         //currentMap = Integer.toString(getMAP_CHOICE());
         batch.begin();
         font.draw(batch,""+ MAP_CHOICE, textX, mapX);
-        font.draw(batch,""+ PLAYERS, textX, playersX);
+        font.draw(batch,""+ PLAYERS, textX, playersY);
+        font.draw(batch,""+ CPUPLAYERS, textX, cpuPlayersY);
         batch.end();
     }
     private void setMapChoice() {
@@ -130,12 +147,20 @@ public class PlayOptions implements Screen {
     public static int getMAP_CHOICE() {
         return MAP_CHOICE;
     }
+
     private void setPlayers() {
         PLAYERS++;
-        if (PLAYERS > POSSIBLE_PLAYERS) PLAYERS = 1;
+        if (PLAYERS + CPUPLAYERS > POSSIBLE_PLAYERS) PLAYERS = 1;
+    }
+    private void setCpuPlayers() {
+        CPUPLAYERS++;
+        if(PLAYERS+CPUPLAYERS > POSSIBLE_PLAYERS) CPUPLAYERS = 0;
     }
     public static int getPlayers() {
         return PLAYERS;
+    }
+    public static int getCPUPlayers() {
+        return CPUPLAYERS;
     }
 
     @Override
