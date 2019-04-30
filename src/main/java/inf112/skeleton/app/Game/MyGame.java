@@ -125,8 +125,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             actors.add(actor);
         }
         for(int i=0;i<PlayOptions.getPlayers();i++){
-            MyGame.Dir startDir = MyGame.Dir.NORTH;
-            MyActor actor = new MyActor("blaTanks1.png", startDir, false, "Player One", 0);
+            MyActor actor = objectMaker.createActorBlue();
 
             if(i == 0){
                 actor = objectMaker.createActorBlue();
