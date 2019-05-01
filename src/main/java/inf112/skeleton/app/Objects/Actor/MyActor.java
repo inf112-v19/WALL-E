@@ -254,6 +254,9 @@ public class MyActor implements IObject, IActor {
     public float getHealth(){
         return health;
     }
+    public void setHealth(float hp){
+        health = hp;
+    }
 
     public Tile getPreviousTile() {
         return this.previousTile;

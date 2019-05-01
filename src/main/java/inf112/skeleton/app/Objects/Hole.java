@@ -23,6 +23,12 @@ public class Hole implements IObject {
         hole.addObjOnTile(this);
     }
 
+    //for testing
+    public Hole(){
+        this.x = 0;
+        this.y = 0;
+    }
+
     public void remove(GridOfTiles grid){
         this.notUsedForHoles = null;
         Tile tile = grid.getTileWfloats(this.y, this.x);
@@ -31,7 +37,7 @@ public class Hole implements IObject {
 
     public void handleFallingIntoHoles(MyActor actor, GridOfTiles grid){
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
-        Tile actorFellFrom = actor.getPreviousTile();
+
         if(hole.equals(actorTile)){
             System.out.println("Actor fell into a hole! HP lost: ");
             actor.explosions.add(new Explosion(actor.getX(),actor.getY()));

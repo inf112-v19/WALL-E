@@ -51,4 +51,10 @@ public class Collision {
             }
         }
     }
+
+    public void foolCollision(IObject o ){
+        if(o instanceof Hole){
+            ((Hole) o).handleFallingIntoHoles(actor, grid);
+        }
+    }
 }
