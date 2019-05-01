@@ -119,11 +119,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         amountOfFlags = objectMaker.flags.size();
         actors = new ArrayList<>();
         healthbars = new ArrayList<>();
-        if(PlayOptions.getPlayers()==1){
-            MyActor actor = objectMaker.createActorCPU();
-            actor.create();
-            actors.add(actor);
-        }
         for(int i=0;i<PlayOptions.getPlayers();i++){
             MyActor actor = objectMaker.createActorBlue();
 
@@ -333,7 +328,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                     }
                 }
             }
-
         }
     }
 
@@ -401,6 +395,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         for (int i=8; i>=0; i--){
             if (actorHp<hpStep){
                 handout.set(i, currentActor.getFromLastHandout(i));
+                handout.get(i).isChosen=false;
+                deselectCard(i);
             }
             else {
                 handout.set(i, deck.handOut());
@@ -517,6 +513,16 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 shootLaserWithActor();
             }
 
+        if (keycode == Input.Keys.P) {
+            currentActor.powerDown();
+            for (int i=0; i<handout.size(); i++)
+                deselectCard(i);
+
+            currentActor.setLastHandout(handout);
+            System.out.println(currentActor.getName() + " powered down.");
+            changeActor();
+        }
+
 
         if (keycode == Input.Keys.ENTER) {
             if (currentActor.chosen.size() == 5) {
@@ -555,8 +561,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
                 System.out.println(currentActor.getName() + " has no cards left in chosen");
 
-                lessHpLockCards();
                 currentActor.setLastHandout(handout);
+                lessHpLockCards();
                 changeActor();
             }
             System.out.println(currentActor.getName() + " to choose cards.");
@@ -565,6 +571,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         if (keycode == Input.Keys.ALT_LEFT) {
             handOut();
+            lessHpLockCards();
         }
 
         if (keycode == Input.Keys.E) {
