@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Card extends ApplicationAdapter {
+    public float cardWidth;
+    public float cardHeight;
+    private boolean isShowing;
+    public boolean isChosen;
     private Turn turn;
     private int moves;
     private int priority;
@@ -14,10 +18,6 @@ public class Card extends ApplicationAdapter {
     private float y;
     private SpriteBatch card;
     private Texture cardTexture;
-    public float cardWidth;
-    public float cardHeight;
-    public boolean isShowing;
-    public boolean isChosen;
 
     Card(Turn turn, int moves, int priority, boolean isBackup) {
         this.turn = turn;
@@ -26,6 +26,16 @@ public class Card extends ApplicationAdapter {
         this.isBackup = isBackup;
         this.isShowing = true;
         this.isChosen = false;
+    }
+
+    public static String getType(Card card) {
+        if (card.isMove())
+            return "Move";
+        else if (card.isBackup())
+            return "Backup";
+        else if (card.isTurn())
+            return "Turn";
+        return null;
     }
 
     public Turn getTurn() {
@@ -57,33 +67,14 @@ public class Card extends ApplicationAdapter {
         return "turn: " + turn + ", moves: " + moves + ", priority: " + priority + ", backup: " + isBackup;
     }
 
-    public static String getType(Card card) {
-        if (card.isMove())
-            return "Move";
-        else if (card.isBackup())
-            return "Backup";
-        else if (card.isTurn())
-            return "Turn";
-        return null;
-    }
-
     public Card getCard() {
         return this;
     }
 
-    public void setX(float set) {
-        this.x = set;
-    }
-
-    public void setY(float set) {
-        this.y = set;
-    }
-
     @Override
     public void create() {
-        cardWidth = Gdx.graphics.getWidth()/15;
-        cardHeight = Gdx.graphics.getHeight()/6;
-        //y = Gdx.graphics.getHeight()/10;
+        cardWidth = Gdx.graphics.getWidth() / 15;
+        cardHeight = Gdx.graphics.getHeight() / 6;
 
         card = new SpriteBatch();
         String type = getType(this);
@@ -107,30 +98,38 @@ public class Card extends ApplicationAdapter {
 
     @Override
     public void render() {
-        if(isShowing) {
+        if (isShowing) {
             card.begin();
             card.draw(cardTexture, x, y, cardWidth, cardHeight);
             card.end();
         }
     }
 
-    public void draw(SpriteBatch sb) {
+    public float getHeight() {
+        return cardHeight;
+    }
 
+    public float getWidth() {
+        return cardWidth;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float set) {
+        this.x = set;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float set) {
+        this.y = set;
     }
 
     public enum Turn {
         LEFT, RIGHT, UTURN, NONE
     }
-
-    public float getHeight(){
-        return cardHeight;
-    }
-
-    public float getWidth(){
-        return cardWidth;
-    }
-
-    public float getX(){ return x;}
-
-    public float getY(){ return y;}
 }

@@ -6,18 +6,18 @@ import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 
-public class WrenchesSingle implements IObject {
+public class Turner implements IObject {
     public int y;
     public int x;
     Sprite notUsedForWrenches;
-    Tile wrenchTile;
+    Tile turnerTile;
 
-    public WrenchesSingle(RectangleMapObject TiledWrench, GridOfTiles grid) {
-        y = (int) TiledWrench.getRectangle().getY();
-        x = (int) TiledWrench.getRectangle().getX();
+    public Turner(RectangleMapObject TiledTurner, GridOfTiles grid) {
+        y = (int) TiledTurner.getRectangle().getY();
+        x = (int) TiledTurner.getRectangle().getX();
 
-        wrenchTile = grid.getTileWfloats(y, x);
-        wrenchTile.addObjOnTile(this);
+        turnerTile = grid.getTileWfloats(y, x);
+        turnerTile.addObjOnTile(this);
     }
 
     public void remove(GridOfTiles grid) {
@@ -25,10 +25,10 @@ public class WrenchesSingle implements IObject {
         tile.getObjOnTile().remove(this);
     }
 
-    void handleWrench(MyActor actor, GridOfTiles grid) {
+    void handleTurner(MyActor actor, GridOfTiles grid) {
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
-        if (wrenchTile.equals(actorTile)) {
-            actor.restoreHealth(0.25);
+        if (turnerTile.equals(actorTile)) {
+            actor.turnRight();
         }
     }
 
@@ -39,6 +39,6 @@ public class WrenchesSingle implements IObject {
 
     @Override
     public Tile getTile() {
-        return this.wrenchTile;
+        return this.turnerTile;
     }
 }
