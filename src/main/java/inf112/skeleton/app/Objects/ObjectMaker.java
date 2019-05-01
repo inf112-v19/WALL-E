@@ -27,9 +27,6 @@ public class ObjectMaker {
     public ObjectMaker(Map map, GridOfTiles grid) {
         this.map = map;
         this.grid = grid;
-
-        //createActor();
-        //createActor2();
     }
 
     public void create() {

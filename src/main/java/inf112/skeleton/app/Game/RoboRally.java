@@ -8,7 +8,6 @@ public class RoboRally extends Game {
     private MyGame gameScreen;
     private PreferencesScreen preferencesScreen;
     private GamePreferences preferences;
-    private GameOverScreen gameOverScreen;
     private MultiplayerScreen multiplayerScreen;
     private PlayOptions playOptions;
 

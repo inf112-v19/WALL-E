@@ -43,9 +43,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     public MyActor currentActor;
     public Map map;
     public Deck deck;
-    private Sprite BackBoard;
     private Batch batch;
-    private Texture texture;
     private MyLaser renderLaser;
     private Sprite laserTexture;
     public ArrayList<Card> handout = new ArrayList<>(9);
@@ -57,7 +55,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private float textPositionY;
     private int cardStartX;
     private String activePlayer;
-    private boolean hasSwappedActor;
 
     public MyGame() {
         this(null);
@@ -80,7 +77,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
     @Override
     public void create() {
-        //hurray
         map = new Map(MapRenderer.whatMapToCreateString());
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         this.PXSIZE = getTileSize();
@@ -102,7 +98,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         backBoard.setPosition(-140, 700);
 
 
-        //Text
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
@@ -167,7 +162,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         currentActor = actors.get(0);
         activePlayer = currentActor.getName() + ", you're up!";
 
-        //Laser
         renderLaser = new MyLaser(grid, currentActor,  currentActor.getTile(), 0, 3);
         laserTexture = renderLaser.getSprite();
     }
@@ -201,7 +195,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         font.draw(batch, activePlayer, textPositionX, textPositionY);
         batch.end();
 
-        //Explosion
         for (Explosion explosion : currentActor.explosions) {
             sb.begin();
             explosion.render(sb);
@@ -222,7 +215,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         if (currentActor.isCPU) {
             goToCPUActions(currentActor);
         } else if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            //kort 1
             if (currentActor.chosen.size() >= 5)
                 System.out.println(currentActor.getName() + " can't choose more cards");
             else {
@@ -237,7 +229,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(0).isChosen = false;
                     }
                 }
-                //kort 2
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(1).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(1).getY() + handout.get(1).getHeight() && Gdx.input.getX() > handout.get(1).getX() && Gdx.input.getX() < handout.get(1).getX() + handout.get(1).getWidth()) {
                     if (!handout.get(1).isChosen) {
                         chooseCard(1);
@@ -249,7 +240,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(1).isChosen = false;
                     }
                 }
-                //kort 3
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(2).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(2).getY() + handout.get(2).getHeight() && Gdx.input.getX() > handout.get(2).getX() && Gdx.input.getX() < handout.get(2).getX() + handout.get(2).getWidth()) {
                     if (!handout.get(2).isChosen) {
                         chooseCard(2);
@@ -261,7 +251,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(2).isChosen = false;
                     }
                 }
-                //kort 4
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(3).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(3).getY() + handout.get(3).getHeight() && Gdx.input.getX() > handout.get(3).getX() && Gdx.input.getX() < handout.get(3).getX() + handout.get(3).getWidth()) {
                     if (!handout.get(3).isChosen) {
                         chooseCard(3);
@@ -273,7 +262,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(3).isChosen = false;
                     }
                 }
-                //kort 5
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(4).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(4).getY() + handout.get(4).getHeight() && Gdx.input.getX() > handout.get(4).getX() && Gdx.input.getX() < handout.get(4).getX() + handout.get(4).getWidth()) {
                     if (!handout.get(4).isChosen) {
                         chooseCard(4);
@@ -285,7 +273,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(4).isChosen = false;
                     }
                 }
-                //kort 6
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(5).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(5).getY() + handout.get(5).getHeight() && Gdx.input.getX() > handout.get(5).getX() && Gdx.input.getX() < handout.get(5).getX() + handout.get(5).getWidth()) {
                     if (!handout.get(5).isChosen) {
                         chooseCard(5);
@@ -297,7 +284,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(5).isChosen = false;
                     }
                 }
-                //kort 7
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(6).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(6).getY() + handout.get(6).getHeight() && Gdx.input.getX() > handout.get(6).getX() && Gdx.input.getX() < handout.get(6).getX() + handout.get(6).getWidth()) {
                     if (!handout.get(6).isChosen) {
                         chooseCard(6);
@@ -309,7 +295,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(6).isChosen = false;
                     }
                 }
-                //kort 8
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(7).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(7).getY() + handout.get(7).getHeight() && Gdx.input.getX() > handout.get(7).getX() && Gdx.input.getX() < handout.get(7).getX() + handout.get(7).getWidth()) {
                     if (!handout.get(7).isChosen) {
                         chooseCard(7);
@@ -321,7 +306,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(7).isChosen = false;
                     }
                 }
-                //kort 9
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(8).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(8).getY() + handout.get(8).getHeight() && Gdx.input.getX() > handout.get(8).getX() && Gdx.input.getX() < handout.get(8).getX() + handout.get(8).getWidth()) {
                     if (!handout.get(8).isChosen) {
                         chooseCard(8);
@@ -375,12 +359,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         sb.end();
     }
 
-    /*private GridOfTiles initGrid () {
-            TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
-            int HeightNTiles = layer.getHeight();
-            int WidthNTiles = layer.getWidth();
-            return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
-        }*/
     private int getTileSize() {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
         return (int) layer.getTileWidth();
@@ -512,12 +490,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             changeActor();
         }
 
-            if (keycode == Input.Keys.S) {
-                //actor2.takeDamage(0.1);
-            }
-            if (keycode==Input.Keys.L){
-                shootLaserWithActor();
-            }
+        if (keycode==Input.Keys.L){
+            shootLaserWithActor();
+        }
 
         if (keycode == Input.Keys.P) {
             currentActor.powerDown();

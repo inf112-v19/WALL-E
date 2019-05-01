@@ -9,7 +9,6 @@ import inf112.skeleton.app.Objects.Actor.MyActor;
 public class WrenchesDouble implements IObject {
     public int y;
     public int x;
-    Sprite notUsedForWrenches;
     Tile wrenchTile;
 
     public WrenchesDouble(RectangleMapObject TiledWrench, GridOfTiles grid) {

@@ -11,7 +11,6 @@ public class GridOfTiles {
     public int GridSize;
     Tile[][] grid;
 
-    //Constructor
     public GridOfTiles(int Nrow, int Ncol, int pxSize) {
         this.pxSize = pxSize;
         this.Nrow = Nrow;

@@ -15,11 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuScreen implements Screen {
 
-    private static int MAP_CHOICE = 0;
     private RoboRally game;
-    private float WIDTH;
-    private float HEIGHT;
-    private int POSSIBLE_MAPCHOICES = 1;
     private Stage stage;
     private Skin skin;
 
@@ -27,8 +23,6 @@ public class MenuScreen implements Screen {
     MenuScreen(RoboRally game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
-        WIDTH = Gdx.graphics.getWidth();
-        HEIGHT = Gdx.graphics.getHeight();
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
     }
@@ -97,21 +91,6 @@ public class MenuScreen implements Screen {
         stage.draw();
     }
 
-    private void setGameScreen() {
-        MyGame gameScreen = new MyGame(game);
-        gameScreen.create();
-        game.setScreen(gameScreen);
-    }
-/**
-    private void setMapChoice() {
-        MAP_CHOICE++;
-        if (MAP_CHOICE > POSSIBLE_MAPCHOICES) MAP_CHOICE = 0;
-    }
-
-    public static int getMAP_CHOICE() {
-        return MAP_CHOICE;
-    }
-**/
 
     @Override
     public void resize(int i, int i1) {

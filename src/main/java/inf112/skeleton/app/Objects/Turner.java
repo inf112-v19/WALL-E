@@ -9,7 +9,6 @@ import inf112.skeleton.app.Objects.Actor.MyActor;
 public class Turner implements IObject {
     public int y;
     public int x;
-    Sprite notUsedForWrenches;
     Tile turnerTile;
 
     public Turner(RectangleMapObject TiledTurner, GridOfTiles grid) {

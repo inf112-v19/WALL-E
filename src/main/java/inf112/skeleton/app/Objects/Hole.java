@@ -13,7 +13,6 @@ public class Hole implements IObject {
     public int x;
     private Sprite notUsedForHoles;
     Tile hole;
-    SpriteBatch sb;
 
     Hole(RectangleMapObject TiledHole, GridOfTiles grid) {
         y = (int) TiledHole.getRectangle().getY();
