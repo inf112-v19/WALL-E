@@ -30,7 +30,7 @@ public class HealthBar {
         HEIGHT = Gdx.graphics.getHeight();
         WIDTH = Gdx.graphics.getWidth();
         actorHealth = playerName + ": ";
-        double x = WIDTH - (WIDTH * 0.35);
+        double x = WIDTH - (WIDTH * 0.238);
         double y = HEIGHT - (HEIGHT * 0.0008);
         textPositionX = (float) x;
         textPositionY = (float) y;
@@ -47,9 +47,9 @@ public class HealthBar {
 
         // Health-bar
         batch.setColor(Color.WHITE);
-        batch.draw(healthTexture, WIDTH - (WIDTH / 600) * 158, HEIGHT - ((HEIGHT / 100) * 2) - (HEIGHT / 100) * (3 * yPos), (WIDTH / 200) * 35, (HEIGHT / 300) * 7);
+        batch.draw(healthTexture, WIDTH - (WIDTH / 600) * 108, HEIGHT - ((HEIGHT / 100) * 2) - (HEIGHT / 100) * (3 * yPos), (WIDTH / 200) * 35, (HEIGHT / 300) * 7);
         batch.setColor(Color.BLACK);
-        batch.draw(healthTexture, WIDTH - (WIDTH / 500) * 130, HEIGHT - (HEIGHT / 500) * 7 - ((HEIGHT / 100) * (3 * yPos)), WIDTH / 6, HEIGHT / 80);
+        batch.draw(healthTexture, WIDTH - (WIDTH / 500) * 88, HEIGHT - (HEIGHT / 500) * 7 - ((HEIGHT / 100) * (3 * yPos)), WIDTH / 6, HEIGHT / 80);
 
         if (health > 0.6f) {
             batch.setColor(Color.GREEN);
@@ -59,7 +59,7 @@ public class HealthBar {
             batch.setColor(Color.RED);
         }
         if (health > 0)
-            batch.draw(healthTexture, WIDTH - (WIDTH / 500) * 130, HEIGHT - (HEIGHT / 500) * 7 - ((HEIGHT / 100) * (3 * yPos)), WIDTH / 6 * health, HEIGHT / 80);
+            batch.draw(healthTexture, WIDTH - (WIDTH / 500) * 88, HEIGHT - (HEIGHT / 500) * 7 - ((HEIGHT / 100) * (3 * yPos)), WIDTH / 6 * health, HEIGHT / 80);
         batch.end();
     }
 }
