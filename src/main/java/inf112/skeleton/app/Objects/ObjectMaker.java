@@ -22,7 +22,7 @@ public class ObjectMaker {
     public MyActor actor;
     public MyActor actor2;
     public List<IObject> flags;
-    private ArrayList<Object> turners;
+    private ArrayList<IObject> turners;
 
     public ObjectMaker(Map map, GridOfTiles grid) {
         this.map = map;
@@ -43,6 +43,7 @@ public class ObjectMaker {
         createWrenchesDouble();
         createTurners();
     }
+
 
     private void createTurners() {
         turners = new ArrayList<>();

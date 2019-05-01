@@ -334,13 +334,21 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
     }
 
-    public void shootLaserWithActor(){
-        MyLaser laser = new MyLaser(grid, currentActor, currentActor.getTile(), 0, 3);
+    public void shootLaserWithActors(){
+        /*MyLaser laser = new MyLaser(grid, currentActor, currentActor.getTile(), 0, 3);
         laser.shootLaser();
         sb.begin();
         for (Sprite sprite : laser.renderArray) {
             System.out.println("Should render: " );
             sb.draw(sprite, sprite.getX(), sprite.getY());
+        }
+        sb.end();*/
+        sb.begin();
+        for (MyActor actor : this.actors) {
+            Laser laser = new Laser(true, actor, grid, actor.getDir());
+            for (Tile t : laser.laserTiles) {
+                sb.draw(laser.getSprite(), t.y, t.x);
+            }
         }
         sb.end();
     }
@@ -481,7 +489,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 actor2.takeDamage(0.1);
             }
             if (keycode==Input.Keys.L){
-                shootLaserWithActor();
+                shootLaserWithActors();
             }
 
         if (keycode == Input.Keys.ENTER) {
