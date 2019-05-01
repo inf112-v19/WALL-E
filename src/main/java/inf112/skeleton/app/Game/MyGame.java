@@ -214,7 +214,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         chooseCard(0);
                         System.out.println(currentActor.getName() + " chose: " + getType(handout.get(0)) + " | Num :" + (1));
                         handout.get(0).isChosen = true;
-                    } else if (handout.get(0).isChosen) {
+                    } else if (handout.get(0).isChosen && !handout.get(0).isLocked) {
                         deselectCard(0);
                         System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(0)) + " | Num :" + (1));
                         handout.get(0).isChosen = false;
@@ -226,7 +226,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         chooseCard(1);
                         System.out.println(currentActor.getName() + " chose: " + getType(handout.get(1)) + " | Num :" + (2));
                         handout.get(1).isChosen = true;
-                    } else if (handout.get(1).isChosen) {
+                    } else if (handout.get(1).isChosen && !handout.get(1).isLocked) {
                         deselectCard(1);
                         System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(1)) + " | Num :" + (2));
                         handout.get(1).isChosen = false;
@@ -238,7 +238,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         chooseCard(2);
                         System.out.println(currentActor.getName() + " chose: " + getType(handout.get(2)) + " | Num :" + (3));
                         handout.get(2).isChosen = true;
-                    } else if (handout.get(2).isChosen) {
+                    } else if (handout.get(2).isChosen && !handout.get(2).isLocked) {
                         deselectCard(2);
                         System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(2)) + " | Num :" + (3));
                         handout.get(2).isChosen = false;
@@ -250,7 +250,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         chooseCard(3);
                         System.out.println(currentActor.getName() + " chose: " + getType(handout.get(3)) + " | Num :" + (4));
                         handout.get(3).isChosen = true;
-                    } else if (handout.get(3).isChosen) {
+                    } else if (handout.get(3).isChosen && !handout.get(3).isLocked) {
                         deselectCard(3);
                         System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(3)) + " | Num :" + (4));
                         handout.get(3).isChosen = false;
@@ -262,7 +262,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         chooseCard(4);
                         System.out.println(currentActor.getName() + " chose: " + getType(handout.get(4)) + " | Num :" + (5));
                         handout.get(4).isChosen = true;
-                    } else if (handout.get(4).isChosen) {
+                    } else if (handout.get(4).isChosen && !handout.get(4).isLocked) {
                         deselectCard(4);
                         System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(4)) + " | Num :" + (5));
                         handout.get(4).isChosen = false;
@@ -274,7 +274,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         chooseCard(5);
                         System.out.println(currentActor.getName() + " chose: " + getType(handout.get(5)) + " | Num :" + (6));
                         handout.get(5).isChosen = true;
-                    } else if (handout.get(5).isChosen) {
+                    } else if (handout.get(5).isChosen && !handout.get(5).isLocked) {
                         deselectCard(5);
                         System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(5)) + " | Num :" + (6));
                         handout.get(5).isChosen = false;
@@ -286,7 +286,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         chooseCard(6);
                         System.out.println(currentActor.getName() + " chose: " + getType(handout.get(6)) + " | Num :" + (7));
                         handout.get(6).isChosen = true;
-                    } else if (handout.get(6).isChosen) {
+                    } else if (handout.get(6).isChosen && !handout.get(6).isLocked) {
                         deselectCard(6);
                         System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(6)) + " | Num :" + (7));
                         handout.get(6).isChosen = false;
@@ -298,7 +298,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         chooseCard(7);
                         System.out.println(currentActor.getName() + " chose: " + getType(handout.get(7)) + " | Num :" + (8));
                         handout.get(7).isChosen = true;
-                    } else if (handout.get(7).isChosen) {
+                    } else if (handout.get(7).isChosen && !handout.get(7).isLocked) {
                         deselectCard(7);
                         System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(7)) + " | Num :" + (8));
                         handout.get(7).isChosen = false;
@@ -310,7 +310,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         chooseCard(8);
                         System.out.println(currentActor.getName() + " chose: " + getType(handout.get(8)) + " | Num :" + (9));
                         handout.get(8).isChosen = true;
-                    } else if (handout.get(8).isChosen) {
+                    } else if (handout.get(8).isChosen && !handout.get(8).isLocked) {
                         deselectCard(8);
                         System.out.println(currentActor.getName() + " deselected: " + getType(handout.get(8)) + " | Num :" + (9));
                         handout.get(8).isChosen = false;
@@ -371,7 +371,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         for (int i=8; i>=0; i--){
             if (actorHp<hpStep){
                 handout.set(i, currentActor.getFromLastHandout(i));
-                handout.get(i).isChosen=false;
                 deselectCard(i);
             }
             else {
@@ -391,6 +390,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if (actorHp < hpStep && !handout.get(cardIndex).isChosen) {
                 chooseCard(cardIndex);
                 handout.get(cardIndex).isChosen = true;
+                handout.get(cardIndex).isLocked = true;
             }
 
             hpStep -= 0.25;
@@ -424,6 +424,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
     private void deselectCard(int i) {
         Card card = handout.get(i);
+        card.isChosen= false;
+        card.isLocked = false;
         currentActor.chosen.remove(card);
     }
 

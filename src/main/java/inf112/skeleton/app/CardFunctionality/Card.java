@@ -10,6 +10,7 @@ public class Card extends ApplicationAdapter {
     public float cardHeight;
     private boolean isShowing;
     public boolean isChosen;
+    public boolean isLocked;
     private Turn turn;
     private int moves;
     private int priority;
@@ -26,6 +27,7 @@ public class Card extends ApplicationAdapter {
         this.isBackup = isBackup;
         this.isShowing = true;
         this.isChosen = false;
+        this.isLocked = false;
     }
 
     public static String getType(Card card) {
