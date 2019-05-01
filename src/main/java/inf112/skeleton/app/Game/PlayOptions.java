@@ -30,7 +30,7 @@ public class PlayOptions implements Screen {
     private SpriteBatch batch;
     private int playersY;
     private int cpuPlayersY;
-    private int mapX;
+    private int mapY;
     private int textX;
 
     public PlayOptions(RoboRally game){
@@ -51,14 +51,14 @@ public class PlayOptions implements Screen {
         stage.addActor(table);
 
         if(WIDTH>1280){
-            playersY = (int) (HEIGHT-(HEIGHT*0.471));
-            cpuPlayersY = (int) (HEIGHT-(HEIGHT*0.49));
-            mapX = (int) (HEIGHT-(HEIGHT*0.507));
-            textX = (int) (WIDTH-(WIDTH*0.461));
+            playersY = (int) (HEIGHT-(HEIGHT*0.4595));
+            cpuPlayersY = (int) (HEIGHT-(HEIGHT*0.495));
+            mapY = (int) (HEIGHT-(HEIGHT*0.53));
+            textX = (int) (WIDTH-(WIDTH*0.453));
         } else{
             playersY = (int) (HEIGHT-(HEIGHT*0.441));
             cpuPlayersY = (int) (HEIGHT-(HEIGHT*0.493));
-            mapX = (int) (HEIGHT-(HEIGHT*0.543));
+            mapY = (int) (HEIGHT-(HEIGHT*0.543));
             textX = (int) (WIDTH-(WIDTH*0.4294));
         }
 
@@ -135,7 +135,7 @@ public class PlayOptions implements Screen {
 
         //currentMap = Integer.toString(getMAP_CHOICE());
         batch.begin();
-        font.draw(batch,""+ MAP_CHOICE, textX, mapX);
+        font.draw(batch,""+ MAP_CHOICE, textX, mapY);
         font.draw(batch,""+ PLAYERS, textX, playersY);
         font.draw(batch,""+ CPUPLAYERS, textX, cpuPlayersY);
         batch.end();
