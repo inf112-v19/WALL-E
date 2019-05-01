@@ -142,6 +142,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             actor.create();
             actors.add(actor);
         }
+        if(PlayOptions.getPlayers()==1 && PlayOptions.getCPUPlayers() == 0){
+            MyActor actor = objectMaker.createActorCPU();
+            actor.setName("CPU " + 1);
+            actor.create();
+            actors.add(actor);
+        }
         for(int i=0;i<PlayOptions.getCPUPlayers();i++) {
             MyActor actor = objectMaker.createActorCPU();
             actor.setName("CPU " + (i+1));
