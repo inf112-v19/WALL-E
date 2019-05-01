@@ -336,4 +336,7 @@ public class MyActor implements IObject, IActor {
         tilesVisited.add(flagTile);
     }
 
+    public void setHealth(int i) {
+        this.health = i;
+    }
 }

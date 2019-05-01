@@ -17,7 +17,7 @@ public class Round {
     }
     public void playRound(){
        /* int phaseNum=0;
-            Phase phase = new Phase(game, actors, currentActor, phaseNum);
+            Phase phase = new Phase(game, actors, actor, phaseNum);
             phase.playPhase();
             game.render();
             if (phaseNum<=5) phaseNum++;
