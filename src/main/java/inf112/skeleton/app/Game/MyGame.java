@@ -827,13 +827,14 @@ public class MyGame extends Multiplayer implements InputProcessor, Screen {
     }
 
     private void readState(MultiplayerState state) {
-        actor = state.actor;
         actors = state.actors;
         currentActor = state.currentActor;
         deck = state.deck;
-        // actor2 = state.actor2;
         handout = state.handout;
         cardStartX = state.cardStartX;
+        for (MyActor actor : actors) {
+            if (!actor.created) actor.create();
+        }
     }
 
     private void isDead(){
@@ -868,7 +869,7 @@ public class MyGame extends Multiplayer implements InputProcessor, Screen {
     }
 
     private void pushState() {
-        MultiplayerState state = new MultiplayerState(actor, actors, currentActor, deck, null, handout, cardStartX);
+        MultiplayerState state = new MultiplayerState(actors, currentActor, deck, handout, cardStartX);
         pushState(state);
     }
 

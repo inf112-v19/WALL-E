@@ -27,11 +27,12 @@ public class MyActor implements IObject, IActor, Serializable {
     public int actorIndex;
     private MyGame.Dir currentDir;
     transient Sprite actorSprite;
-    transient String textureFile;
+    public boolean created = false;
     private transient Tile currentTile;
     private transient Tile backupTile;
     float health;
     private String name;
+    String textureFile;
 
     public MyActor(String textureFile, MyGame.Dir startDir, boolean isCPU, String name, int actorIndex) {
         this.gameOver = false;
@@ -53,6 +54,7 @@ public class MyActor implements IObject, IActor, Serializable {
         this.previousTile = null;
         explosions = new ArrayList<>();
         lastHandout = new ArrayList<>(9);
+        created = true;
     }
 
     public void Forward(int steps, int moveDist, GridOfTiles grid) {

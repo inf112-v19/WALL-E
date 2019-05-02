@@ -10,24 +10,20 @@ import java.util.ArrayList;
 public class MultiplayerState implements Serializable {
     static int amountOfFlags;
     // TiledMap tiledMap;
-    MyActor actor;
     ArrayList<MyActor> actors;
     MyActor currentActor;
     // Map map;
     // TODO: Add map filename
     Deck deck;
-    MyActor actor2;
     ArrayList<Card> handout;
     int cardStartX;
     //HealthBar healthBar;
     //HealthBar healthBar2;
 
-    public MultiplayerState(MyActor actor, ArrayList<MyActor> actors, MyActor currentActor, Deck deck, MyActor actor2, ArrayList<Card> handout, int cardStartX) {
-        this.actor = actor;
+    public MultiplayerState(ArrayList<MyActor> actors, MyActor currentActor, Deck deck, ArrayList<Card> handout, int cardStartX) {
         this.actors = actors;
         this.currentActor = currentActor;
         this.deck = deck;
-        this.actor2 = actor2;
         this.handout = handout;
         this.cardStartX = cardStartX;
     }
