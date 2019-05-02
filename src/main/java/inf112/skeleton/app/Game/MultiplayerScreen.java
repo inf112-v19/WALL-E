@@ -6,7 +6,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -59,7 +62,7 @@ public class MultiplayerScreen implements Screen, Input.TextInputListener {
         host.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //Button funksjonalitet her
+                game.changeScreen(game.GAME, true);
             }
         });
 
@@ -73,8 +76,10 @@ public class MultiplayerScreen implements Screen, Input.TextInputListener {
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //Join game with IP adress
-                game.changeScreen(game.GAME);
+                // Join game with IP adress
+                if (ipAdress == null || ipAdress.length() == 0) return;
+                System.out.println("IP:" + ipAdress);
+                game.changeScreen(game.GAME, true, ipAdress);
             }
         });
 
@@ -100,7 +105,6 @@ public class MultiplayerScreen implements Screen, Input.TextInputListener {
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        Gdx.app.log("Text:",ipAdress);
     }
 
     @Override

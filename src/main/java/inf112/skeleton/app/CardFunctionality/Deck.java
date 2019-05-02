@@ -3,10 +3,11 @@ package inf112.skeleton.app.CardFunctionality;
 import inf112.skeleton.app.CardFunctionality.Card.Turn;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Deck {
+public class Deck implements Serializable {
     ArrayList<Card> deck;
 
     public Deck() {
