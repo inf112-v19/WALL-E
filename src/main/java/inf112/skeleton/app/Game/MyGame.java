@@ -545,9 +545,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 currentActor.setLastHandout(handout);
                 lessHpLockCards();
                 changeActor();
+                keyDown(Input.Keys.ALT_LEFT);
             }
             System.out.println(currentActor.getName() + " to choose cards.");
-            keyDown(Input.Keys.ALT_LEFT);
         }
 
         if (keycode == Input.Keys.ALT_LEFT) {
