@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CardTest {
     private Card card;
@@ -36,14 +36,17 @@ public class CardTest {
         moves = 1;
         card = new Card(turn, moves, priority, isBackup);
         assertEquals(1, card.getMoves());
+        assertNotEquals(2, card.getMoves());
 
         moves = 2;
         card = new Card(turn, moves, priority, isBackup);
         assertEquals(2, card.getMoves());
+        assertNotEquals(1, card.getMoves());
 
         moves = 3;
         card = new Card(turn, moves, priority, isBackup);
         assertEquals(3, card.getMoves());
+        assertNotEquals(2, card.getMoves());
 
     }
 
@@ -53,6 +56,8 @@ public class CardTest {
         card.setX(10);
         assertEquals(10, card.getX());
         assertEquals(10, card.getY());
+        assertNotEquals(12, card.getY());
+        assertNotEquals(12, card.getX());
     }
 
     @Test
