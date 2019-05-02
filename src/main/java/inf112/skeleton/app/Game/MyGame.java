@@ -321,17 +321,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     }
 
     private void goToCPUActions(MyActor CPU) {
-        int max = 8;
-        int min = 0;
-        int range = max - min + 1;
-        int[] choicesForCPU = new int[4];
-        for (int choice : choicesForCPU) {
-            choice = (int) (Math.random() * range) + min;
-            Card addForCPU = handout.get(choice);
+        for (int i=0; i<5; i++) {
+            Card addForCPU = handout.get(i);
             CPU.chosen.add(addForCPU);
-            System.out.println(CPU.getName() + " chose: " + getType(handout.get(8)) + " | Num :" + choice);
-            keyDown(Input.Keys.ENTER);
+            System.out.println(CPU.getName() + " chose: " + getType(handout.get(i)) + " | Num :" + i);
         }
+        keyDown(Input.Keys.ENTER);
     }
 
     public void shootLaserWithActor(){
@@ -357,44 +352,47 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     }
 
     public void handOut() {
-        if (handout.isEmpty())
+        if (handout.isEmpty() || currentActor.isCPU) {
+            handout.clear();
             for (int i = 0; i < 9; i++)
                 handout.add(deck.handOut());
-
-        else
+        }
+        else {
+            handout.clear();
             lessHpLessCards();
+        }
     }
 
     public void lessHpLessCards() {
+        int i = 8;
         float actorHp = currentActor.getHealth();
-        float hpStep = (float) 0.75;
-        for (int i=8; i>=0; i--){
-            if (actorHp<hpStep){
-                handout.set(i, currentActor.getFromLastHandout(i));
-                deselectCard(i);
-            }
-            else {
-                handout.set(i, deck.handOut());
-            }
+        float hpStep = (float) 1.0;
 
-            hpStep-=0.25;
+        while (i>=0){
+            if (actorHp>=hpStep || i<5)
+                handout.add(deck.handOut());
+
+            hpStep-=0.10;
+            i--;
         }
     }
 
     public void lessHpLockCards() {
-        int cardIndex = 8;
+        int i = 4;
         float actorHp = currentActor.getHealth();
-        float hpStep = (float) 0.75;
+        float hpStep = (float) 0.60;
 
-        while (hpStep>0) {
-            if (actorHp < hpStep && !handout.get(cardIndex).isChosen) {
-                chooseCard(cardIndex);
-                handout.get(cardIndex).isChosen = true;
-                handout.get(cardIndex).isLocked = true;
+        while (i>=0) {
+            if (actorHp < hpStep) {
+                handout.set(i, currentActor.getFromLastHandout(i));
+                deselectCard(i);
+                chooseCard(i);
+                handout.get(i).isChosen = true;
+                handout.get(i).isLocked = true;
             }
 
-            hpStep -= 0.25;
-            cardIndex--;
+            hpStep -= 0.10;
+            i--;
         }
     }
 
@@ -534,18 +532,18 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 }
 
                 System.out.println(currentActor.getName() + " has no cards left in chosen");
-
-                currentActor.setLastHandout(handout);
-                lessHpLockCards();
-                changeActor();
             }
+
+            currentActor.setLastHandout(handout);
+            changeActor();
             System.out.println(currentActor.getName() + " to choose cards.");
             keyDown(Input.Keys.ALT_LEFT);
         }
 
         if (keycode == Input.Keys.ALT_LEFT) {
             handOut();
-            lessHpLockCards();
+            if (!currentActor.isCPU)
+                lessHpLockCards();
         }
 
         if (keycode == Input.Keys.E) {
