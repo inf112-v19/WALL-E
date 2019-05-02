@@ -25,6 +25,14 @@ public class RoboRally extends Game {
     }
 
     public void changeScreen(int screen) {
+        this.changeScreen(screen, false);
+    }
+
+    public void changeScreen(int screen, boolean multiplayer) {
+        this.changeScreen(screen, multiplayer, null);
+    }
+
+    public void changeScreen(int screen, boolean multiplayer, String host) {
         switch (screen) {
             case MENU:
                 if (mainMenuScreen == null) mainMenuScreen = new MenuScreen(this);
@@ -35,7 +43,12 @@ public class RoboRally extends Game {
                 this.setScreen(preferencesScreen);
                 break;
             case GAME:
-                if (gameScreen == null) gameScreen = new MyGame(this); gameScreen.create();
+                if (gameScreen == null) {
+                    gameScreen = new MyGame(this, multiplayer, host);
+                    gameScreen.create();
+                } else if (multiplayer && host != null) {
+                    gameScreen.joinGame(host);
+                }
                 this.setScreen(gameScreen);
                 break;
             case MULTIPLAYER:

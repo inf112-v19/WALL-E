@@ -9,11 +9,11 @@ import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
 import inf112.skeleton.app.Objects.Collision;
 import inf112.skeleton.app.Objects.IObject;
-import inf112.skeleton.app.Objects.MyLaser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MyActor implements IObject, IActor {
+public class MyActor implements IObject, IActor, Serializable {
     public boolean gameOver;
     public boolean isDead;
     public boolean isCPU;
@@ -21,15 +21,15 @@ public class MyActor implements IObject, IActor {
     public float y;
     public ArrayList<Card> chosen;
     public ArrayList<Card> lastHandout;
-    private Tile currentTile;
-    public ArrayList<Tile> tilesVisited = new ArrayList<>(11 * 11);
-    public ArrayList<Explosion> explosions;
+    public transient ArrayList<Tile> tilesVisited = new ArrayList<>(11 * 11);
+    public transient ArrayList<Explosion> explosions;
+    transient Tile previousTile;
     public int actorIndex;
     private MyGame.Dir currentDir;
-    private Tile backupTile;
-    Tile previousTile;
-    Sprite actorSprite;
-    String textureFile;
+    transient Sprite actorSprite;
+    transient String textureFile;
+    private transient Tile currentTile;
+    private transient Tile backupTile;
     float health;
     private String name;
 

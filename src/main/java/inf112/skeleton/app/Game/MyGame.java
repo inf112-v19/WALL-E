@@ -13,6 +13,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.net.ServerSocket;
+import com.badlogic.gdx.net.ServerSocketHints;
+import com.badlogic.gdx.net.Socket;
+import com.badlogic.gdx.net.SocketHints;
 import inf112.skeleton.app.Animations.Explosion;
 import inf112.skeleton.app.CardFunctionality.Card;
 import inf112.skeleton.app.CardFunctionality.Deck;
@@ -23,15 +27,18 @@ import inf112.skeleton.app.Map.Map;
 import inf112.skeleton.app.Map.MapRenderer;
 import inf112.skeleton.app.Objects.Actor.MyActor;
 import inf112.skeleton.app.Objects.IObject;
-import inf112.skeleton.app.Objects.Laser;
 import inf112.skeleton.app.Objects.MyLaser;
 import inf112.skeleton.app.Objects.ObjectMaker;
 
+import java.io.*;
+import java.net.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 
 import static inf112.skeleton.app.CardFunctionality.Card.getType;
 
-public class MyGame extends ApplicationAdapter implements InputProcessor, Screen {
+public class MyGame extends Multiplayer implements InputProcessor, Screen {
     public static GridOfTiles grid;
     public static OrthographicCamera camera;
     private static int amountOfFlags;
@@ -62,18 +69,9 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         ObjectMaker objectMaker = new ObjectMaker(null, null);
     }
 
-    MyGame(RoboRally game) {
-        this.game = game;
-
-        /*
-         * Add hp
-         * add dmg
-         * add sprites for hearts
-         */
-
-        deck = new Deck();
-        handOut();
-    }
+    boolean isHost;
+    boolean joined = false;
+    String host;
 
     @Override
     public void create() {
@@ -451,6 +449,102 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
     }
 
+    ArrayList<String> clients = new ArrayList<>();
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if (currentActor.chosen.size() >= 5) System.out.println("You can't choose more cards");
+
+        else if (keycode >= Input.Keys.NUM_1 && keycode <= Input.Keys.NUM_9) {
+            chooseCard(keycode - 8);
+            System.out.println("You chose: " + getType(handout.get(keycode - 8)) + " | Num :" + (keycode - 8));
+        }
+        return false;
+    }
+
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    public enum Dir {
+        NORTH,
+        EAST,
+        WEST,
+        SOUTH
+    }
+
+    int port = 9021;
+
+    MyGame(RoboRally game) {
+        this(game, false, null);
+    }
+
+    MyGame(RoboRally game, String host) {
+        this(game, true, host);
+    }
+
+    MyGame(RoboRally game, boolean multiplayer, String host) {
+        this.game = game;
+        this.isHost = (host == null);
+
+        /*
+         * Add hp
+         * add dmg
+         * add sprites for hearts
+         */
+
+        if (isHost) {
+            deck = new Deck();
+            handOut();
+
+            if (multiplayer) hostGame();
+        } else {
+            joinGame(host);
+        }
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         float x = currentActor.getX();
@@ -578,64 +672,168 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             game.setScreen(gameOverScreen);
         }
 
+        if (joined) pushState();
+
         return false;
     }
 
-    @Override
-    public boolean keyUp(int keycode) {
-        if (currentActor.chosen.size() >= 5) System.out.println("You can't choose more cards");
-
-        else if (keycode >= Input.Keys.NUM_1 && keycode <= Input.Keys.NUM_9) {
-            chooseCard(keycode - 8);
-            System.out.println("You chose: " + getType(handout.get(keycode - 8)) + " | Num :" + (keycode - 8));
+    void hostGame() {
+        // The following code loops through the available network interfaces
+        // Keep in mind, there can be multiple interfaces per device, for example
+        // one per NIC, one per active wireless and the loopback
+        // In this case we only care about IPv4 address ( x.x.x.x format )
+        ArrayList<String> addresses = new ArrayList<>();
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            for (NetworkInterface ni : Collections.list(interfaces)) {
+                for (InetAddress address : Collections.list(ni.getInetAddresses())) {
+                    if (address instanceof Inet4Address) {
+                        addresses.add(address.getHostAddress());
+                        System.out.println(address.getHostAddress());
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
         }
-        return false;
+
+        listen();
+
+        joined = true;
+        isHost = true;
     }
 
+    private void listen() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ServerSocketHints serverSocketHint = new ServerSocketHints();
+                serverSocketHint.acceptTimeout = 0;
+                ServerSocket serverSocket = Gdx.net.newServerSocket(Net.Protocol.TCP, port, serverSocketHint);
 
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
+                while (true) {
+                    System.out.println("listening on network");
+
+                    Socket socket = serverSocket.accept(null);
+
+                    URI uri = null;
+                    try {
+                        uri = new URI("tcp:/" + socket.getRemoteAddress());
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                    assert uri != null;
+                    String host = uri.getHost();
+
+                    System.out.println("Host: " + host);
+
+                    DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+                    ByteArrayOutputStream bis = new ByteArrayOutputStream();
+
+                    int count;
+                    byte[] buffer = new byte[8192]; // or 4096, or more
+                    while (true) {
+                        try {
+                            if (!((count = in.read(buffer)) > 0)) break;
+                            bis.write(buffer, 0, count);
+                            System.out.println("read incoming message");
+                            break;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    MultiplayerCommand cmd = (MultiplayerCommand) convertBytesToObject(bis.toByteArray());
+                    if (cmd == null) continue;
+                    System.out.println(cmd);
+                    switch (cmd.action) {
+                        case STATE:
+                            MultiplayerState state = (MultiplayerState) convertBytesToObject(cmd.params);
+                            if (state == null) break;
+                            readState(state);
+                            if (isHost)
+                                pushState(state);
+                            break;
+                        case JOIN:
+                            System.out.println("Player is joining: " + host);
+                            clients.add(host);
+                            break;
+                        default:
+                            System.out.println("Unknown action");
+                    }
+                }
+            }
+        }).start();
     }
 
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+    void joinGame(String ipAddress) {
+        if (joined || isHost) return;
+
+        System.out.println("Joining game");
+
+        host = ipAddress;
+        sendCommand(new MultiplayerCommand(MultiplayerCommand.Action.JOIN));
+        joined = true;
+        System.out.println("joined");
     }
 
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+    private Object convertBytesToObject(byte[] data) {
+        try (ByteArrayInputStream bis = new ByteArrayInputStream(data)) {
+            ObjectInput in = new ObjectInputStream(bis);
+            return in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
+    private void sendCommand(MultiplayerCommand cmd) {
+        if (!isHost && host == null) return;
+
+        byte[] msgBytes;
+
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            ObjectOutput out;
+            out = new ObjectOutputStream(bos);
+            out.writeObject(cmd);
+            out.flush();
+            msgBytes = bos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        if (isHost) {
+            System.out.println("Sending " + msgBytes.length + " bytes");
+            for (String address : clients) {
+                if (address.equals("127.0.0.1")) continue;
+                sendBytesToAddress(msgBytes, address);
+            }
+        } else {
+            sendBytesToAddress(msgBytes, host);
+        }
     }
 
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
+    private void sendBytesToAddress(byte[] data, String address) {
+        SocketHints socketHints = new SocketHints();
+        socketHints.connectTimeout = 3000;
+        Socket socket = Gdx.net.newClientSocket(Net.Protocol.TCP, address, port, socketHints);
+        try {
+            // write our entered message to the stream
+            socket.getOutputStream().write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
-
-    @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void render() {
-
-    }
-
-    @Override
-    public void hide() {
-
+    private void readState(MultiplayerState state) {
+        actor = state.actor;
+        actors = state.actors;
+        currentActor = state.currentActor;
+        deck = state.deck;
+        // actor2 = state.actor2;
+        handout = state.handout;
+        cardStartX = state.cardStartX;
     }
 
     private void isDead(){
@@ -651,15 +849,15 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         activePlayer = currentActor.getName() + " you're up!";
 
     }
-    private MyActor nextAlive(){
+    private MyActor nextAlive() {
         int index = 0;
         int newIndex = 0;
-        for(int i=0;i<actors.size();i++) {
+        for (int i = 0; i < actors.size(); i++) {
             if (actors.get(i) == currentActor) {
                 index = i;
             }
         }
-        for(int i=1;i<actors.size();i++) {
+        for (int i = 1; i < actors.size(); i++) {
             newIndex = (index + i) % actors.size();
 
             if (!actors.get(newIndex).isDead) {
@@ -669,10 +867,15 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         return currentActor;
     }
 
-    public enum Dir {
-        NORTH,
-        EAST,
-        WEST,
-        SOUTH
+    private void pushState() {
+        MultiplayerState state = new MultiplayerState(actor, actors, currentActor, deck, null, handout, cardStartX);
+        pushState(state);
+    }
+
+    private void pushState(MultiplayerState state) {
+        MultiplayerCommand cmd = new MultiplayerCommand();
+        cmd.action = MultiplayerCommand.Action.STATE;
+        cmd.params = state.toBytes();
+        sendCommand(cmd);
     }
 }

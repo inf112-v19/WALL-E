@@ -5,7 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Card extends ApplicationAdapter {
+import java.io.Serializable;
+
+public class Card extends ApplicationAdapter implements Serializable {
     public float cardWidth;
     public float cardHeight;
     private boolean isShowing;
@@ -16,8 +18,8 @@ public class Card extends ApplicationAdapter {
     private boolean isBackup;
     private float x;
     private float y;
-    private SpriteBatch card;
-    private Texture cardTexture;
+    private transient SpriteBatch card;
+    private transient Texture cardTexture;
 
     Card(Turn turn, int moves, int priority, boolean isBackup) {
         this.turn = turn;
