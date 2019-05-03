@@ -3,6 +3,7 @@ package inf112.skeleton.app.Objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.GridFunctionality.GridOfTiles;
 import inf112.skeleton.app.GridFunctionality.Tile;
@@ -10,27 +11,31 @@ import inf112.skeleton.app.Objects.Actor.MyActor;
 import java.util.ArrayList;
 
 public class MyLaser implements IObject {
-    private final Texture texture;
-    private final SpriteBatch laserBatch;
+    private int y;
+    private int x;
     private GridOfTiles grid;
-    private float velocity;
-    private int shotLength;
-    private Sprite sprite;
-    private Tile laserTile;
+    public Tile laserTile;
     private MyActor actor;
-    public ArrayList<Sprite> renderArray;
 
     public MyLaser(GridOfTiles grid, MyActor actor, Tile initialTileForLaser, float initialVelocity, int shotLength){
         this.grid = grid;
         this.actor = actor;
         this.laserTile = initialTileForLaser;
-        this.velocity = initialVelocity;
-        this.shotLength = shotLength;
+    }
 
-        this.renderArray = new ArrayList<>();
-        this.texture = new Texture("greenLaser.png");
-        this.sprite = new Sprite(new Texture("greenLaser.png"));
-        this.laserBatch = new SpriteBatch();
+    MyLaser(RectangleMapObject TiledLaser, GridOfTiles grid){
+        y = (int) TiledLaser.getRectangle().getY();
+        x = (int) TiledLaser.getRectangle().getX();
+
+        laserTile = grid.getTileWfloats(y, x);
+        laserTile.addObjOnTile(this);
+    }
+
+    public void handleLaser(MyActor actor, GridOfTiles grid){
+        Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
+        if (laserTile.equals(actorTile)) {
+            actor.takeDamage(0.1);
+        }
     }
 
     public void shootLaser(){
@@ -41,8 +46,6 @@ public class MyLaser implements IObject {
             tilesToShootOn = getTilesInDirection(shotDir);
         }
         for (Tile t : tilesToShootOn) {
-            //System.out.println("Laser passes; " + t);
-            storeToRenderArray(t.getY(), t.getX());
             if (!t.getObjOnTile().isEmpty()){
                 for (IObject object : t.getObjOnTile()) {
                     if (object instanceof MyActor){
@@ -52,13 +55,6 @@ public class MyLaser implements IObject {
                 }
             }
         }
-    }
-
-    private void storeToRenderArray(float y, float x) {
-        Sprite toStore = this.sprite;
-        toStore.setY(y);
-        toStore.setX(x);
-        this.renderArray.add(toStore);
     }
 
     private ArrayList<Tile> getTilesInDirection(MyGame.Dir dir){
@@ -93,7 +89,7 @@ public class MyLaser implements IObject {
 
     @Override
     public Sprite getSprite() {
-        return this.sprite;
+        return null;
     }
 
     @Override
@@ -101,13 +97,4 @@ public class MyLaser implements IObject {
         return this.laserTile;
     }
 
-    public void render(Sprite sprite, float x, float y) {
-        laserBatch.begin();
-        laserBatch.draw(sprite.getTexture(), x, y);
-        laserBatch.end();
-    }
-
-    public ArrayList<Sprite> getRenderArray() {
-        return this.renderArray;
-    }
 }

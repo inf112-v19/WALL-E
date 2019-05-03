@@ -52,6 +52,9 @@ public class Collision {
             if (o instanceof Turner){
                 ((Turner) o).handleTurner(actor, grid);
             }
+            if(o instanceof MyLaser){
+                ((MyLaser) o).handleLaser(actor, grid);
+            }
         }
     }
 }
