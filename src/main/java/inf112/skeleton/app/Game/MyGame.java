@@ -304,14 +304,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     }
 
     private void goToCPUActions(MyActor CPU) {
-        int max = 8;
-        int min = 0;
-        int range = max - min + 1;
         for (int i = 0; i<5; i++){
-            int choice = (int) (Math.random() * range) + min;
-            Card addForCPU = handout.get(choice);
+            Card addForCPU = handout.get(i);
             CPU.chosen.add(addForCPU);
-            System.out.println(CPU.getName() + " chose: " + getType(handout.get(choice)) + " | Num :" + choice);
+            System.out.println(CPU.getName() + " chose: " + getType(handout.get(i)) + " | Num :" + i);
         }
         keyDown(Input.Keys.ENTER);
     }
@@ -327,7 +323,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     }
 
     private void handOut() {
-        if (handout.isEmpty()) {
+        if (handout.isEmpty() || currentActor.isCPU) {
+            handout.clear();
             for (int i = 0; i < 9; i++)
                 handout.add(deck.handOut());
         } else {
@@ -346,25 +343,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 handout.add(deck.handOut());
 
             hpStep-=0.10;
-            i--;
-        }
-    }
-
-    public void lessHpLockCards() {
-        int i = 4;
-        float actorHp = currentActor.getHealth();
-        float hpStep = (float) 0.60;
-
-        while (i>=0) {
-            if (actorHp < hpStep) {
-                handout.set(i, currentActor.getFromLastHandout(i));
-                deselectCard(i);
-                chooseCard(i);
-                handout.get(i).isChosen = true;
-                handout.get(i).isLocked = true;
-            }
-
-            hpStep -= 0.10;
             i--;
         }
     }
@@ -462,7 +440,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             for (int i=0; i<handout.size(); i++)
                 deselectCard(i);
 
-            currentActor.setLastHandout(handout);
             System.out.println(currentActor.getName() + " powered down.");
             changeActor();
         }
@@ -471,7 +448,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if(currentActor.chosen.size()==5) {
                 changeActor();
                 handOut();
-            } if(currentActor == actors.get(0)){
+            } if(currentActor == actors.get(0) && currentActor.chosen.size()==5){
                 for(int i=0;i<5;i++){
                     keyDown(Input.Keys.P);
                 }
@@ -480,8 +457,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         if (keycode == Input.Keys.ALT_LEFT) {
             handOut();
-            if (!currentActor.isCPU)
-                lessHpLockCards();
         }
 
         if (Gdx.input.isTouched()) {
