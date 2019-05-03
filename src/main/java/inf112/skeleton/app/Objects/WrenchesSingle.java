@@ -28,6 +28,7 @@ public class WrenchesSingle implements IObject {
         Tile actorTile = grid.getTileWfloats(actor.getY(), actor.getX());
         if (wrenchTile.equals(actorTile)) {
             actor.restoreHealth(0.25);
+            actor.setBackupTile(wrenchTile);
         }
     }
 

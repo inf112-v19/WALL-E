@@ -1,6 +1,8 @@
 # Wall-e RoboRally 
 Simple skeleton with libgdx. 
 
+## NB!
+Make sure run configurations are set to directory core/assets
 
 ## Known bugs
 Currently throws "WARNING: An illegal reflective access operation has occurred", 
