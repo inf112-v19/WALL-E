@@ -204,15 +204,6 @@ public class MyActor implements IObject, IActor {
         setY(y);
     }
 
-    public Card getFromLastHandout(int index) {
-        return lastHandout.get(index);
-    }
-
-    public void setLastHandout(ArrayList<Card> lastHandout) {
-        this.lastHandout.clear();
-        this.lastHandout.addAll(lastHandout);
-    }
-
     private void death(GridOfTiles grid) {
         if (backupTile != null) {
             explosions.add(new Explosion(getX(), getY()));

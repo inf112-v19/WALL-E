@@ -23,6 +23,7 @@ public class ObjectMaker {
     public MyActor actor2;
     public List<IObject> flags;
     private ArrayList<Object> turners;
+    private ArrayList<IObject> lasers;
 
     public ObjectMaker(Map map, GridOfTiles grid) {
         this.map = map;
@@ -39,6 +40,18 @@ public class ObjectMaker {
         createWrenchesSingle();
         createWrenchesDouble();
         createTurners();
+        createLasers();
+    }
+
+    private void createLasers() {
+        lasers = new ArrayList<>();
+        MapLayer layer = map.getMapLayer("Lasers");
+        for (MapObject laser : layer.getObjects()) {
+            RectangleMapObject laserRect = (RectangleMapObject) laser;
+            MyLaser addThisTurnerToMap = new MyLaser(laserRect, grid);
+            lasers.add(addThisTurnerToMap);
+            System.out.println("Laser placed at: "+addThisTurnerToMap.laserTile);
+        }
     }
 
     private void createTurners() {

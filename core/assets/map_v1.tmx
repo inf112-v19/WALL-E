@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="20" nextobjectid="82">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="21" nextobjectid="99">
  <tileset firstgid="1" source="RoboTiles.tsx"/>
  <layer id="1" name="Tile Layer 1" width="12" height="12">
   <data encoding="base64" compression="zlib">
@@ -8,6 +8,43 @@
  </layer>
  <objectgroup id="17" name="SnurreDings">
   <object id="71" x="600" y="750" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="20" name="Lasers">
+  <object id="82" x="1350" y="750" width="150" height="150">
+   <properties>
+    <property name="damage" value="1"/>
+   </properties>
+  </object>
+  <object id="93" x="1350" y="900" width="150" height="150">
+   <properties>
+    <property name="damage" value="1"/>
+   </properties>
+  </object>
+  <object id="94" x="1350" y="1050" width="150" height="150">
+   <properties>
+    <property name="damage" value="1"/>
+   </properties>
+  </object>
+  <object id="95" x="1350" y="1200" width="150" height="150">
+   <properties>
+    <property name="damage" value="1"/>
+   </properties>
+  </object>
+  <object id="96" x="1350" y="1350" width="150" height="150">
+   <properties>
+    <property name="damage" value="1"/>
+   </properties>
+  </object>
+  <object id="97" x="1350" y="1500" width="150" height="150">
+   <properties>
+    <property name="damage" value="1"/>
+   </properties>
+  </object>
+  <object id="98" x="1350" y="1650" width="150" height="150">
+   <properties>
+    <property name="damage" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="6" name="Flags">
   <object id="32" x="0" y="600" width="150" height="150"/>
@@ -70,7 +107,7 @@
  <objectgroup id="18" name="WrenchesSingle">
   <object id="76" x="150" y="1050" width="150" height="150"/>
  </objectgroup>
- <objectgroup id="8" name="BlueConv">
+ <objectgroup id="8" name="BlueConv" visible="0">
   <object id="48" x="1500" y="1350" width="150" height="150">
    <properties>
     <property name="direction" value="WEST"/>
