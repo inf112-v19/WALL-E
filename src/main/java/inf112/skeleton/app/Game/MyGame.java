@@ -492,8 +492,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
 
         if (keycode == Input.Keys.ENTER) {
-            changeActor();
-            handOut();
+            if(currentActor.chosen.size()==5) {
+                changeActor();
+                handOut();
+            }
         }
 
         if (keycode == Input.Keys.ALT_LEFT) {
