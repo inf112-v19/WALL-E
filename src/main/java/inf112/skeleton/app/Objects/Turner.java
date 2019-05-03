@@ -9,10 +9,9 @@ import inf112.skeleton.app.Objects.Actor.MyActor;
 public class Turner implements IObject {
     public int y;
     public int x;
-    Sprite notUsedForWrenches;
     Tile turnerTile;
 
-    public Turner(RectangleMapObject TiledTurner, GridOfTiles grid) {
+    Turner(RectangleMapObject TiledTurner, GridOfTiles grid) {
         y = (int) TiledTurner.getRectangle().getY();
         x = (int) TiledTurner.getRectangle().getX();
 
@@ -20,20 +19,9 @@ public class Turner implements IObject {
         turnerTile.addObjOnTile(this);
     }
 
-    /***
-     * Used for testing
-     */
-    public Turner(){
-        //turnerTile.addObjOnTile(this);
-    }
-
     public void remove(GridOfTiles grid) {
         Tile tile = grid.getTileWfloats(this.y, this.x);
         tile.getObjOnTile().remove(this);
-    }
-
-    public void placeTurnerOnGrid(int y, int x, GridOfTiles grid){
-        turnerTile = grid.getTile(y, x);
     }
 
     void handleTurner(MyActor actor, GridOfTiles grid) {
