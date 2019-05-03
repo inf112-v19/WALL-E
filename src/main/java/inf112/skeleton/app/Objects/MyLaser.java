@@ -52,8 +52,6 @@ public class MyLaser implements IObject {
                 }
             }
         }
-
-
     }
 
     private void storeToRenderArray(float y, float x) {

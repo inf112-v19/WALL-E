@@ -195,19 +195,19 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         font.draw(batch, activePlayer, textPositionX, textPositionY);
         batch.end();
 
-        for (Explosion explosion : currentActor.explosions) {
+        for (Explosion explosion : previousActor().explosions) {
             sb.begin();
             explosion.render(sb);
             sb.end();
         }
 
         ArrayList<Explosion> explosionsToRemove = new ArrayList<>();
-        for (Explosion explosion : currentActor.explosions) {
+        for (Explosion explosion : previousActor().explosions) {
             explosion.update(v);
             if (explosion.remove)
                 explosionsToRemove.add(explosion);
         }
-        currentActor.explosions.removeAll(explosionsToRemove);
+        previousActor().explosions.removeAll(explosionsToRemove);
 
         isDead();
 
@@ -541,12 +541,16 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 }
 
                 System.out.println(currentActor.getName() + " has no cards left in chosen");
+
+                currentActor.setLastHandout(handout);
+                lessHpLockCards();
+                changeActor();
+                keyDown(Input.Keys.ALT_LEFT);
             }
 
             currentActor.setLastHandout(handout);
             changeActor();
             System.out.println(currentActor.getName() + " to choose cards.");
-            keyDown(Input.Keys.ALT_LEFT);
         }
 
         if (keycode == Input.Keys.ALT_LEFT) {
@@ -667,6 +671,18 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             }
         }
         return currentActor;
+    }
+
+    private MyActor previousActor(){
+        for(int i=0;i<actors.size(); i++){
+            if(actors.get(i)==currentActor){
+                if(i==0){
+                    return actors.get(actors.size()-1);
+                }
+                return actors.get(i-1);
+            }
+        }
+        return null;
     }
 
     public enum Dir {
