@@ -494,20 +494,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
 
         if (keycode == Input.Keys.D) {
-            currentActor.takeDamage(0.1);
-        }
-        if (keycode == Input.Keys.V) {
-            changeActor();
-        }
-
-            if (keycode == Input.Keys.S) {
-                //actor2.takeDamage(0.1);
-            }
-            if (keycode==Input.Keys.L){
-                shootLaserWithActor(actor);
-            }
-
-        if (keycode == Input.Keys.P) {
             currentActor.powerDown();
             for (int i=0; i<handout.size(); i++)
                 deselectCard(i);
@@ -527,11 +513,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             handOut();
             lessHpLockCards();
         }
-
-        if (keycode == Input.Keys.E) {
-            currentActor.explosions.add(new Explosion(currentActor.getX(), currentActor.getY()));
-        }
-
 
         if (Gdx.input.isTouched()) {
             Gdx.app.exit();
@@ -577,6 +558,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                     setPhase(4);
                     System.out.println("Ready for next phase");
                     for (MyActor a : actors) {
+                        System.out.println("ALL PLAYERS SHOOT");
+                        shootLaserWithActor(actor);
                         a.chosen = new ArrayList<>(4);
                     }
                     break;

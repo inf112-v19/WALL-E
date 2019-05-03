@@ -25,7 +25,7 @@ public class Phase {
                 System.out.println(actor.getName() + " remaining cards: " + actor.chosen.size());
                 Card toUse = actor.chosen.get(cardIndex);
                 useCard(toUse, actor);
-                game.shootLaserWithActor(actor);
+                System.out.println(actor.getName() + " shot!");
             }
             else {
                 System.out.println(actor.getName() + " has to choose cards again");
