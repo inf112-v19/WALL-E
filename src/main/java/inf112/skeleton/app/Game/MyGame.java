@@ -479,6 +479,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             if(currentActor.chosen.size()==5) {
                 changeActor();
                 handOut();
+            } if(currentActor == actors.get(0)){
+                for(int i=0;i<5;i++){
+                    keyDown(Input.Keys.P);
+                }
             }
         }
 
