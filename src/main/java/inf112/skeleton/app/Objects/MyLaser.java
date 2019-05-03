@@ -41,19 +41,17 @@ public class MyLaser implements IObject {
             tilesToShootOn = getTilesInDirection(shotDir);
         }
         for (Tile t : tilesToShootOn) {
-            System.out.println("Laser passes; " + t);
+            //System.out.println("Laser passes; " + t);
             storeToRenderArray(t.getY(), t.getX());
             if (!t.getObjOnTile().isEmpty()){
                 for (IObject object : t.getObjOnTile()) {
                     if (object instanceof MyActor){
-                        System.out.println("Laser hit: " + ((MyActor) object).getName());
+                        System.out.println("Laser shot by " + actor.getName() +" hit: " + ((MyActor) object).getName());
                         ((MyActor) object).takeDamage(0.2);
                     }
                 }
             }
         }
-
-
     }
 
     private void storeToRenderArray(float y, float x) {

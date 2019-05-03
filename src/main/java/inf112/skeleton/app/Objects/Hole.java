@@ -13,7 +13,6 @@ public class Hole implements IObject {
     public int x;
     private Sprite notUsedForHoles;
     Tile hole;
-    SpriteBatch sb;
 
     Hole(RectangleMapObject TiledHole, GridOfTiles grid) {
         y = (int) TiledHole.getRectangle().getY();
@@ -35,7 +34,7 @@ public class Hole implements IObject {
         if (hole.equals(actorTile)) {
             System.out.println("Actor fell into a hole! HP lost: ");
             actor.explosions.add(new Explosion(actor.getX(), actor.getY()));
-            actor.takeDamage(0.2);
+            actor.takeDamage(0.1);
 
             if (actor.getBackupTile() != null) {
                 actor.backToBackup(grid);
