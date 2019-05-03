@@ -47,7 +47,7 @@ public class MyLaser implements IObject {
                 for (IObject object : t.getObjOnTile()) {
                     if (object instanceof MyActor){
                         System.out.println("Laser hit: " + ((MyActor) object).getName());
-                        ((MyActor) object).takeDamage(0.2);
+                        ((MyActor) object).takeDamage(0.1);
                     }
                 }
             }
