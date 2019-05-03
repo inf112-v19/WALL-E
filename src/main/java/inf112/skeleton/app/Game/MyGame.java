@@ -39,13 +39,13 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     public MyActor actor;
     private ArrayList<MyActor> actors;
     private ArrayList<HealthBar> healthbars;
-    public MyActor currentActor;
-    public Map map;
-    public Deck deck;
+    private MyActor currentActor;
+    private Map map;
+    private Deck deck;
     private Batch batch;
     private MyLaser renderLaser;
     private Sprite laserTexture;
-    public ArrayList<Card> handout = new ArrayList<>(9);
+    private ArrayList<Card> handout = new ArrayList<>(9);
     private TiledMapRenderer tiledMapRenderer;
     private SpriteBatch sb;
     private RoboRally game;
@@ -94,8 +94,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         Sprite backBoard = new Sprite(texture);
         backBoard.setSize(300, 150);
         backBoard.setPosition(-140, 700);
-
-
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
@@ -326,8 +324,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         keyDown(Input.Keys.ENTER);
     }
 
-    public void shootLaserWithActor(MyActor actor){
-        MyLaser laser = new MyLaser(grid, actor, actor.getTile(), 0, 3);
+    private void shootLaserWithActor(){
+        MyLaser laser = new MyLaser(grid, currentActor, currentActor.getTile(), 0, 3);
         laser.shootLaser();
     }
 
@@ -336,9 +334,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         return (int) layer.getTileWidth();
     }
 
-    public void handOut() {
-        if (handout.isEmpty() || currentActor.isCPU) {
-            handout.clear();
+    private void handOut() {
+        if (handout.isEmpty())
             for (int i = 0; i < 9; i++)
                 handout.add(deck.handOut());
         }
@@ -348,7 +345,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
     }
 
-    public void lessHpLessCards() {
+    private void lessHpLessCards() {
         int i = 8;
         float actorHp = currentActor.getHealth();
         float hpStep = (float) 1.0;
@@ -362,7 +359,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
     }
 
-    public void lessHpLockCards() {
+    private void lessHpLockCards() {
         int i = 4;
         float actorHp = currentActor.getHealth();
         float hpStep = (float) 0.60;
@@ -396,7 +393,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         return new GridOfTiles(HeightNTiles, WidthNTiles, PXSIZE);
     }
 
-    public void chooseCard(int i) {
+    private void chooseCard(int i) {
         Card card = handout.get(i);
         currentActor.chosen.add(0, card);
         while (currentActor.chosen.size() > 5) {

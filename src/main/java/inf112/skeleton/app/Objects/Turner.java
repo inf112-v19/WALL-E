@@ -11,7 +11,7 @@ public class Turner implements IObject {
     public int x;
     Tile turnerTile;
 
-    public Turner(RectangleMapObject TiledTurner, GridOfTiles grid) {
+    Turner(RectangleMapObject TiledTurner, GridOfTiles grid) {
         y = (int) TiledTurner.getRectangle().getY();
         x = (int) TiledTurner.getRectangle().getX();
 
@@ -19,9 +19,20 @@ public class Turner implements IObject {
         turnerTile.addObjOnTile(this);
     }
 
+    /***
+     * Used for testing
+     */
+    Turner(){
+        //turnerTile.addObjOnTile(this);
+    }
+
     public void remove(GridOfTiles grid) {
         Tile tile = grid.getTileWfloats(this.y, this.x);
         tile.getObjOnTile().remove(this);
+    }
+
+    void placeTurnerOnGrid(int y, int x, GridOfTiles grid){
+        turnerTile = grid.getTile(y, x);
     }
 
     void handleTurner(MyActor actor, GridOfTiles grid) {

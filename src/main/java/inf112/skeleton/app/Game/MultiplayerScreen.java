@@ -21,7 +21,7 @@ public class MultiplayerScreen implements Screen, Input.TextInputListener {
     private String ipAdress;
     private Input.TextInputListener inputListener;
 
-    public MultiplayerScreen(RoboRally game){
+    MultiplayerScreen(RoboRally game){
         this.game = game;
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("uiskin.json"));

@@ -20,17 +20,17 @@ public class MyActor implements IObject, IActor {
     public float x;
     public float y;
     public ArrayList<Card> chosen;
-    public ArrayList<Card> lastHandout;
+    private ArrayList<Card> lastHandout;
     private Tile currentTile;
     public ArrayList<Tile> tilesVisited = new ArrayList<>(11 * 11);
     public ArrayList<Explosion> explosions;
-    public int actorIndex;
+    private int actorIndex;
     private MyGame.Dir currentDir;
     private Tile backupTile;
-    Tile previousTile;
-    Sprite actorSprite;
-    String textureFile;
-    float health;
+    private Tile previousTile;
+    private Sprite actorSprite;
+    private String textureFile;
+    private float health;
     private String name;
 
     public MyActor(String textureFile, MyGame.Dir startDir, boolean isCPU, String name, int actorIndex) {
@@ -84,7 +84,6 @@ public class MyActor implements IObject, IActor {
                 break;
         }
     }
-
 
     public void backward(int steps, int moveDist, GridOfTiles grid) {
         for (int i = 0; i < steps; i++) {
@@ -179,7 +178,7 @@ public class MyActor implements IObject, IActor {
         System.out.println("New backup location: " + backupTile);
     }
 
-    public void deleteBackup() {
+    private void deleteBackup() {
         this.backupTile = null;
     }
 
@@ -196,9 +195,6 @@ public class MyActor implements IObject, IActor {
             death(grid);
             return;
         }
-        /*setX(x);
-        setY(y);*/
-
         if (grid != null) {
             Tile current = grid.getTileWfloats(getY(), getX());
             current.getObjOnTile().remove(this);
@@ -206,7 +202,6 @@ public class MyActor implements IObject, IActor {
         }
         setX(x);
         setY(y);
-
     }
 
     public Card getFromLastHandout(int index) {
@@ -236,7 +231,7 @@ public class MyActor implements IObject, IActor {
 
     }
 
-    public boolean checkOutOfBounds(int y, int x, GridOfTiles grid) {
+    private boolean checkOutOfBounds(int y, int x, GridOfTiles grid) {
         if (y < 0 || x < 0) return true;
         int TileY = y / grid.pxSize;
         int TileX = x / grid.pxSize;
