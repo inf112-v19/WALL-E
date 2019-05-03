@@ -42,9 +42,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     public MyActor currentActor;
     public Map map;
     public Deck deck;
-    private Sprite BackBoard;
     private Batch batch;
-    private Texture texture;
     private MyLaser renderLaser;
     private Sprite laserTexture;
     public ArrayList<Card> handout = new ArrayList<>(9);
@@ -66,26 +64,17 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
     public MyGame() {
         this(null);
-
         ObjectMaker objectMaker = new ObjectMaker(null, null);
     }
 
     MyGame(RoboRally game) {
         this.game = game;
-
-        /*
-         * Add hp
-         * add dmg
-         * add sprites for hearts
-         */
-
         deck = new Deck();
         handOut();
     }
 
     @Override
     public void create() {
-        //hurray
         map = new Map(MapRenderer.whatMapToCreateString());
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         this.PXSIZE = getTileSize();
@@ -107,7 +96,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         backBoard.setPosition(-140, 700);
 
 
-        //Text
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
@@ -155,6 +143,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             actor.create();
             actors.add(actor);
         }
+        if(PlayOptions.getPlayers()==1 && PlayOptions.getCPUPlayers() == 0){
+            MyActor actor = objectMaker.createActorCPU();
+            actor.setName("CPU " + 1);
+            actor.create();
+            actors.add(actor);
+        }
         for(int i=0;i<PlayOptions.getCPUPlayers();i++) {
             MyActor actor = objectMaker.createActorCPU();
             actor.setName("CPU " + (i+1));
@@ -174,7 +168,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         currentActor = actors.get(0);
         activePlayer = currentActor.getName() + ", you're up!";
 
-        //Laser
         renderLaser = new MyLaser(grid, currentActor,  currentActor.getTile(), 0, 3);
         laserTexture = renderLaser.getSprite();
     }
@@ -211,20 +204,19 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         font.draw(batch, getPlayerInstructionsEnter,instructionX2,instructionY);
         batch.end();
 
-        //Explosion
-        for (Explosion explosion : currentActor.explosions) {
+        for (Explosion explosion : previousActor().explosions) {
             sb.begin();
             explosion.render(sb);
             sb.end();
         }
 
         ArrayList<Explosion> explosionsToRemove = new ArrayList<>();
-        for (Explosion explosion : currentActor.explosions) {
+        for (Explosion explosion : previousActor().explosions) {
             explosion.update(v);
             if (explosion.remove)
                 explosionsToRemove.add(explosion);
         }
-        currentActor.explosions.removeAll(explosionsToRemove);
+        previousActor().explosions.removeAll(explosionsToRemove);
 
         isDead();
 
@@ -232,7 +224,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         if (currentActor.isCPU) {
             goToCPUActions(currentActor);
         } else if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            //kort 1
             if (currentActor.chosen.size() >= 5)
                 System.out.println(currentActor.getName() + " can't choose more cards");
             else {
@@ -243,7 +234,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(0).isChosen = true;
                     }
                 }
-                //kort 2
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(1).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(1).getY() + handout.get(1).getHeight() && Gdx.input.getX() > handout.get(1).getX() && Gdx.input.getX() < handout.get(1).getX() + handout.get(1).getWidth()) {
                     if (!handout.get(1).isChosen) {
                         chooseCard(1);
@@ -251,7 +241,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(1).isChosen = true;
                     }
                 }
-                //kort 3
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(2).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(2).getY() + handout.get(2).getHeight() && Gdx.input.getX() > handout.get(2).getX() && Gdx.input.getX() < handout.get(2).getX() + handout.get(2).getWidth()) {
                     if (!handout.get(2).isChosen) {
                         chooseCard(2);
@@ -259,7 +248,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(2).isChosen = true;
                     }
                 }
-                //kort 4
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(3).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(3).getY() + handout.get(3).getHeight() && Gdx.input.getX() > handout.get(3).getX() && Gdx.input.getX() < handout.get(3).getX() + handout.get(3).getWidth()) {
                     if (!handout.get(3).isChosen) {
                         chooseCard(3);
@@ -267,7 +255,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(3).isChosen = true;
                     }
                 }
-                //kort 5
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(4).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(4).getY() + handout.get(4).getHeight() && Gdx.input.getX() > handout.get(4).getX() && Gdx.input.getX() < handout.get(4).getX() + handout.get(4).getWidth()) {
                     if (!handout.get(4).isChosen) {
                         chooseCard(4);
@@ -275,7 +262,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(4).isChosen = true;
                     }
                 }
-                //kort 6
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(5).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(5).getY() + handout.get(5).getHeight() && Gdx.input.getX() > handout.get(5).getX() && Gdx.input.getX() < handout.get(5).getX() + handout.get(5).getWidth()) {
                     if (!handout.get(5).isChosen) {
                         chooseCard(5);
@@ -283,7 +269,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(5).isChosen = true;
                     }
                 }
-                //kort 7
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(6).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(6).getY() + handout.get(6).getHeight() && Gdx.input.getX() > handout.get(6).getX() && Gdx.input.getX() < handout.get(6).getX() + handout.get(6).getWidth()) {
                     if (!handout.get(6).isChosen) {
                         chooseCard(6);
@@ -291,7 +276,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(6).isChosen = true;
                     }
                 }
-                //kort 8
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(7).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(7).getY() + handout.get(7).getHeight() && Gdx.input.getX() > handout.get(7).getX() && Gdx.input.getX() < handout.get(7).getX() + handout.get(7).getWidth()) {
                     if (!handout.get(7).isChosen) {
                         chooseCard(7);
@@ -299,7 +283,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                         handout.get(7).isChosen = true;
                     }
                 }
-                //kort 9
                 else if (Gdx.graphics.getHeight() - Gdx.input.getY() > handout.get(8).getY() && Gdx.graphics.getHeight() - Gdx.input.getY() < handout.get(8).getY() + handout.get(8).getHeight() && Gdx.input.getX() > handout.get(8).getX() && Gdx.input.getX() < handout.get(8).getX() + handout.get(8).getWidth()) {
                     if (!handout.get(8).isChosen) {
                         chooseCard(8);
@@ -348,51 +331,53 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         laser.shootLaser();
     }
 
-
     private int getTileSize() {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getMapLayer(0);
         return (int) layer.getTileWidth();
     }
 
     public void handOut() {
-        if (handout.isEmpty())
+        if (handout.isEmpty() || currentActor.isCPU) {
+            handout.clear();
             for (int i = 0; i < 9; i++)
                 handout.add(deck.handOut());
-
-        else
+        }
+        else {
+            handout.clear();
             lessHpLessCards();
+        }
     }
 
     public void lessHpLessCards() {
+        int i = 8;
         float actorHp = currentActor.getHealth();
-        float hpStep = (float) 0.75;
-        for (int i=8; i>=0; i--){
-            if (actorHp<hpStep){
-                handout.set(i, currentActor.getFromLastHandout(i));
-                handout.get(i).isChosen=false;
-                deselectCard(i);
-            }
-            else {
-                handout.set(i, deck.handOut());
-            }
+        float hpStep = (float) 1.0;
 
-            hpStep-=0.25;
+        while (i>=0){
+            if (actorHp>=hpStep || i<5)
+                handout.add(deck.handOut());
+
+            hpStep-=0.10;
+            i--;
         }
     }
 
     public void lessHpLockCards() {
-        int cardIndex = 8;
+        int i = 4;
         float actorHp = currentActor.getHealth();
-        float hpStep = (float) 0.75;
+        float hpStep = (float) 0.60;
 
-        while (hpStep>0) {
-            if (actorHp < hpStep && !handout.get(cardIndex).isChosen) {
-                chooseCard(cardIndex);
-                handout.get(cardIndex).isChosen = true;
+        while (i>=0) {
+            if (actorHp < hpStep) {
+                handout.set(i, currentActor.getFromLastHandout(i));
+                deselectCard(i);
+                chooseCard(i);
+                handout.get(i).isChosen = true;
+                handout.get(i).isLocked = true;
             }
 
-            hpStep -= 0.25;
-            cardIndex--;
+            hpStep -= 0.10;
+            i--;
         }
     }
 
@@ -428,6 +413,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     }
     private void deselectCard(int i){
         Card card = handout.get(i);
+        card.isChosen= false;
+        card.isLocked = false;
         currentActor.chosen.remove(card);
 
     }
@@ -490,7 +477,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
             changeActor();
         }
 
-
         if (keycode == Input.Keys.ENTER) {
             if(currentActor.chosen.size()==5) {
                 changeActor();
@@ -500,7 +486,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         if (keycode == Input.Keys.ALT_LEFT) {
             handOut();
-            lessHpLockCards();
+            if (!currentActor.isCPU)
+                lessHpLockCards();
         }
 
         if (Gdx.input.isTouched()) {
@@ -527,8 +514,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         if(keycode == Input.Keys.P){
             Phase phase = new Phase(this, actors, currentActor);
-
-
             switch (phaseNumber) {
                 case 4:
                     phase.playPhase(4);
@@ -557,7 +542,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                     }
                     break;
             }
-
         }
 
         return false;
@@ -655,12 +639,26 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         return currentActor;
     }
 
+
     public int getPXSIZE() {
         return PXSIZE;
     }
 
     public GridOfTiles getGrid() {
         return grid;
+
+    }
+  
+    private MyActor previousActor(){
+        for(int i=0;i<actors.size(); i++){
+            if(actors.get(i)==currentActor){
+                if(i==0){
+                    return actors.get(actors.size()-1);
+                }
+                return actors.get(i-1);
+            }
+        }
+        return null;
     }
 
     public enum Dir {

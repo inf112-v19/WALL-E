@@ -53,7 +53,6 @@ public class MyActor implements IObject, IActor {
         this.previousTile = null;
         explosions = new ArrayList<>();
         lastHandout = new ArrayList<>(9);
-        //name = "";
     }
 
     public void Forward(int steps, int moveDist, GridOfTiles grid) {

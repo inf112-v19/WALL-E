@@ -25,7 +25,6 @@ public class Tile implements ITile, Comparable<Tile> {
     private ArrayList<IObject> ObjOnTile;
 
 
-    //Constructor for the tile:
     public Tile(int x, int y, int pxSize) {
         this.x = x;
         this.y = y;

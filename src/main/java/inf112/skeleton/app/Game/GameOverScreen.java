@@ -51,7 +51,7 @@ public class GameOverScreen implements Screen {
         }
 
         batch.begin();
-        if(this.winner=="Computer"){
+        if(this.winner.contains("CPU")){
             batch.draw(defeat,WIDTH/2-(int)((victory.getWidth()/2)*scale),HEIGHT/2+(HEIGHT/20)*6, (int)(defeat.getWidth()*scale),(int)(defeat.getHeight()*scale));
         } else {
             batch.draw(victory, WIDTH / 2 - (int) ((victory.getWidth() / 2)*scale), HEIGHT / 2 + (HEIGHT / 20) * 6,(int)(victory.getWidth()*scale),(int)(victory.getHeight()*scale));

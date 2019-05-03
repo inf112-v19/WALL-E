@@ -20,8 +20,6 @@ public class Actor extends ApplicationAdapter implements InputProcessor {
     private float actorRight;
     private float actorTop;
     private float actorBottom;
-    public boolean viewRender = false;
-    private Card view;
     private ArrayList<Card> handout = new ArrayList<>(9);
     private ArrayList<Card> chosen = new ArrayList<>(5);
     private float actorBackupX;

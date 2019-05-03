@@ -45,7 +45,6 @@ public class HealthBar {
         }
         font.draw(batch, actorHealth, textPositionX, textPositionY - (HEIGHT / 100) * (3 * yPos));
 
-        // Health-bar
         batch.setColor(Color.WHITE);
         batch.draw(healthTexture, WIDTH - (WIDTH / 600) * 108, HEIGHT - ((HEIGHT / 100) * 2) - (HEIGHT / 100) * (3 * yPos), (WIDTH / 200) * 35, (HEIGHT / 300) * 7);
         batch.setColor(Color.BLACK);
