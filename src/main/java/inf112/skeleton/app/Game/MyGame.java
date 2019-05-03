@@ -385,7 +385,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 currentActor.chosen.remove(card);
             }
         }
-        //currentActor.chosen.removeAll(currentActor.chosen);
     }
     private void deselectCard(int i){
         Card card = handout.get(i);
