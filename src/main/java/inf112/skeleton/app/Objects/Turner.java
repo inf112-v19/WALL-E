@@ -20,9 +20,20 @@ public class Turner implements IObject {
         turnerTile.addObjOnTile(this);
     }
 
+    /***
+     * Used for testing
+     */
+    public Turner(){
+        //turnerTile.addObjOnTile(this);
+    }
+
     public void remove(GridOfTiles grid) {
         Tile tile = grid.getTileWfloats(this.y, this.x);
         tile.getObjOnTile().remove(this);
+    }
+
+    public void placeTurnerOnGrid(int y, int x, GridOfTiles grid){
+        turnerTile = grid.getTile(y, x);
     }
 
     void handleTurner(MyActor actor, GridOfTiles grid) {
