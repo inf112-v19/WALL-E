@@ -45,7 +45,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Batch batch;
     private MyLaser renderLaser;
     private Sprite laserTexture;
-    private ArrayList<Card> handout = new ArrayList<>(9);
+    public ArrayList<Card> handout = new ArrayList<>(9);
     private TiledMapRenderer tiledMapRenderer;
     private SpriteBatch sb;
     private RoboRally game;
@@ -59,7 +59,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private float instructionX;
     private float instructionX2;
     private float instructionY;
-    private boolean hasSwappedActor;
     private int phaseNumber = 4;
 
     public MyGame() {
@@ -324,8 +323,8 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         keyDown(Input.Keys.ENTER);
     }
 
-    private void shootLaserWithActor(){
-        MyLaser laser = new MyLaser(grid, currentActor, currentActor.getTile(), 0, 3);
+    private void shootLaserWithActor(MyActor actor){
+        MyLaser laser = new MyLaser(grid, actor, actor.getTile(), 0, 3);
         laser.shootLaser();
     }
 
@@ -335,11 +334,10 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     }
 
     private void handOut() {
-        if (handout.isEmpty())
+        if (handout.isEmpty()) {
             for (int i = 0; i < 9; i++)
                 handout.add(deck.handOut());
-        }
-        else {
+        } else {
             handout.clear();
             lessHpLessCards();
         }
@@ -359,7 +357,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         }
     }
 
-    private void lessHpLockCards() {
+    public void lessHpLockCards() {
         int i = 4;
         float actorHp = currentActor.getHealth();
         float hpStep = (float) 0.60;
@@ -404,9 +402,12 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
     private void deselectAll() {
         for(Card card : handout){
-            card.isChosen = false;
+            if(!card.isLocked) {
+                card.isChosen = false;
+                currentActor.chosen.remove(card);
+            }
         }
-        currentActor.chosen.removeAll(currentActor.chosen);
+        //currentActor.chosen.removeAll(currentActor.chosen);
     }
     private void deselectCard(int i){
         Card card = handout.get(i);
