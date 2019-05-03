@@ -12,7 +12,7 @@ import inf112.skeleton.app.Game.MyGame;
 import inf112.skeleton.app.Game.PlayOptions;
 
 public class MapRenderer extends ApplicationAdapter {
-    public static TiledMap map;
+    private static TiledMap map;
     private static TiledMapRenderer renderer;
 
     public static void setMap(TiledMap selectedMap) {

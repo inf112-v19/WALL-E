@@ -63,7 +63,7 @@ public class MyLaser implements IObject {
         this.renderArray.add(toStore);
     }
 
-    public ArrayList<Tile> getTilesInDirection(MyGame.Dir dir){
+    private ArrayList<Tile> getTilesInDirection(MyGame.Dir dir){
         ArrayList<Tile> remainingTiles = new ArrayList<>();
         int x = laserTile.getX();
         int y = laserTile.getY();

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Card extends ApplicationAdapter {
     public float cardWidth;
-    public float cardHeight;
+    private float cardHeight;
     private boolean isShowing;
     public boolean isChosen;
     private Turn turn;

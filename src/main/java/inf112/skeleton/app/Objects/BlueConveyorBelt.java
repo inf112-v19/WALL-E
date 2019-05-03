@@ -61,7 +61,7 @@ public class BlueConveyorBelt implements IObject {
         } else return null;
     }
 
-    public MyGame.Dir getConveyorDirection(RectangleMapObject conveyor) {
+    private MyGame.Dir getConveyorDirection(RectangleMapObject conveyor) {
         String directionFromTile = (String) conveyor.getProperties().get("direction");
         switch (directionFromTile) {
             case "NORTH":

@@ -12,11 +12,11 @@ public class RoboRally extends Game {
     private MultiplayerScreen multiplayerScreen;
     private PlayOptions playOptions;
 
-    public static final int MENU = 1;
-    public static final int PREFERENCES = 2;
-    public static final int GAME = 3;
-    public static final int MULTIPLAYER = 4;
-    public static final int PLAYOPTIONS = 5;
+    static final int MENU = 1;
+    static final int PREFERENCES = 2;
+    static final int GAME = 3;
+    static final int MULTIPLAYER = 4;
+    static final int PLAYOPTIONS = 5;
 
     @Override
     public void create() {
@@ -25,7 +25,7 @@ public class RoboRally extends Game {
         preferences = new GamePreferences();
     }
 
-    public void changeScreen(int screen) {
+    void changeScreen(int screen) {
         switch (screen) {
             case MENU:
                 if (mainMenuScreen == null) mainMenuScreen = new MenuScreen(this);
@@ -50,7 +50,7 @@ public class RoboRally extends Game {
         }
     }
 
-    public GamePreferences getPreferences(){
+    GamePreferences getPreferences(){
         return this.preferences;
     }
 

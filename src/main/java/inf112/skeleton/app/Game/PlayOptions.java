@@ -33,7 +33,7 @@ public class PlayOptions implements Screen {
     private int mapY;
     private int textX;
 
-    public PlayOptions(RoboRally game){
+    PlayOptions(RoboRally game){
         this.game = game;
         stage = new Stage(new ScreenViewport());
         WIDTH = Gdx.graphics.getWidth();
@@ -156,10 +156,10 @@ public class PlayOptions implements Screen {
         CPUPLAYERS++;
         if(PLAYERS+CPUPLAYERS > POSSIBLE_PLAYERS) CPUPLAYERS = 0;
     }
-    public static int getPlayers() {
+    static int getPlayers() {
         return PLAYERS;
     }
-    public static int getCPUPlayers() {
+    static int getCPUPlayers() {
         return CPUPLAYERS;
     }
 

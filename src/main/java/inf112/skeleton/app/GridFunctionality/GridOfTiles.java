@@ -8,10 +8,9 @@ public class GridOfTiles {
     public int pxSize;
     public int Nrow;
     public int Ncol;
-    public int GridSize;
-    Tile[][] grid;
+    private int GridSize;
+    private Tile[][] grid;
 
-    //Constructor
     public GridOfTiles(int Nrow, int Ncol, int pxSize) {
         this.pxSize = pxSize;
         this.Nrow = Nrow;

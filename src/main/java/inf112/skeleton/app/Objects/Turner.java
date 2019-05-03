@@ -12,7 +12,7 @@ public class Turner implements IObject {
     Sprite notUsedForWrenches;
     Tile turnerTile;
 
-    public Turner(RectangleMapObject TiledTurner, GridOfTiles grid) {
+    Turner(RectangleMapObject TiledTurner, GridOfTiles grid) {
         y = (int) TiledTurner.getRectangle().getY();
         x = (int) TiledTurner.getRectangle().getX();
 
@@ -23,7 +23,7 @@ public class Turner implements IObject {
     /***
      * Used for testing
      */
-    public Turner(){
+    Turner(){
         //turnerTile.addObjOnTile(this);
     }
 
@@ -32,7 +32,7 @@ public class Turner implements IObject {
         tile.getObjOnTile().remove(this);
     }
 
-    public void placeTurnerOnGrid(int y, int x, GridOfTiles grid){
+    void placeTurnerOnGrid(int y, int x, GridOfTiles grid){
         turnerTile = grid.getTile(y, x);
     }
 

@@ -11,9 +11,9 @@ import inf112.skeleton.app.Objects.Actor.MyActor;
 
 public class Laser {
     Sprite sprite;
-    public static int SPEED = 0;
+    private static int SPEED = 0;
     private static Texture texture;
-    public SpriteBatch laserBatch;
+    private SpriteBatch laserBatch;
     public MyActor actor;
 
 
@@ -56,5 +56,4 @@ public class Laser {
             remove = true;
         }
     }
-
 }

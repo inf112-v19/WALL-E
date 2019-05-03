@@ -12,7 +12,6 @@ public class Map {
         this.tiledMap = new TmxMapLoader().load(mapFile);
     }
 
-    //get map layer by it's name
     public MapLayer getMapLayer(String layerName) {
         return tiledMap.getLayers().get(layerName);
     }
