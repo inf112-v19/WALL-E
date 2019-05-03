@@ -550,7 +550,7 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                     System.out.println("Ready for next phase");
                     for (MyActor a : actors) {
                         System.out.println("ALL PLAYERS SHOOT");
-                        shootLaserWithActor(actor);
+                        shootLaserWithActor(a);
                         a.chosen = new ArrayList<>(4);
                     }
                     break;
