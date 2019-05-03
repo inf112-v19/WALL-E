@@ -62,8 +62,7 @@ public class Phase {
                 System.out.println("It was a turn card. " + actor.getName() + " turned " + toUse.getTurn());
                 break;
         }
-        game.lessHpLockCards();
-        actor.setLastHandout(game.handout);
+
         }
 
 }
