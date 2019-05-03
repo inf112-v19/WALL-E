@@ -24,6 +24,11 @@ public class Collision {
         System.out.println(actorTile);
         for (Object o : onTile) {
             if (o.equals(actor)) continue;
+            if (o instanceof MyActor){
+                if (!o.equals(actor)){
+                    ((MyActor) o).Forward(1, 78, grid);
+                }
+            }
             if (o instanceof Flag) {
                 ((Flag) o).handleFlag(actor, grid);
             }
