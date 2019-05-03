@@ -33,7 +33,6 @@ import static inf112.skeleton.app.CardFunctionality.Card.getType;
 public class MyGame extends ApplicationAdapter implements InputProcessor, Screen {
     public static GridOfTiles grid;
     public static OrthographicCamera camera;
-    private static int amountOfFlags;
     private int PXSIZE = 78;
     private TiledMap tiledMap;
     public MyActor actor;
@@ -43,8 +42,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
     private Map map;
     private Deck deck;
     private Batch batch;
-    private MyLaser renderLaser;
-    private Sprite laserTexture;
     public ArrayList<Card> handout = new ArrayList<>(9);
     private TiledMapRenderer tiledMapRenderer;
     private SpriteBatch sb;
@@ -114,7 +111,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
         ObjectMaker objectMaker;
         objectMaker = new ObjectMaker(map, grid);
         objectMaker.create();
-        amountOfFlags = objectMaker.flags.size();
         actors = new ArrayList<>();
         healthbars = new ArrayList<>();
         for(int i=0;i<PlayOptions.getPlayers();i++){
@@ -164,9 +160,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
 
         currentActor = actors.get(0);
         activePlayer = currentActor.getName() + ", you're up!";
-
-        renderLaser = new MyLaser(grid, currentActor,  currentActor.getTile(), 0, 3);
-        laserTexture = renderLaser.getSprite();
     }
 
     @Override
@@ -407,7 +400,6 @@ public class MyGame extends ApplicationAdapter implements InputProcessor, Screen
                 currentActor.chosen.remove(card);
             }
         }
-        //currentActor.chosen.removeAll(currentActor.chosen);
     }
     private void deselectCard(int i){
         Card card = handout.get(i);
